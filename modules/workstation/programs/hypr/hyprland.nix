@@ -179,10 +179,10 @@
           "$mod, L, exec, hyprlock"
 
           # Move focus with mod + arrow keys
-          "$mod SHIFT, left, movefocus, l"
-          "$mod SHIFT, right, movefocus, r"
-          "$mod SHIFT, up, movefocus, u"
-          "$mod SHIFT, down, movefocus, d"
+          "$mod, left, movefocus, l"
+          "$mod, right, movefocus, r"
+          "$mod, up, movefocus, u"
+          "$mod, down, movefocus, d"
 
           # Move window with mod + shift + arrow keys
           "$mod SHIFT, left, movewindow, l"
