@@ -10,6 +10,7 @@
     ./maths
     ./network-manager
     ./partition-manager
+    ./players
     ./records
     ./rofi
     ./spotify
