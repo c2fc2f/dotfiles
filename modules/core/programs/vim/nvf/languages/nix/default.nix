@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ username, ... }:
 
 {
 
@@ -11,8 +11,9 @@
       format = {
         enable = true;
 
-        package = pkgs.nixfmt-rfc-style;
-        type = "nixfmt";
+        type = [
+          "nixfmt"
+        ];
       };
 
       lsp = {

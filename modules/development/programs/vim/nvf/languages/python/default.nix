@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ username, ... }:
 
 {
   home-manager.users.${username}.programs.nvf.settings.vim = {
@@ -8,15 +8,17 @@
       format = {
         enable = true;
 
-        package = pkgs.ruff;
-        type = "ruff";
+        type = [
+          "ruff"
+        ];
       };
 
       lsp = {
         enable = true;
 
-        package = pkgs.pyright;
-        server = "pyright";
+        servers = [
+          "pyright"
+        ];
       };
 
       treesitter = {
