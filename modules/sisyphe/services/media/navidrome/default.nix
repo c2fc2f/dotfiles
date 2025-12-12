@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, username, ... }:
 
 {
   imports = [
@@ -15,6 +15,7 @@
     settings = {
       MusicFolder = "/var/lib/music";
       "Scanner.Schedule" = "@every 15m";
+      "LastFM.Enabled" = true;
 
       Address = "127.0.0.110";
       Port = 4110;
@@ -30,6 +31,8 @@
     in
     [
       "d ${MusicFolder} 0775 ${user} ${group} -"
+      "A+ ${MusicFolder} - - - - user:${username}:rwx"
+      "A+ ${MusicFolder} - - - - default:user:${username}:rwx"
     ];
 
   custom.services.haproxy = {
