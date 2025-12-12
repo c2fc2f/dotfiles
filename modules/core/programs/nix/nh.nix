@@ -12,7 +12,11 @@
 
       package = nh.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
-      clean.enable = true;
+      clean = {
+        enable = true;
+
+        dates = "daily";
+      };
 
       flake = "/home/${username}/git/dotfiles";
     };
