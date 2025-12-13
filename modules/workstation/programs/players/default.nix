@@ -1,7 +1,7 @@
 {
   imports = [
     # keep-sorted start
-    ./feishin.nix
+    ./feishin
     # keep-sorted end
   ];
 }
