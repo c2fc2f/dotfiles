@@ -15,7 +15,7 @@
           inherit version src;
           inherit (old) pname;
           fetcherVersion = 2;
-          hash = "sha256-W+tnburrd0NdFxuRAZBgDAW8smiePjL7V/8phRik4A0=";
+          hash = "sha256-uRUql+jrZO/apmGNazjnIyGisufOLr5hAB9M/2q74i8=";
         };
       }))
     ];
