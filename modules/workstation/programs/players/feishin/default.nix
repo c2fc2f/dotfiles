@@ -4,11 +4,11 @@
   home-manager.users.${username} = {
     home.packages = [
       (pkgs.feishin.overrideAttrs (old: rec {
-        version = "0.22.0";
+        version = "1.0.1-beta.1";
 
         src = pkgs.fetchzip {
           url = "https://github.com/jeffvli/feishin/archive/refs/tags/v${version}.tar.gz";
-          sha256 = "sha256-sRP89xgCl49WZ7A6KaQd/vJTIDvAfZuhRbL3mcBBnIg=";
+          sha256 = "sha256-8A5rnU2YyGnTuWQv/xOIGkbwsUkAkn4hlWUXFGRcPDk=";
         };
 
         pnpmDeps = pkgs.pnpm.fetchDeps {
