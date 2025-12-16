@@ -19,7 +19,7 @@
       wlrobs
       obs-backgroundremoval
       obs-pipewire-audio-capture
-      # droidcam-obs
+      droidcam-obs
     ];
   };
 }
