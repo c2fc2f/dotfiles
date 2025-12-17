@@ -294,7 +294,7 @@ in
           http-request set-header X-Forwarded-Proto https if { ssl_fc }
           http-response set-header Strict-Transport-Security "max-age=16000000; includeSubDomains; preload;"
 
-        use_backend %[base,map_beg(${makeMap cfg.maps.url},${cfg.defaultBackend})]
+          use_backend %[base,map_beg(${makeMap cfg.maps.url},${cfg.defaultBackend})]
 
         frontend minecraft
           bind :::25565 v4v6

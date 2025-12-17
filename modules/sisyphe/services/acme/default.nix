@@ -50,6 +50,14 @@
         ];
         dnsProvider = "cloudflare";
       };
+
+      kill-yourself = {
+        domain = "kill-yourself.fr";
+        extraDomainNames = [
+          "*.kill-yourself.fr"
+        ];
+        dnsProvider = "cloudflare";
+      };
     };
   };
 }
