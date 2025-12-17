@@ -816,26 +816,6 @@
         "type": "github"
       }
     },
-    "noctalia": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1765939407,
-        "narHash": "sha256-7wlCANcMdIBNsAz0LGF/IBwkjicxCbCN1K2lrwt/MFk=",
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
-        "rev": "c74139c51dbdd47b8123c7186a8af613b840f493",
-        "type": "github"
-      },
-      "original": {
-        "owner": "noctalia-dev",
-        "repo": "noctalia-shell",
-        "type": "github"
-      }
-    },
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts_2",
@@ -905,26 +885,6 @@
         "type": "github"
       }
     },
-    "quickshell": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1764663772,
-        "narHash": "sha256-sHqLmm0wAt3PC4vczJeBozI1/f4rv9yp3IjkClHDXDs=",
-        "owner": "outfoxxed",
-        "repo": "quickshell",
-        "rev": "26531fc46ef17e9365b03770edd3fb9206fcb460",
-        "type": "github"
-      },
-      "original": {
-        "owner": "outfoxxed",
-        "repo": "quickshell",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "fenix": "fenix",
@@ -937,10 +897,8 @@
         "nix-index-database": "nix-index-database",
         "nix-minecraft": "nix-minecraft",
         "nixpkgs": "nixpkgs",
-        "noctalia": "noctalia",
         "nur": "nur",
         "nvf": "nvf",
-        "quickshell": "quickshell",
         "sops-nix": "sops-nix",
         "systems": "systems_7",
         "treefmt-nix": "treefmt-nix"

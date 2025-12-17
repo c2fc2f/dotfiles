@@ -7,7 +7,6 @@
     ./logind
     ./network-manager
     ./pipewire
-    ./quickhsell
     ./udev
     ./upower
     # keep-sorted end

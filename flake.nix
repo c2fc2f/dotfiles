@@ -44,21 +44,12 @@
       # url = "git+file:///home/culottes/git/nixpkgs/";
       url = "github:nixos/nixpkgs";
     };
-    noctalia = {
-      # url = "git+file:///home/culottes/git/noctalia-shell/";
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvf = {
       url = "github:NotAShelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    quickshell = {
-      url = "github:outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {

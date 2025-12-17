@@ -1,6 +1,7 @@
 {
   imports = [
     # keep-sorted start
+    ./ashell
     ./audio
     ./browsers
     ./chats
