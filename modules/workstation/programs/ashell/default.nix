@@ -56,7 +56,7 @@
           opacity = 1.0;
 
           menu = {
-            opacity = 0.8;
+            opacity = 1.0;
             backdrop = 0.3;
           };
 
