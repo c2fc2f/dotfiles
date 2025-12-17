@@ -61,8 +61,8 @@
         # Look and feel
 
         general = {
-          gaps_in = 5;
-          gaps_out = 5;
+          gaps_in = 2.5;
+          gaps_out = 2.5;
 
           border_size = 2;
 
@@ -77,7 +77,7 @@
         };
 
         decoration = {
-          rounding = 10;
+          rounding = 0;
 
           active_opacity = "1.0";
           inactive_opacity = "1.0";
