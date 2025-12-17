@@ -37,6 +37,18 @@
           ];
         };
 
+        system_info = {
+          indicators = [
+            "Cpu"
+            "Memory"
+            "Temperature"
+          ];
+        };
+
+        clock = {
+          format = "%a %d %b %T";
+        };
+
         appearance = {
           font_name = "Montserrat";
           scale_factor = 1.0;
