@@ -8,7 +8,6 @@
     ./haproxy
     ./keycloak
     ./mailcow
-    ./media
     ./minecraft
     ./qbittorrent
     ./stats
