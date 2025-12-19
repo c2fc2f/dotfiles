@@ -6,11 +6,11 @@
 
 stdenv.mkDerivation rec {
   pname = "tailcloakify";
-  version = "1.2.0";
+  version = "1.2.1";
 
   src = fetchurl {
     url = "https://github.com/ALMiG-Kompressoren-GmbH/tailcloakify/releases/download/v${version}/keycloak-theme-for-kc-22-to-25.jar";
-    sha256 = "sha256-PvLM17SZk4nH3tdlTO9u1GqC9StLinW2gaISIsHqXyw=";
+    sha256 = "sha256-PB3YhVQbOPR0LdIShGt890w3qyHSvCelQe1F/sWLuk4=";
   };
 
   dontUnpack = true;
