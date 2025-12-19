@@ -49,6 +49,13 @@
           format = "%a %d %b %T";
         };
 
+        settings = {
+          shutdown_cmd = "shutdown now";
+          suspend_cmd = "systemctl suspend";
+          reboot_cmd = "systemctl reboot";
+          logout_cmd = "loginctl kill-user $(whoami)";
+        };
+
         appearance = {
           font_name = "Montserrat";
           scale_factor = 1.0;
