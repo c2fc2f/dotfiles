@@ -3,8 +3,8 @@
     # keep-sorted start
     ./acme
     ./ai
+    ./auto-update
     ./databases
-    ./github-runner
     ./haproxy
     ./keycloak
     ./mailcow
