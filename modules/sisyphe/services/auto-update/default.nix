@@ -63,9 +63,9 @@ let
       Subject: [NixOS Failure] Service $SERVICE_NAME failed
 
       The systemd service $SERVICE_NAME has failed on $(date).
-      Check logs: journalctl -u $SERVICE_NAME -n 50
+      Check logs: journalctl -u $SERVICE_NAME -I
 
-      $(journalctl -u "$SERVICE_NAME" -n 50)
+      $(journalctl -u "$SERVICE_NAME" -I)
       EOF
     '';
   };
