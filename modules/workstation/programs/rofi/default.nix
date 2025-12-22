@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   config,
   username,
   ...
@@ -21,7 +22,7 @@
     home.file.".config/networkmanager-dmenu/config.ini" = {
       text = ''
         [dmenu]
-        dmenu_command = ${pkgs.rofi}/bin/rofi -show drun -password
+        dmenu_command = ${lib.getExe pkgs.rofi} -show drun -password
         active_chars = ✅
         compact = True
         wifi_chars = ▂▄▆█

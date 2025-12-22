@@ -2,6 +2,7 @@
   config,
   pkgs,
   username,
+  lib,
   ...
 }:
 let
@@ -10,7 +11,7 @@ let
   geminiLauncher = pkgs.makeDesktopItem {
     name = "gemini";
     desktopName = "Gemini";
-    exec = "${pkgs.brave}/bin/brave --user-data-dir=${configHome}/chromium-gemini --app=https://gemini.google.com";
+    exec = "${lib.getExe pkgs.brave} --user-data-dir=${configHome}/chromium-gemini --app=https://gemini.google.com";
     icon = "${./assets/gemini.svg}";
     comment = "Launch Gemini in standalone window";
   };

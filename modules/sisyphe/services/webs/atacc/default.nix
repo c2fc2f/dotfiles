@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   users.users.atacc = {
@@ -20,7 +20,7 @@
       User = "atacc";
       Group = "atacc";
       WorkingDirectory = "/opt/atacc/api/v1";
-      ExecStart = "${pkgs.nodejs_20}/bin/node app/api.js";
+      ExecStart = "${lib.getExe pkgs.nodejs_20} app/api.js";
       Restart = "always";
     };
 

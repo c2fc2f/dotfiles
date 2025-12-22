@@ -2,6 +2,7 @@
   config,
   pkgs,
   username,
+  lib,
   ...
 }:
 let
@@ -10,7 +11,7 @@ let
   chatgptLauncher = pkgs.makeDesktopItem {
     name = "chatgpt";
     desktopName = "ChatGPT";
-    exec = "${pkgs.brave}/bin/brave --user-data-dir=${configHome}/chromium-chatgpt --app=https://chatgpt.com";
+    exec = "${lib.getExe pkgs.brave} --user-data-dir=${configHome}/chromium-chatgpt --app=https://chatgpt.com";
     icon = "${./assets/chatgpt.svg}";
     comment = "Launch ChatGPT in standalone window";
   };

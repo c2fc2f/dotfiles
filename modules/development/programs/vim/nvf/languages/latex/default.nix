@@ -1,4 +1,9 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 
 {
   home-manager.users.${username}.programs.nvf.settings.vim = {
@@ -37,7 +42,7 @@
         texlab = {
           enable = true;
           cmd = [
-            "${pkgs.texlab}/bin/texlab"
+            "${lib.getExe pkgs.texlab}"
           ];
           filetypes = [
             "tex"

@@ -2,6 +2,7 @@
   config,
   pkgs,
   username,
+  lib,
   ...
 }:
 let
@@ -10,7 +11,7 @@ let
   youtubeLauncher = pkgs.makeDesktopItem {
     name = "youtube";
     desktopName = "Youtube";
-    exec = "${pkgs.brave}/bin/brave --user-data-dir=${configHome}/chromium-youtube --app=https://www.youtube.com --incognito";
+    exec = "${lib.getExe pkgs.brave} --user-data-dir=${configHome}/chromium-youtube --app=https://www.youtube.com --incognito";
     icon = "${./assets/youtube.svg}";
     categories = [
       "Video"

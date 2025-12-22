@@ -1,9 +1,14 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 let
   rofi-bluetooth = pkgs.makeDesktopItem {
     name = "rofi-bluetooth";
     desktopName = "Rofi Bluetooth";
-    exec = "${pkgs.rofi-bluetooth}/bin/rofi-bluetooth";
+    exec = "${lib.getExe pkgs.rofi-bluetooth}";
     icon = "${./assets/bluetooth.svg}";
   };
 in

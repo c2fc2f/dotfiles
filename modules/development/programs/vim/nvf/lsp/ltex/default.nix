@@ -19,7 +19,7 @@
         ltex = {
           enable = true;
           cmd = [
-            "${pkgs.ltex-ls}/bin/ltex-ls"
+            "${lib.getExe pkgs.ltex-ls}"
           ];
           filetypes = [
             "tex"

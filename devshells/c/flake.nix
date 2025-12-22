@@ -11,21 +11,21 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       flake-utils,
+      ...
     }:
     flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
         hgcc_sh = pkgs.writeShellScriptBin "hgcc" ''
-          ${pkgs.gcc}/bin/gcc -std=c23 -Wall -Wconversion -Werror -Wextra -Wpedantic -Wwrite-strings -O2 -o "$(dirname $1)/$(basename $1 .c)" $1
+          ${pkgs.lib.getExe pkgs.gcc} -std=c23 -Wall -Wconversion -Werror -Wextra -Wpedantic -Wwrite-strings -O2 -o "$(dirname $1)/$(basename $1 .c)" $1
         '';
       in
       {
-        devShells.default = pkgs.mkShell rec {
-          buildInputs = with pkgs; [
+        devShells.default = pkgs.mkShell {
+          buildInputs = [
             pkgs.gcc
             pkgs.gnumake
             pkgs.uncrustify

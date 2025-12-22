@@ -2,6 +2,7 @@
   config,
   pkgs,
   username,
+  lib,
   ...
 }:
 let
@@ -10,7 +11,7 @@ let
   claudeLauncher = pkgs.makeDesktopItem {
     name = "claude.ai";
     desktopName = "Claude.AI";
-    exec = "${pkgs.brave}/bin/brave --user-data-dir=${configHome}/chromium-claude --app=https://claude.ai";
+    exec = "${lib.getExe pkgs.brave} --user-data-dir=${configHome}/chromium-claude --app=https://claude.ai";
     icon = "${./assets/claude.svg}";
     comment = "Launch Claude.AI in standalone window";
   };

@@ -2,6 +2,7 @@
   config,
   pkgs,
   username,
+  lib,
   ...
 }:
 let
@@ -10,7 +11,7 @@ let
   netflixLauncher = pkgs.makeDesktopItem {
     name = "netflix";
     desktopName = "Netflix";
-    exec = "${pkgs.brave}/bin/brave --user-data-dir=${configHome}/chromium-netflix --app=https://www.netflix.com";
+    exec = "${lib.getExe pkgs.brave} --user-data-dir=${configHome}/chromium-netflix --app=https://www.netflix.com";
     icon = "${./assets/netflix.png}";
     categories = [
       "Video"

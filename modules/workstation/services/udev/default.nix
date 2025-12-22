@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   lockScript = pkgs.writeShellApplication {
     name = "lock-all-sessions";
@@ -23,6 +23,6 @@ in
   ];
 
   services.udev.extraRules = ''
-    ACTION=="remove", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", RUN+="${lockScript}/bin/lock-all-sessions"
+    ACTION=="remove", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", RUN+="${lib.getExe lockScript}"
   '';
 }

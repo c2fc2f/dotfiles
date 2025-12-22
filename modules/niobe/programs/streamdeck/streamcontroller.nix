@@ -1,4 +1,9 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 
 {
   home-manager.users.${username} = {
@@ -15,7 +20,7 @@
       };
 
       Service = {
-        ExecStart = "${pkgs.streamcontroller}/bin/streamcontroller -b";
+        ExecStart = "${lib.getExe pkgs.streamcontroller} -b";
         Restart = "on-failure";
         RestartSec = 5;
       };
