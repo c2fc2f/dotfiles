@@ -27,7 +27,10 @@ let
       cd dotfiles
 
       echo "''${GPG_PRIVATE_KEY}" | base64 -d | gpg --batch --import
-      KEY_ID=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec/ {print $5; exit}')
+      KEY_ID=$(
+        gpg --list-secret-keys --with-colons  \
+        | awk -F: '/^sec/ {print $5; exit}'
+      )
 
       git config user.name "c2fc2f"
       git config user.email "culottes@sagbot.com"
