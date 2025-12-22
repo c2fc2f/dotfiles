@@ -27,11 +27,11 @@ FILE_URL="${BASE_URL}/${VERSION}/${FILE}"
 
 echo "Fetching new hash for: $FILE_URL"
 HASH_RAW=$(nix-prefetch-url "$FILE_URL")
-NEW_HASH=$(nix hash convert sha256:$HASH_RAW)
+NEW_HASH=$(nix hash convert --hash-algo sha256 --from nix32 $HASH_RAW)
 
 echo "New hash is: $NEW_HASH"
 
-sed -i -E "s|sha256 = \"[^\"]+\"|sha256 = \"${NEW_HASH}\"|" "$PACKAGE_PATH"
+sed -i -E "s|hash = \"[^\"]+\"|hash = \"${NEW_HASH}\"|" "$PACKAGE_PATH"
 sed -i -E "s|version = \"[^\"]+\"|version = \"${VERSION}\"|" "$PACKAGE_PATH"
 
 echo "Hash updated in $PACKAGE_PATH"

@@ -10,7 +10,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://github.com/neo4j-labs/neosemantics/releases/download/${version}/neosemantics-${version}.jar";
-    sha256 = "sha256-UJvsGSvvzmIkp+O/eKDmt0rri/Yet6HgCbe2Lgc3kAs=";
+    hash = "sha256-UJvsGSvvzmIkp+O/eKDmt0rri/Yet6HgCbe2Lgc3kAs=";
   };
 
   dontUnpack = true;

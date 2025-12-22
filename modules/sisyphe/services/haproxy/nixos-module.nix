@@ -25,9 +25,9 @@ let
     pname = "haproxy_minecraft-patch";
     version = "1.0";
 
-    src = builtins.fetchurl {
+    src = pkgs.fetchurl {
       url = "https://gist.githubusercontent.com/nathan818fr/a078e92604784ad56e84843ebf99e2e5/raw/3d9c74eec578aa0c0a177369d7106fe224b03efd/haproxy_minecraft.lua";
-      sha256 = "0krznqcq1v7vqz473gyy1cbhgwpj9s7xbzzfqg4llrzdvpk6xrzp";
+      hash = "sha256-9+du5t3tZ0rJw+7/1Y9O8vIHFwvev3HIx/vsgBm2P08=";
     };
 
     patches = [

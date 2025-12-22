@@ -10,7 +10,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://github.com/neo4j/apoc/releases/download/${version}/apoc-${version}-core.jar";
-    sha256 = "sha256-pjaSM6kil6GGbjqp6ovzjB2OsNdsTKdoWWtm5V9bJ5w=";
+    hash = "sha256-pjaSM6kil6GGbjqp6ovzjB2OsNdsTKdoWWtm5V9bJ5w=";
   };
 
   dontUnpack = true;
