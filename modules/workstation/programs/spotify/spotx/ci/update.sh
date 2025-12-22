@@ -2,22 +2,26 @@
 
 set -euo pipefail
 
-URL="https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/refs/heads/main/spotx.sh"
-
 # Get the absolute path to the directory of this script
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+PACKAGE_PATH=$(readlink -f "${SCRIPT_DIR}/../default.nix")
 
-OVERLAY_PATH=$(readlink -f "$SCRIPT_DIR/../default.nix")
+REPO_OWNER="SpotX-Official"
+REPO_NAME="SpotX-Bash"
 
-echo "  Fetching new hash for: $URL"
-HASH_RAW=$(nix-prefetch-url "$URL" 2> /dev/null)
+FILE_NAME="spotx.sh"
+
+FILE_URL="https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/refs/heads/main/${FILE_NAME}"
+
+echo "Fetching new hash for: $FILE_URL"
+HASH_RAW=$(nix-prefetch-url "$FILE_URL")
 NEW_HASH=$(nix hash convert sha256:$HASH_RAW)
 
-echo "  New hash is: $NEW_HASH"
+echo "New hash is: $NEW_HASH"
 
-sed -i -E "s|sha256-[^\"]+|${NEW_HASH}|" "$OVERLAY_PATH"
+sed -i -E "s|sha256 = \"[^\"]+\"|sha256 = \"${NEW_HASH}\"|" "$PACKAGE_PATH"
 
-echo "  Hash updated in $OVERLAY_PATH"
+echo "Hash updated in $PACKAGE_PATH"
 
-git add "$OVERLAY_PATH"
-git commit -m "chore(spotx): update to lastest version" || true
+git add "$PACKAGE_PATH"
+git commit -m "chore(workstation/spotify/spotx): update to lastest version" || true

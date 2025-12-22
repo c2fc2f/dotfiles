@@ -4,14 +4,16 @@ set -euo pipefail
 
 # Get the absolute path to the directory of this script
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
-PLUGIN_PATH=$(readlink -f "$SCRIPT_DIR/../default.nix")
+PACKAGE_PATH=$(readlink -f "${SCRIPT_DIR}/../default.nix")
 
-REPO_URL="https://github.com/neo4j/apoc/"
-VERSION=$(nix run nixpkgs\#curl -- -s "https://api.github.com/repos/neo4j/apoc/releases/latest" | nix run nixpkgs\#jq -- -r ".tag_name" | sed s/v//)
+REPO_OWNER="neo4j"
+REPO_NAME="apoc"
 
-FILE_URL="${REPO_URL}releases/download/${VERSION}/apoc-${VERSION}-core.jar"
+VERSION=$(curl -s "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | jq -r ".tag_name" | sed s/v//)
 
-echo $FILE_URL
+FILE_NAME="apoc-${VERSION}-core.jar"
+
+FILE_URL="https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/download/${VERSION}/${FILE_NAME}"
 
 echo "Fetching new hash for: $FILE_URL"
 HASH_RAW=$(nix-prefetch-url "$FILE_URL")
@@ -19,10 +21,10 @@ NEW_HASH=$(nix hash convert sha256:$HASH_RAW)
 
 echo "New hash is: $NEW_HASH"
 
-sed -i -E "s|sha256-[^\"]+|${NEW_HASH}|" "$PLUGIN_PATH"
-sed -i -E "s|version = \"[^\"]+\"|version = \"${VERSION}\"|" "$PLUGIN_PATH"
+sed -i -E "s|sha256 = \"[^\"]+\"|sha256 = \"${NEW_HASH}\"|" "$PACKAGE_PATH"
+sed -i -E "s|version = \"[^\"]+\"|version = \"${VERSION}\"|" "$PACKAGE_PATH"
 
-echo "Hash updated in $PLUGIN_PATH"
+echo "Hash updated in $PACKAGE_PATH"
 
-git add "$PLUGIN_PATH"
-git commit -m "chore(neo4j/plugins/apoc): update to lastest version" || true
+git add "$PACKAGE_PATH"
+git commit -m "chore(neo4j/plugins/apoc): update to v${VERSION}" || true

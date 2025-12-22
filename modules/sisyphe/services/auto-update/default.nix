@@ -1,4 +1,9 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 let
   autoUpdateScript = pkgs.writeShellApplication {
@@ -10,6 +15,8 @@ let
       coreutils
       busybox
       bash
+      curl
+      jq
     ];
     text = ''
       HOME="$(pwd)"
@@ -81,7 +88,7 @@ in
 
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "${autoUpdateScript}/bin/auto-update-task";
+        ExecStart = lib.getExe autoUpdateScript;
 
         # Security & Isolation
         DynamicUser = true;
@@ -109,7 +116,7 @@ in
       description = "Send raw SMTP notification for %i";
       serviceConfig = {
         Type = "oneshot";
-        ExecStart = "${notifyScript}/bin/send-failure-email %i";
+        ExecStart = "${lib.getExe notifyScript} %i";
         DynamicUser = true;
 
         RestrictAddressFamilies = [
