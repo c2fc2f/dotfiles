@@ -9,7 +9,7 @@ PACKAGE_PATH=$(readlink -f "${SCRIPT_DIR}/../default.nix")
 REPO_OWNER="ALMiG-Kompressoren-GmbH"
 REPO_NAME="tailcloakify"
 
-VERSION=$(curl -s "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | jq -r ".tag_name" | sed s/v//)
+VERSION=$(curl -sS "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | jq -r ".tag_name" | sed s/v//)
 
 FILE_NAME="keycloak-theme-for-kc-22-to-25.jar"
 

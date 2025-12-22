@@ -9,7 +9,7 @@ PACKAGE_PATH=$(readlink -f "${SCRIPT_DIR}/../default.nix")
 REPO_OWNER="neo4j-labs"
 REPO_NAME="neosemantics"
 
-VERSION=$(curl -s "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | jq -r ".tag_name" | sed s/v//)
+VERSION=$(curl -sS "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | jq -r ".tag_name" | sed s/v//)
 
 FILE_NAME="neosemantics-${VERSION}.jar"
 
