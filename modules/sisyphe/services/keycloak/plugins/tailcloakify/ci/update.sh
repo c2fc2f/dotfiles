@@ -9,7 +9,17 @@ PACKAGE_PATH=$(readlink -f "${SCRIPT_DIR}/../default.nix")
 REPO_OWNER="ALMiG-Kompressoren-GmbH"
 REPO_NAME="tailcloakify"
 
-VERSION=$(curl -sS --retry 3 --retry-delay 2 --retry-all-errors "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" | jq -r ".tag_name" | sed s/v//)
+VERSION=$(
+  curl -sS \
+    --retry 3 \
+    --retry-delay 2 \
+    --retry-all-errors \
+    -H "Authorization: Bearer $PERSONAL_TOKEN" \
+    -H "Accept: application/vnd.github+json" \
+    "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" \
+  | jq -r ".tag_name" \
+  | sed 's/v//'
+)
 
 FILE_NAME="keycloak-theme-for-kc-22-to-25.jar"
 
