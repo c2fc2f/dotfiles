@@ -2,8 +2,7 @@
 
 set -euo pipefail
 
-# Get the absolute path to the directory of this script
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+SCRIPT_DIR="$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 FLAKE_URL=$(readlink -f "$SCRIPT_DIR/../../")
 
@@ -12,4 +11,5 @@ nix flake update --flake "$FLAKE_URL"
 echo "Flake update completed"
 
 git add "$FLAKE_URL/flake.lock"
-git commit -m "chore(flake.lock): update dependencies" || true
+git commit -m "chore(flake.lock): update dependencies" \
+  || true

@@ -2,12 +2,11 @@
 
 set -euo pipefail
 
-# Get the absolute path to the directory of this script
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+SCRIPT_DIR="$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")"
 PACKAGE_PATH=$(readlink -f "${SCRIPT_DIR}/../default.nix")
 
-REPO_OWNER="neo4j"
-REPO_NAME="apoc"
+OWNER="neo4j"
+REPO="apoc"
 
 VERSION=$(
   curl -sS \
@@ -16,14 +15,15 @@ VERSION=$(
     --retry-all-errors \
     -H "Authorization: Bearer $PERSONAL_TOKEN" \
     -H "Accept: application/vnd.github+json" \
-    "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest" \
+    "https://api.github.com/repos/${OWNER}/${REPO}/releases/latest" \
   | jq -r ".tag_name" \
   | sed 's/v//'
 )
 
-FILE_NAME="apoc-${VERSION}-core.jar"
+FILE="apoc-${VERSION}-core.jar"
 
-FILE_URL="https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/download/${VERSION}/${FILE_NAME}"
+BASE_URL="https://github.com/${OWNER}/${REPO}/releases/download"
+FILE_URL="${BASE_URL}/${VERSION}/${FILE}"
 
 echo "Fetching new hash for: $FILE_URL"
 HASH_RAW=$(nix-prefetch-url "$FILE_URL")
@@ -37,4 +37,5 @@ sed -i -E "s|version = \"[^\"]+\"|version = \"${VERSION}\"|" "$PACKAGE_PATH"
 echo "Hash updated in $PACKAGE_PATH"
 
 git add "$PACKAGE_PATH"
-git commit -m "chore(neo4j/plugins/apoc): update to v${VERSION}" || true
+git commit -m "chore(neo4j/plugins/apoc): update to v${VERSION}" \
+  || true

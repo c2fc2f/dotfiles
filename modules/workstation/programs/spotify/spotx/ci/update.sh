@@ -2,16 +2,16 @@
 
 set -euo pipefail
 
-# Get the absolute path to the directory of this script
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+SCRIPT_DIR="$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")"
 PACKAGE_PATH=$(readlink -f "${SCRIPT_DIR}/../default.nix")
 
-REPO_OWNER="SpotX-Official"
-REPO_NAME="SpotX-Bash"
+OWNER="SpotX-Official"
+REPO="SpotX-Bash"
 
-FILE_NAME="spotx.sh"
+FILE="spotx.sh"
 
-FILE_URL="https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/refs/heads/main/${FILE_NAME}"
+BASE_URL="https://raw.githubusercontent.com/${OWNER}/${REPO}/refs/heads"
+FILE_URL="${BASE_URL}/main/${FILE}"
 
 echo "Fetching new hash for: $FILE_URL"
 HASH_RAW=$(nix-prefetch-url "$FILE_URL")
@@ -24,4 +24,5 @@ sed -i -E "s|sha256 = \"[^\"]+\"|sha256 = \"${NEW_HASH}\"|" "$PACKAGE_PATH"
 echo "Hash updated in $PACKAGE_PATH"
 
 git add "$PACKAGE_PATH"
-git commit -m "chore(workstation/spotify/spotx): update to lastest version" || true
+git commit -m "chore(workstation/spotify/spotx): update to lastest version" \
+  || true
