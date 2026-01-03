@@ -29,7 +29,6 @@
     home.packages = [
       pkgs.brightnessctl
       pkgs.pamixer
-      pkgs.galculator
     ];
 
     home.file = {
@@ -163,7 +162,6 @@
           ", xf86audioraisevolume, exec, pamixer -i 5"
           ", xf86audiolowervolume, exec, pamixer -d 5"
           ", xf86audiomute, exec, pamixer -t"
-          ", xf86calculator, exec, galculator"
 
           # Default bind
           "$mod, Return, exec, $terminal"
