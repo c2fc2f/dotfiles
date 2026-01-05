@@ -6,11 +6,11 @@
   its powerful feature set, plugin support, and high configurability.
 */
 {
-  programs.adb.enable = true;
-
-  users.users.${username}.extraGroups = [
-    "adbusers"
-  ];
+  home-manager.users.${username} = {
+    home.packages = [
+      pkgs.android-tools
+    ];
+  };
 
   programs.obs-studio = {
     enable = true;
