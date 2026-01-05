@@ -9,14 +9,12 @@
     services.hyprpaper = {
       enable = true;
       settings = {
-        preload = [
-          "${../../assets/background.jpg}"
-        ];
         wallpaper = [
-          ",${../../assets/background.jpg}"
+          {
+            monitors = "";
+            path = "${../../assets/background.jpg}";
+          }
         ];
-        splash = false;
-        ipc = "off";
       };
     };
   };
