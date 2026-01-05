@@ -9,9 +9,12 @@
     services.hyprpaper = {
       enable = true;
       settings = {
+        splash = false;
+        ipc = "off";
+
         wallpaper = [
           {
-            monitors = "";
+            monitor = "";
             path = "${../../assets/background.jpg}";
           }
         ];
