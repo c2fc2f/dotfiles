@@ -1,5 +1,6 @@
 {
   pkgs,
+  nh,
   lib,
   username,
   hostName,
@@ -17,36 +18,42 @@ let
 
   genCase = name: ''
     ${name} )
-      nixos-rebuild switch \
-        --flake ~/git/dotfiles#${name} \
+      nh os switch \
+        --hostname ${name} \
         --build-host ${username}@sisyphe.sagbot.com \
-        --target-host ${username}@${name}.sagbot.com \
-        --sudo \
-        --ask-sudo-password
+        --target-host ${username}@${name}.sagbot.com
       ;;
   '';
+
+  inherit (pkgs.lib.custom) indent;
 in
 {
   home-manager.users.${username} = {
     home.packages = [
       (pkgs.writeShellApplication {
         name = "rebuild";
+
+        runtimeInputs = [
+          nh.packages.${pkgs.stdenv.hostPlatform.system}.default
+        ];
+
         text = ''
           case "''${1-}" in
+            "" )
+              nh os switch \
+                --hostname ${hostName} \
+                --build-host ${username}@sisyphe.sagbot.com
+              ;;
             local )
-              nixos-rebuild switch \
-                --flake ~/git/dotfiles/ \
-                --sudo
+              nh os switch
               ;;
-            ${hostName} )
-              nixos-rebuild switch \
-                --flake ~/git/dotfiles/ \
-                --build-host ${username}@sisyphe.sagbot.com \
-                --sudo
-              ;;
-          ${pkgs.lib.custom.indent 2 (concatStringsSep "" (map genCase serverHosts))}
+          ${indent 2 (concatStringsSep "" (map genCase serverHosts))}
             * )
-              echo "Usage: $0 [local|${hostName}|${concatStringsSep "|" serverHosts}]"
+              echo "Usage: $0 [local|${concatStringsSep "|" serverHosts}]"
+              echo ""
+
+              echo "Rebuild the configuration and switch to it"
+              echo "  By default it use sisyphe.sagbot.com as the builder"
               exit 1
               ;;
           esac
