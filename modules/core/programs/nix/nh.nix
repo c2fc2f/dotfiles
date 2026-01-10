@@ -6,19 +6,17 @@
 }:
 
 {
-  home-manager.users.${username} = {
-    programs.nh = {
+  programs.nh = {
+    enable = true;
+
+    package = nh.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
+    clean = {
       enable = true;
 
-      package = nh.packages.${pkgs.stdenv.hostPlatform.system}.default;
-
-      clean = {
-        enable = true;
-
-        dates = "daily";
-      };
-
-      flake = "/home/${username}/git/dotfiles";
+      dates = "daily";
     };
+
+    flake = "/home/${username}/git/dotfiles";
   };
 }
