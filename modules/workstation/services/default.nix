@@ -3,6 +3,7 @@
     # keep-sorted start
     ./agents
     ./displayManager
+    ./dunst
     ./hypr
     ./logind
     ./network-manager
