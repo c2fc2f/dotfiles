@@ -6,6 +6,7 @@
     ./auto-update
     ./databases
     ./haproxy
+    ./immich
     ./keycloak
     ./mailcow
     ./minecraft
