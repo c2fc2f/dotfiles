@@ -107,7 +107,9 @@ let
         };
       });
     default = [ ];
-    description = '''';
+    description = ''
+      Map of regex to match the right backend for the URL
+    '';
   };
 in
 {
