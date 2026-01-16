@@ -10,6 +10,7 @@
     ./hypr
     ./maths
     ./network-manager
+    ./obsidian
     ./partition-manager
     ./records
     ./rofi
