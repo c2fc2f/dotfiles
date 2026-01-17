@@ -52,7 +52,7 @@
     ''
     + builtins.concatStringsSep "\n" (
       builtins.map (plugin: "ln -s ${plugin}/* ${cfg.directories.plugins}") (
-        pkgs.callPackage ./plugins { }
+        pkgs.callPackage ./_plugins { }
       )
     );
 

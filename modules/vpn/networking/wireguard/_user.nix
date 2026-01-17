@@ -1,6 +1,6 @@
 { config, hostName, ... }:
 let
-  wireconf = import ./assets/users/${hostName}.nix;
+  wireconf = import ./_assets/users/${hostName}.nix;
 
   nameWithoutExt =
     path: builtins.head (builtins.match "(.*)\\.nix" (builtins.baseNameOf (toString path)));
@@ -27,7 +27,7 @@ let
             privateKeyFile = config.sops.secrets."wireguard/privateKey".path;
             peers = [
               {
-                publicKey = conf.publicKey;
+                inherit (conf) publicKey;
                 allowedIPs = [
                   "::/0"
                   "0.0.0.0/0"
@@ -43,8 +43,8 @@ in
 {
   networking.wg-quick.interfaces = genInterfaces [
     # keep-sorted start
-    ./assets/servers/icare.nix
-    ./assets/servers/sisyphe.nix
+    ./_assets/servers/icare.nix
+    ./_assets/servers/sisyphe.nix
     # keep-sorted end
   ];
 }

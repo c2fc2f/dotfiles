@@ -1,19 +1,13 @@
 { hostName, systemInfo, ... }:
 
 {
-  imports = [
-    # keep-sorted start
-    ./secrets
-    # keep-sorted end
-  ]
-  ++ (
+  imports =
     if builtins.elem "server" systemInfo.${hostName}.groups then
       [
-        ./server.nix
+        ./_server.nix
       ]
     else
       [
-        ./user.nix
-      ]
-  );
+        ./_user.nix
+      ];
 }

@@ -1,12 +1,6 @@
 { config, ... }:
 
 {
-  imports = [
-    # keep-sorted start
-    ./secrets
-    # keep-sorted end
-  ];
-
   security.acme = {
     acceptTerms = true;
     defaults.email = "acme@sagbot.com";

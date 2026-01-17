@@ -19,7 +19,7 @@ let
 in
 {
   nixpkgs.overlays = [
-    (import ./overlay.nix)
+    (import ./_overlay.nix)
   ];
 
   services.udev.extraRules = ''

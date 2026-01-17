@@ -3,12 +3,6 @@ let
   domain = "pass.sagbot.com";
 in
 {
-  imports = [
-    # keep-sorted start
-    ./secrets
-    # keep-sorted end
-  ];
-
   services.vaultwarden = {
     enable = true;
     config = {

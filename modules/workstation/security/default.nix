@@ -1,7 +1,0 @@
-{
-  imports = [
-    # keep-sorted start
-    ./polkit.nix
-    # keep-sorted end
-  ];
-}

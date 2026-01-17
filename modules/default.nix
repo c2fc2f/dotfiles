@@ -9,8 +9,6 @@
 {
   imports =
     clib.nixFilesRec ./core
-    ++ map (group: ./${group}) groups
-    ++ lib.filter builtins.pathExists [
-      ./${hostName}
-    ];
+    ++ lib.flatten (map (group: clib.nixFilesRec ./${group}) groups)
+    ++ (if builtins.pathExists ./${hostName} then clib.nixFilesRec ./${hostName} else [ ]);
 }

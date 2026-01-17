@@ -6,7 +6,7 @@
 */
 {
   nixpkgs.overlays = [
-    (import ./spotx)
+    (import ./_spotx)
   ];
 
   environment.systemPackages = [

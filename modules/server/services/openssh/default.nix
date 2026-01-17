@@ -1,4 +1,4 @@
-{ username, hostName, ... }:
+{ username, ... }:
 
 {
   services.openssh = {

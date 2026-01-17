@@ -6,7 +6,7 @@
   ...
 }:
 let
-  wireconf = import ./assets/servers/${hostName}.nix;
+  wireconf = import ./_assets/servers/${hostName}.nix;
 
   genPeers = builtins.map (
     file:
@@ -64,9 +64,9 @@ in
 
         peers = genPeers [
           # keep-sorted start
-          ./assets/users/dedale.nix
-          ./assets/users/niobe.nix
-          ./assets/users/tantale.nix
+          ./_assets/users/dedale.nix
+          ./_assets/users/niobe.nix
+          ./_assets/users/tantale.nix
           # keep-sorted end
         ];
       };

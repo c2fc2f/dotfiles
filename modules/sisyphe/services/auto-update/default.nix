@@ -74,12 +74,6 @@ let
   };
 in
 {
-  imports = [
-    # keep-sorted start
-    ./secrets
-    # keep-sorted end
-  ];
-
   systemd = {
     services.auto-update = {
       description = "Auto-Update Service";

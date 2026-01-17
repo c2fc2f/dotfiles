@@ -1,10 +1,4 @@
 {
-  imports = [
-    # keep-sorted start
-    ./nixos-module.nix
-    # keep-sorted end
-  ];
-
   custom.services.haproxy = {
     enable = true;
 

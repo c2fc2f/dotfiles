@@ -3,12 +3,6 @@ let
   name = "couchdb";
 in
 {
-  imports = [
-    # keep-sorted start
-    ./secrets
-    # keep-sorted end
-  ];
-
   services.${name} = {
     enable = true;
 

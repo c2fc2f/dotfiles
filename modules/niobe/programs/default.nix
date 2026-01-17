@@ -1,8 +1,0 @@
-{
-  imports = [
-    # keep-sorted start
-    ./hypr
-    ./streamdeck
-    # keep-sorted end
-  ];
-}

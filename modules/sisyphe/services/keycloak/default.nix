@@ -3,16 +3,10 @@ let
   domain = "auth.sagbot.com";
 in
 {
-  imports = [
-    # keep-sorted start
-    ./secrets
-    # keep-sorted end
-  ];
-
   services.keycloak = {
     enable = true;
 
-    inherit (pkgs.callPackage ./plugins { }) plugins;
+    inherit (pkgs.callPackage ./_plugins { }) plugins;
 
     initialAdminPassword = "password";
 

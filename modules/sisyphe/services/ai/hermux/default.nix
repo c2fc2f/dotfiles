@@ -2,10 +2,7 @@
 
 {
   imports = [
-    # keep-sorted start
-    ./secrets
     hermux.nixosModules.hermux
-    # keep-sorted end
   ];
 
   services.hermux = {

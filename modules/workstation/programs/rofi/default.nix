@@ -11,13 +11,6 @@
   manager setups due to its speed, flexibility, and keyboard-driven workflow.
 */
 {
-  imports = [
-    # keep-sorted start
-    ./bluetooth.nix
-    ./networkmanager.nix
-    # keep-sorted end
-  ];
-
   home-manager.users.${username} = {
     home.file.".config/networkmanager-dmenu/config.ini" = {
       text = ''
