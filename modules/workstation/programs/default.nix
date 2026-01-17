@@ -1,6 +1,7 @@
 {
   imports = [
     # keep-sorted start
+    ./adb
     ./ashell
     ./audio
     ./browsers

@@ -1,8 +1,7 @@
 {
   imports = [
     # keep-sorted start
-    ./hypr
-    ./streamdeck
+    ./clone.nix
     # keep-sorted end
   ];
 }
