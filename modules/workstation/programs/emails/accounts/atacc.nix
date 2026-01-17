@@ -1,16 +1,16 @@
-{ pkgs, username, ... }:
+{ clib, username, ... }:
 
 {
   home-manager.users.${username} = {
     accounts.email.accounts.atacc = {
       enable = true;
 
-      realName = pkgs.lib.custom.decodeBase64 "QVRBQ0M=";
-      address = pkgs.lib.custom.decodeBase64 "YXNzb2NpYXRpb24uYXRhY2NAZ21haWwuY29t";
+      realName = clib.decodeBase64 "QVRBQ0M=";
+      address = clib.decodeBase64 "YXNzb2NpYXRpb24uYXRhY2NAZ21haWwuY29t";
 
       primary = false;
 
-      flavor = pkgs.lib.custom.decodeBase64 "Z21haWwuY29t";
+      flavor = clib.decodeBase64 "Z21haWwuY29t";
 
       gpg.key = "938C455B432779F33";
 

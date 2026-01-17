@@ -140,6 +140,23 @@
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
 
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+
+      clib =
+        let
+          inherit (nixpkgs) lib;
+          entries = builtins.readDir ./lib;
+
+          loadLibFunctions = lib.mapAttrs (
+            name: type:
+            if type == "directory" || type == "regular" then
+              import (./lib + "/${name}") { inherit lib; }
+            else
+              null
+          ) entries;
+
+          validFunctions = lib.filterAttrs (_: value: value != null) loadLibFunctions;
+        in
+        validFunctions;
     in
     {
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.wrapper);
@@ -151,6 +168,7 @@
         hostName: entry:
         nixpkgs.lib.nixosSystem {
           specialArgs = {
+            inherit clib;
             inherit hostName;
             inherit systemInfo;
           }

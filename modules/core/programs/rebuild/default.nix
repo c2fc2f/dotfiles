@@ -2,6 +2,7 @@
   pkgs,
   nh,
   lib,
+  clib,
   username,
   hostName,
   systemInfo,
@@ -25,7 +26,6 @@ let
       ;;
   '';
 
-  inherit (pkgs.lib.custom) indent;
 in
 {
   home-manager.users.${username} = {
@@ -47,7 +47,7 @@ in
             local )
               nh os switch
               ;;
-          ${indent 2 (concatStringsSep "" (map genCase serverHosts))}
+          ${clib.indent 2 (concatStringsSep "" (map genCase serverHosts))}
             * )
               echo "Usage: $0 [local|${concatStringsSep "|" serverHosts}]"
               echo ""

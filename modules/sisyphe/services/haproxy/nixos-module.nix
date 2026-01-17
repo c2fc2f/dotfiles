@@ -2,12 +2,11 @@
   config,
   pkgs,
   lib,
+  clib,
   ...
 }:
 let
   cfg = config.custom.services.haproxy;
-
-  inherit (pkgs.lib.custom) indent;
 
   certMap = pkgs.writeText "haproxy-cert.map" (
     lib.strings.concatLines (
@@ -54,7 +53,7 @@ let
         frontend ${e.name}
           bind ${e.bind}
           ${lib.optionalString (e.mode != null) "mode ${e.mode}"}
-        ${indent 2 e.extraConfig}
+        ${clib.indent 2 e.extraConfig}
       '') cfg.frontends
     )
   );
@@ -65,8 +64,8 @@ let
         backend ${e.name}
           ${lib.optionalString (e.mode != null) "mode ${e.mode}"}
           ${lib.optionalString (e.balance != null) "balance ${e.balance}"}
-        ${indent 2 e.extraConfig}
-        ${indent 2 (serversConfig e.servers)}
+        ${clib.indent 2 e.extraConfig}
+        ${clib.indent 2 (serversConfig e.servers)}
       '') cfg.backends
     )
   );
@@ -276,11 +275,11 @@ in
           ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
           tune.lua.bool-sample-conversion normal
           lua-load ${haproxy_minecraft}/haproxy_minecraft.lua
-        ${indent 2 cfg.global.extraConfig}
+        ${clib.indent 2 cfg.global.extraConfig}
 
         defaults
           ${lib.optionalString (cfg.defaults.maxconn != null) "maxconn ${toString cfg.defaults.maxconn}"}
-        ${indent 2 cfg.defaults.extraConfig}
+        ${clib.indent 2 cfg.defaults.extraConfig}
 
         # ============== DEFAULT FRONTEND ==+=============
         frontend http-in

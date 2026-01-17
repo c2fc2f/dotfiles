@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  clib,
   username,
   systemInfo,
   ...
@@ -24,7 +25,7 @@ in
         name = "makeIso";
         text = ''
           case "''${1-}" in
-          ${pkgs.lib.custom.indent 2 (concatStringsSep "" (map genCase isoHosts))}
+          ${clib.indent 2 (concatStringsSep "" (map genCase isoHosts))}
             * )
               echo "Usage: $0 [${concatStringsSep "|" isoHosts}]"
               exit 1
