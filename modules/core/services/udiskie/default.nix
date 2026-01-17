@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ username, ... }:
 /*
   diskie service, a user-level daemon that automatically mounts and unmounts
   removable drives using udisks2. Useful for desktop environments without

@@ -1,12 +1,6 @@
 { pkgs, lib, ... }:
 
 {
-  imports = [
-    # keep-sorted start
-    ./plymouth.nix
-    # keep-sorted end
-  ];
-
   boot = {
     # Console log level (0 = disabled)
     consoleLogLevel = 0;

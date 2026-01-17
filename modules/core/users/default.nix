@@ -1,12 +1,6 @@
 { config, username, ... }:
 
 {
-  imports = [
-    # keep-sorted start
-    ./secrets
-    # keep-sorted end
-  ];
-
   users.users.${username} = {
     isNormalUser = true;
     uid = 1000;

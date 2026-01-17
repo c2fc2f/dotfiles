@@ -6,12 +6,6 @@
 }:
 
 {
-  imports = [
-    # keep-sorted start
-    ./secrets
-    # keep-sorted end
-  ];
-
   home-manager.users.${username} = {
     home.packages = [
       (pkgs.writeShellScriptBin "update" ''

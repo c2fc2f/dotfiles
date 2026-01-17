@@ -1,9 +1,4 @@
-{
-  pkgs,
-  nix-index-database,
-  username,
-  ...
-}:
+{ nix-index-database, username, ... }:
 /*
   Configures nix-index-database for the user by importing the appropriate Home
   Manager module. This setup provides an efficient way to search for files and
@@ -21,9 +16,7 @@
 {
   home-manager.users.${username} = {
     imports = [
-      # keep-sorted start
       nix-index-database.homeModules.nix-index
-      # keep-sorted end
     ];
 
     programs.nix-index-database = {

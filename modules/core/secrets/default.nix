@@ -7,17 +7,14 @@
   ...
 }:
 let
-  home = config.users.users.${username}.home;
+  inherit (config.users.users.${username}) home;
 in
 {
   imports = [
-    # keep-sorted start
     sops-nix.nixosModules.sops
-    # keep-sorted end
   ];
 
   # , sops -a "$(cat key.pub | , ssh-to-age)" file.toml
-
   sops.defaultSopsFormat = "yaml";
 
   sops.age = {

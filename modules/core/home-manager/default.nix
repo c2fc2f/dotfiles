@@ -15,18 +15,20 @@
 */
 {
   imports = [
-    # keep-sorted start
     home-manager.nixosModules.home-manager
-    # keep-sorted end
   ];
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.backupFileExtension = "hm-backup";
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "hm-backup";
 
-  home-manager.users.${username} = {
-    programs.home-manager.enable = true;
-    home.username = username;
-    home.homeDirectory = config.users.users.${username}.home;
+    users.${username} = {
+      programs.home-manager.enable = true;
+      home = {
+        inherit username;
+        homeDirectory = config.users.users.${username}.home;
+      };
+    };
   };
 }

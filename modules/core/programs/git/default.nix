@@ -3,12 +3,6 @@
 # Enables Git with user info and defines a pull-all alias.
 #
 {
-  imports = [
-    # keep-sorted start
-    ./gh.nix
-    # keep-sorted end
-  ];
-
   home-manager.users.${username} = {
     programs.git = {
       enable = true;
