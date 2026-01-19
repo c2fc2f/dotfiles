@@ -9,7 +9,7 @@ let
   inherit (nix-minecraft.lib) collectFilesAt;
   modpack = pkgs.fetchzip {
     url = "https://sagbot.com/beyond_ascension.zip";
-    hash = "sha256-lgqzeudqPzd7z1SI7UF3E1ejSHtHSmtJDYBghac4VeE=";
+    hash = "sha256-MW176+WwXg3qCDwU0V4hvC942Fq2CIyzHlrVk2Q5s44=";
   };
 
   version = "1.20.1-47.4.10";
@@ -56,6 +56,10 @@ in
       allow-flight = true;
     };
   };
+
+  networking.firewall.allowedUDPPorts = [
+    24454
+  ];
 
   custom.services.haproxy = {
     backends = [
