@@ -3,7 +3,9 @@
 {
   home-manager.users.${username} = {
     home.packages = [
-      pkgs.sage
+      (pkgs.sage.override {
+        requireSageTests = false;
+      })
     ];
   };
 }
