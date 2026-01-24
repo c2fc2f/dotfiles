@@ -53,6 +53,7 @@ in
       spawn-protection = 0;
       enable-command-block = true;
       allow-flight = true;
+      view-distance = 16;
     };
   };
 
