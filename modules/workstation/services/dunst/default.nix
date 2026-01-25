@@ -6,7 +6,7 @@
 
       settings = {
         global = {
-          width = "(100, 300)";
+          width = "(100, 600)";
           height = "(0, 300)";
           origin = "top-right";
           offset = "(5, 15)";
