@@ -1,6 +1,8 @@
 { config, ... }:
 
 {
+  custom.secrets.icare.enable = true;
+
   sops.secrets = {
     "dovecot/introspection_url" = {
       sopsFile = ./dovecot.yaml;

@@ -1,5 +1,7 @@
 { username, ... }:
 {
+  custom.secrets.development.enable = true;
+
   sops.secrets."language-tool/username" = {
     sopsFile = ./secrets.yaml;
     owner = username;
