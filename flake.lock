@@ -389,7 +389,9 @@
         "hyprutils": "hyprutils",
         "hyprwayland-scanner": "hyprwayland-scanner",
         "hyprwire": "hyprwire",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "pre-commit-hooks": "pre-commit-hooks",
         "systems": "systems_4",
         "xdph": "xdph"
@@ -759,16 +761,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1769461804,
-        "narHash": "sha256-msG8SU5WsBUfVVa/9RPLaymvi5bI8edTavbIq3vRlhI=",
-        "owner": "NixOS",
+        "lastModified": 1769754921,
+        "narHash": "sha256-BOMUXTeWTpYbNMLNcGyhgbMxz7gMX1Qr3dCsywJo6pU=",
+        "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "bfc1b8a4574108ceef22f02bafcf6611380c100d",
+        "rev": "95791736904c6b0dd2e0e8b48450d35837bf06ac",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "owner": "nixos",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -800,21 +801,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
-        "type": "github"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1769754921,
-        "narHash": "sha256-BOMUXTeWTpYbNMLNcGyhgbMxz7gMX1Qr3dCsywJo6pU=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "95791736904c6b0dd2e0e8b48450d35837bf06ac",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -898,7 +884,7 @@
         "nh": "nh",
         "nix-index-database": "nix-index-database",
         "nix-minecraft": "nix-minecraft",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs",
         "nur": "nur",
         "nvf": "nvf",
         "sops-nix": "sops-nix",
