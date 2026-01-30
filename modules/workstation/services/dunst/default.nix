@@ -1,4 +1,5 @@
 { pkgs, username, ... }:
+
 {
   home-manager.users.${username} = {
     services.dunst = {
@@ -12,6 +13,9 @@
           offset = "(5, 15)";
           scale = 0;
           notification_limit = 10;
+
+          monitor = 0;
+          follow = "mouse";
 
           progress_bar = true;
           progress_bar_height = 14;
