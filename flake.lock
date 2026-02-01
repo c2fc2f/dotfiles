@@ -217,24 +217,6 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
-      "inputs": {
-        "systems": "systems_5"
-      },
-      "locked": {
-        "lastModified": 1731533236,
-        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "focal": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -740,21 +722,21 @@
     "nix-minecraft": {
       "inputs": {
         "flake-compat": "flake-compat_3",
-        "flake-utils": "flake-utils_2",
         "nixpkgs": [
           "nixpkgs"
-        ]
+        ],
+        "systems": "systems_5"
       },
       "locked": {
-        "lastModified": 1769935621,
-        "narHash": "sha256-dS/5RpGq7o5R+GiH9fk2/R4rWHQKv/6ELpRL1S1Ifr8=",
-        "owner": "c2fc2f",
+        "lastModified": 1769936216,
+        "narHash": "sha256-ezgoxbHXGQMufga7aaZNhYZYiXQhaGV4jLAZy0fBhzA=",
+        "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "dd556e31b5010937ea968bebfde4065148141a86",
+        "rev": "ff6604fa8d25c1e1c135a261ddd6b3dcc4443129",
         "type": "github"
       },
       "original": {
-        "owner": "c2fc2f",
+        "owner": "Infinidoge",
         "repo": "nix-minecraft",
         "type": "github"
       }
