@@ -16,7 +16,7 @@ This repository contains my personal NixOS configuration files, structured to fa
 * **Modular Design**: Organized into modules for hosts and users, promoting reusability and clarity.
 * **Development Shells**: Provides predefined development environments for various projects.
 * **Secrets Management**: Handles sensitive information securely using [sops](https://github.com/mozilla/sops).
-* **CI Integration**: Includes GitHub Actions workflows for continuous integration and validation.
+* **CI Integration**: Includes workflows for continuous integration and validation.
 
 ## Repository Structure
 
@@ -24,7 +24,6 @@ This repository contains my personal NixOS configuration files, structured to fa
 * `hosts/`: Contains host-specific configurations.
 * `modules/`: Houses custom NixOS and Home Manager modules.
 * `devshells/`: Sets up development environments with necessary tools and dependencies.
-* `.github/workflows/`: CI workflows for automated checks and builds.
 * `treefmt.nix`: Defines formatting standards for the codebase.
 ## Getting Started
 
@@ -72,7 +71,7 @@ nix develop
 
 ## Continuous Integration
 
-GitHub Actions workflows are defined in `.github/workflows/` to automate testing and validation of configurations.
+Workflows to automate testing and validation of configurations.
 
 ## License
 
