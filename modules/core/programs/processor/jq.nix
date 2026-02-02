@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 /*
   jq, a lightweight and flexible command-line JSON processor. It allows
   filtering, transforming, and formatting JSON data using its own query

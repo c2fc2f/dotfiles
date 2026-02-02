@@ -1,4 +1,7 @@
-{ username, ... }:
+{
+  username,
+  ...
+}:
 /*
   Zathura, a lightweight and highly customizable PDF viewer for the terminal
   environment. It supports Vim-like keybindings, plugins for various document

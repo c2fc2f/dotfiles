@@ -1,4 +1,8 @@
-{ hostName, systemInfo, ... }:
+{
+  hostName,
+  systemInfo,
+  ...
+}:
 
 {
   imports =

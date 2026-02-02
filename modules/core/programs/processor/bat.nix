@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 /*
   bat, a modern replacement for the `cat` command. It adds syntax
   highlighting, line numbers, and Git integration when displaying file

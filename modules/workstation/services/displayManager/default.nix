@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 /*
   display manager — the graphical login screen that launches user sessions.
   This block allows you to:

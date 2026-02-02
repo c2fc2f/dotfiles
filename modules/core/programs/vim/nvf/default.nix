@@ -1,4 +1,8 @@
-{ nvf, username, ... }:
+{
+  nvf,
+  username,
+  ...
+}:
 
 {
   home-manager.users.${username} = {

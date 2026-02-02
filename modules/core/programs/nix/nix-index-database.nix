@@ -1,4 +1,8 @@
-{ nix-index-database, username, ... }:
+{
+  nix-index-database,
+  username,
+  ...
+}:
 /*
   Configures nix-index-database for the user by importing the appropriate Home
   Manager module. This setup provides an efficient way to search for files and

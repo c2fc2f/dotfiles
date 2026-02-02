@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 /*
   OBS Studio, a comprehensive and highly extensible open-source application
   used for video recording, live streaming, and multimedia production. OBS

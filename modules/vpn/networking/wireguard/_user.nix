@@ -1,4 +1,8 @@
-{ config, hostName, ... }:
+{
+  config,
+  hostName,
+  ...
+}:
 let
   wireconf = import ./_assets/users/${hostName}.nix;
 

@@ -1,4 +1,8 @@
-{ config, hermux, ... }:
+{
+  config,
+  hermux,
+  ...
+}:
 
 {
   imports = [

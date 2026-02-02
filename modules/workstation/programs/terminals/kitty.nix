@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 /*
   Kitty terminal emulator for the user.Kitty is a fast, GPU-accelerated
   terminal with advanced features like ligature support, image display, tabs,

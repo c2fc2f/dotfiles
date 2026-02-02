@@ -1,4 +1,8 @@
-{ lib, username, ... }:
+{
+  lib,
+  username,
+  ...
+}:
 
 {
   home-manager.users.${username} = {

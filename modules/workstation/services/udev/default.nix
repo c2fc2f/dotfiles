@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 let
   lockScript = pkgs.writeShellApplication {
     name = "lock-all-sessions";

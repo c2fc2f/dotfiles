@@ -1,4 +1,7 @@
-{ modulesPath, ... }:
+{
+  modulesPath,
+  ...
+}:
 
 {
   imports = [

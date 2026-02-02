@@ -1,4 +1,7 @@
-{ sops-nix, ... }:
+{
+  sops-nix,
+  ...
+}:
 
 {
   imports = [

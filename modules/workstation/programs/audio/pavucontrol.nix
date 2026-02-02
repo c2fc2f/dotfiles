@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 /*
   pavucontrol, the PulseAudio Volume Control GUI. It allows users to manage
   audio input/output devices, adjust application-specific volumes, and

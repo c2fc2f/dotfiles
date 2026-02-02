@@ -1,4 +1,8 @@
-{ username, lib, ... }:
+{
+  username,
+  lib,
+  ...
+}:
 
 {
   home-manager.users.${username}.programs.nvf.settings.vim = {

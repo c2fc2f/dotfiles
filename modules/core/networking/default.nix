@@ -1,4 +1,7 @@
-{ hostName, ... }:
+{
+  hostName,
+  ...
+}:
 
 {
   networking = {

@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 /*
   terminfo definitions for :
     - the Kitty terminal.

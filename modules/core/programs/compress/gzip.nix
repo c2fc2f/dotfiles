@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 /*
   gzip is a widely used command-line utility for file compression and
   decompression. It uses the DEFLATE algorithm and is typically used to reduce

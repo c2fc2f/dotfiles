@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 /*
   GTK configuration for the user and sets the icon theme.
    - `enable = true` activates GTK settings management through Home Manager.

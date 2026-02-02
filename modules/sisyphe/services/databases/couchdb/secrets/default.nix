@@ -1,4 +1,7 @@
-{ config, ... }:
+{
+  config,
+  ...
+}:
 
 {
   custom.secrets.sisyphe.enable = true;

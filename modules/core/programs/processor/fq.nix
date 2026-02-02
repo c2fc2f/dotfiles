@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 /*
   fq, a flexible command-line tool for parsing, filtering, and transforming
   JSON data. Similar to jq but with a focus on ease of use, modern syntax, and

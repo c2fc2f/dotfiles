@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 
 {
   home-manager.users.${username}.programs.nvf.settings.vim = {

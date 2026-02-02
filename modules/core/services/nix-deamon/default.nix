@@ -1,4 +1,8 @@
-{ config, username, ... }:
+{
+  config,
+  username,
+  ...
+}:
 
 {
   systemd.services.nix-daemon = {

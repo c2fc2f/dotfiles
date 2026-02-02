@@ -1,4 +1,8 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  username,
+  ...
+}:
 /*
   unzip is a command-line utility used to extract files from ZIP archives.
   It supports standard `.zip` files and allows listing, testing, and

@@ -1,4 +1,7 @@
-{ username, ... }:
+{
+  username,
+  ...
+}:
 #
 # Enables Git with user info and defines a pull-all alias.
 #
