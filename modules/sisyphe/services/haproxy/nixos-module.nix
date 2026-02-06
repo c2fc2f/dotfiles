@@ -65,6 +65,7 @@ let
           ${lib.optionalString (e.mode != null) "mode ${e.mode}"}
           ${lib.optionalString (e.balance != null) "balance ${e.balance}"}
         ${clib.indent 2 e.extraConfig}
+
         ${clib.indent 2 (serversConfig e.servers)}
       '') cfg.backends
     )
