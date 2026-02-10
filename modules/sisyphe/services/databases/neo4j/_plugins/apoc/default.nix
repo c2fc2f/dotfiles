@@ -6,11 +6,11 @@
 
 stdenv.mkDerivation rec {
   pname = "apoc";
-  version = "5.26.21";
+  version = "2026.01.4";
 
   src = fetchurl {
     url = "https://github.com/neo4j/apoc/releases/download/${version}/apoc-${version}-core.jar";
-    hash = "sha256-oJfl3TA2QbQLnLzmTcEGXFQO41XBSW5BPeqFInLDRJA=";
+    hash = "sha256-eIEaH2gZ9pVeXTp50MyUxioWxix8PhC+tz+2Zy6hkzs=";
   };
 
   dontUnpack = true;
