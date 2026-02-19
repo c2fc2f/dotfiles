@@ -16,6 +16,10 @@
         root_url = "https://${domain}/";
       };
 
+      security = {
+        secret_key = "$__file{${config.sops.secrets."grafana/security/secret_key".path}";
+      };
+
       auth = {
         disable_login_form = true;
         oauth_auto_login = true;

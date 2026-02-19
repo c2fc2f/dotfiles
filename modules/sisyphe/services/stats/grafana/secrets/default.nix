@@ -1,9 +1,16 @@
 {
   custom.secrets.sisyphe.enable = true;
 
-  sops.secrets."grafana/client/secret" = {
-    sopsFile = ./secrets.yaml;
+  sops.secrets = {
+    "grafana/client/secret" = {
+      sopsFile = ./secrets.yaml;
 
-    owner = "grafana";
+      owner = "grafana";
+    };
+    "grafana/security/secret_key" = {
+      sopsFile = ./secrets.yaml;
+
+      owner = "grafana";
+    };
   };
 }
