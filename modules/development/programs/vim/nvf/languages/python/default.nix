@@ -20,7 +20,7 @@
         enable = true;
 
         servers = [
-          "pyright"
+          "basedpyright"
         ];
       };
 
