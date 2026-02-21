@@ -21,6 +21,7 @@
           vimAlias = true;
 
           syntaxHighlighting = true;
+          lineNumberMode = "number";
 
           globals = {
             mapleader = " ";
