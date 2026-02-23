@@ -53,6 +53,8 @@ in
       server-port = 25567;
       "query.port" = 25567;
 
+      allow-flight = true;
+
       broadcast-rcon-to-ops = true;
       difficulty = "hard";
       enable-command-block = true;
