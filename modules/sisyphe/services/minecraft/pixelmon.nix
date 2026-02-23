@@ -31,7 +31,7 @@ in
 
     package = neoforgeServer;
 
-    jvmOpts = "-Xms2G -Xmx10G";
+    jvmOpts = "-Xmx6G";
 
     symlinks = {
       "mods/Pixelmon.jar" = pkgs.fetchurl {
