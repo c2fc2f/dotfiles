@@ -1,5 +1,5 @@
 {
-  pkgs,
+  username,
   ...
 }:
 /*
@@ -10,20 +10,20 @@
    - Set the default session (like Hyprland, GNOME, KDE, etc.).
 */
 {
-  environment.systemPackages = with pkgs; [
-    (catppuccin-sddm.override { flavor = "mocha"; })
-  ];
-
   services.displayManager = {
     enable = true;
+
+    autoLogin = {
+      enable = true;
+      user = username;
+    };
+
     sddm = {
       enable = true;
-      theme = "catppuccin-mocha-mauve";
-      # Don't work somehow
-      autoNumlock = true;
       wayland.enable = true;
-      package = pkgs.kdePackages.sddm;
     };
+
+    defaultSession = "hyprland";
   };
 
   environment.sessionVariables = {
