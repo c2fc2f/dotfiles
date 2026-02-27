@@ -9,14 +9,14 @@
     wayland.windowManager.hyprland = {
       settings = {
         monitor = lib.mkForce [
-          "DP-1,1920x1080@60,-1920x0,1"
-          "HDMI-A-1,1920x1080@60,0x0,1"
-          "DVI-D-1,1920x1080@60,1920x0,1"
+          "DP-2,1920x1080@60,-1920x0,1"
+          "HDMI-A-3,1920x1080@100,0x0,1"
+          "DP-3,1920x1080@60,1920x0,1"
         ];
 
         workspace = lib.mkForce [
-          "10,monitor:DP-1,default:true"
-          "9,monitor:DVI-D-1,default:true"
+          "10,monitor:DP-2,default:true"
+          "9,monitor:DP-3,default:true"
         ];
 
         device = [
