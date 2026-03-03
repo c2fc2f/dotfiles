@@ -332,6 +332,10 @@ in
       cfg.user
     ];
 
+    security.acme.defaults.reloadServices = [
+      "haproxy"
+    ];
+
     networking.firewall.allowedTCPPorts = [
       80
       443

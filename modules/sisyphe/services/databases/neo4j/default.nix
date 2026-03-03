@@ -64,6 +64,10 @@
     "neo4j"
   ];
 
+  security.acme.certs."sagbot".reloadServices = [
+    "neo4j"
+  ];
+
   networking.firewall.allowedTCPPorts = [
     7687
   ];
