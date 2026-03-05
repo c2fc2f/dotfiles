@@ -122,6 +122,14 @@
             # keep-sorted end
           ];
         };
+        sisyphus = {
+          username = "culottes";
+          groups = [
+            # keep-sorted start
+            "server"
+            # keep-sorted end
+          ];
+        };
         tantale = {
           username = "culottes";
           groups = [
