@@ -72,10 +72,11 @@
       ...
     }@inputs:
     let
+      username = "culottes";
+
       systemInfo = {
         # keep-sorted start block=yes
         icare = {
-          username = "culottes";
           groups = [
             # keep-sorted start
             "server"
@@ -84,7 +85,6 @@
           ];
         };
         iso-server = {
-          username = "culottes";
           groups = [
             # keep-sorted start
             "iso"
@@ -93,7 +93,6 @@
           ];
         };
         iso-workstation = {
-          username = "culottes";
           groups = [
             # keep-sorted start
             "iso"
@@ -102,7 +101,6 @@
           ];
         };
         niobe = {
-          username = "culottes";
           groups = [
             # keep-sorted start
             "development"
@@ -114,7 +112,6 @@
           ];
         };
         sisyphe = {
-          username = "culottes";
           groups = [
             # keep-sorted start
             "server"
@@ -123,7 +120,6 @@
           ];
         };
         sisyphus = {
-          username = "culottes";
           groups = [
             # keep-sorted start
             "server"
@@ -131,7 +127,6 @@
           ];
         };
         tantale = {
-          username = "culottes";
           groups = [
             # keep-sorted start
             "development"
@@ -179,6 +174,7 @@
             inherit clib;
             inherit hostName;
             inherit systemInfo;
+            inherit username;
           }
           // entry
           // inputs;
