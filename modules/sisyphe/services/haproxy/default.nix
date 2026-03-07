@@ -1,9 +1,4 @@
 {
-  mainDomain,
-  ...
-}:
-
-{
   custom.services.haproxy = {
     enable = true;
 
@@ -29,7 +24,5 @@
         timeout check           10s
       '';
     };
-
-    defaultBackend = mainDomain;
   };
 }

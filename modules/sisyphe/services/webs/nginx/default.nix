@@ -61,5 +61,7 @@
         backend = mainDomain;
       }
     ];
+
+    defaultBackend = mainDomain;
   };
 }
