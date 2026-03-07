@@ -1,6 +1,7 @@
 {
   config,
   hostName,
+  mainDomain,
   ...
 }:
 let
@@ -36,7 +37,7 @@ let
                   "::/0"
                   "0.0.0.0/0"
                 ];
-                endpoint = "${name}.sagbot.com:51820";
+                endpoint = "${name}.${mainDomain}:51820";
               }
             ];
           };

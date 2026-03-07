@@ -1,5 +1,6 @@
 {
   config,
+  mainDomain,
   ...
 }:
 let
@@ -18,7 +19,7 @@ in
       NEXT_PUBLIC_CREDENTIALS_ENABLED = "false";
       NEXT_PUBLIC_KEYCLOAK_ENABLED = "true";
 
-      NEXTAUTH_URL = "https://link.sagbot.com/api/v1/auth";
+      NEXTAUTH_URL = "https://link.${mainDomain}/api/v1/auth";
     };
 
     secretFiles =
@@ -56,7 +57,7 @@ in
     maps = {
       url = [
         {
-          url = "link.sagbot.com";
+          url = "link.${mainDomain}";
           backend = name;
         }
       ];

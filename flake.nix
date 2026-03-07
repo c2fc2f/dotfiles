@@ -73,6 +73,8 @@
     }@inputs:
     let
       username = "culottes";
+      builder = "sisyphe";
+      mainDomain = "sagbot.com";
 
       systemInfo = {
         # keep-sorted start block=yes
@@ -81,22 +83,6 @@
             # keep-sorted start
             "server"
             "vpn"
-            # keep-sorted end
-          ];
-        };
-        iso-server = {
-          groups = [
-            # keep-sorted start
-            "iso"
-            "server"
-            # keep-sorted end
-          ];
-        };
-        iso-workstation = {
-          groups = [
-            # keep-sorted start
-            "iso"
-            "workstation"
             # keep-sorted end
           ];
         };
@@ -175,6 +161,8 @@
             inherit hostName;
             inherit systemInfo;
             inherit username;
+            inherit builder;
+            inherit mainDomain;
           }
           // entry
           // inputs;

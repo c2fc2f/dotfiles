@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  mainDomain,
   ...
 }:
 
@@ -11,19 +12,19 @@
     https = {
       enable = false;
       listenAddress = "0.0.0.0:7473";
-      advertisedAddress = "neo4j.sagbot.com";
+      advertisedAddress = "neo4j.${mainDomain}";
 
     };
 
     http = {
       enable = true;
       listenAddress = "0.0.0.0:7474";
-      advertisedAddress = "neo4j.sagbot.com";
+      advertisedAddress = "neo4j.${mainDomain}";
     };
 
     bolt = {
       listenAddress = "0.0.0.0:7687";
-      advertisedAddress = "neo4j.sagbot.com";
+      advertisedAddress = "neo4j.${mainDomain}";
 
       tlsLevel = "REQUIRED";
       sslPolicy = "bolt";
@@ -31,7 +32,7 @@
 
     ssl.policies.bolt =
       let
-        certDir = config.security.acme.certs."sagbot".directory;
+        certDir = config.security.acme.certs.${mainDomain}.directory;
       in
       {
         clientAuth = "OPTIONAL";
@@ -64,7 +65,7 @@
     "neo4j"
   ];
 
-  security.acme.certs."sagbot".reloadServices = [
+  security.acme.certs.${mainDomain}.reloadServices = [
     "neo4j"
   ];
 

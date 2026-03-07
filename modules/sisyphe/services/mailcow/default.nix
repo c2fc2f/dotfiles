@@ -1,4 +1,9 @@
 {
+  mainDomain,
+  ...
+}:
+
+{
   networking.firewall.allowedTCPPorts = [
     25
     465
@@ -27,7 +32,7 @@
 
     maps.url = [
       {
-        url = "mail.sagbot.com";
+        url = "mail.${mainDomain}";
         backend = "mailcow";
       }
     ];

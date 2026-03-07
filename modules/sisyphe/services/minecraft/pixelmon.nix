@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  mainDomain,
   ...
 }:
 let
@@ -81,7 +82,7 @@ in
     maps = {
       minecraft = [
         {
-          url = "${name}.sagbot.com";
+          url = "${name}.${mainDomain}";
           backend = name;
         }
       ];

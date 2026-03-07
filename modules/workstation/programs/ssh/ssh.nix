@@ -2,12 +2,13 @@
   lib,
   username,
   systemInfo,
+  mainDomain,
   ...
 }:
 let
-  serverHosts = lib.filter (
-    name: lib.elem "server" systemInfo.${name}.groups && !(lib.elem "iso" systemInfo.${name}.groups)
-  ) (lib.attrNames systemInfo);
+  serverHosts = lib.filter (name: lib.elem "server" systemInfo.${name}.groups) (
+    lib.attrNames systemInfo
+  );
 in
 {
   home-manager.users.${username} = {
@@ -22,7 +23,7 @@ in
       map (name: {
         inherit name;
         value = {
-          hostname = "${name}.sagbot.com";
+          hostname = "${name}.${mainDomain}";
           user = username;
           identityFile = "~/.ssh/${username}";
           identitiesOnly = true;

@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  mainDomain,
   ...
 }:
 
@@ -12,7 +13,7 @@
       server = rec {
         http_addr = "127.0.0.27";
         http_port = 2701;
-        domain = "stats.sagbot.com";
+        domain = "stats.${mainDomain}";
         root_url = "https://${domain}/";
       };
 

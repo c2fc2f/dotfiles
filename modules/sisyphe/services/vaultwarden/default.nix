@@ -1,9 +1,10 @@
 {
   config,
+  mainDomain,
   ...
 }:
 let
-  domain = "pass.sagbot.com";
+  domain = "pass.${mainDomain}";
 in
 {
   services.vaultwarden = {
@@ -17,7 +18,7 @@ in
       SMTP_HOST = "127.0.0.1";
       SMTP_PORT = 25;
       SMTP_SSL = false;
-      SMTP_FROM = "vaultwarden@sagbot.com";
+      SMTP_FROM = "vaultwarden@${mainDomain}";
       SMTP_FROM_NAME = "Vaultwarden server";
     };
     environmentFile = config.sops.secrets."vaultwarden/env".path;

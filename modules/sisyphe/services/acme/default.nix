@@ -1,20 +1,21 @@
 {
   config,
+  mainDomain,
   ...
 }:
 
 {
   security.acme = {
     acceptTerms = true;
-    defaults.email = "acme@sagbot.com";
+    defaults.email = "acme@${mainDomain}";
     defaults.credentialFiles = {
       "CLOUDFLARE_DNS_API_TOKEN_FILE" = config.sops.secrets."cloudflare/dns-api-token".path;
     };
     certs = {
-      sagbot = {
-        domain = "sagbot.com";
+      ${mainDomain} = rec {
+        domain = mainDomain;
         extraDomainNames = [
-          "*.sagbot.com"
+          "*.${domain}"
         ];
         dnsProvider = "cloudflare";
         postRun = ''

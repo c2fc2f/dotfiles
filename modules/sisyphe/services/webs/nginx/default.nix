@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  mainDomain,
   ...
 }:
 
@@ -10,14 +11,14 @@
   services.nginx = {
     enable = true;
     virtualHosts = {
-      "sagbot.com" = {
+      "${mainDomain}" = {
         listen = [
           {
             addr = "127.0.0.80";
             port = 3333;
           }
         ];
-        root = "/var/www/www.sagbot.com/public_html";
+        root = "/var/www/www.${mainDomain}/public_html";
         extraConfig = ''
           index index.php index.html;
           absolute_redirect off;
@@ -56,8 +57,8 @@
 
     maps.url = [
       {
-        url = "sagbot.com";
-        backend = "sagbot.com";
+        url = mainDomain;
+        backend = mainDomain;
       }
     ];
   };

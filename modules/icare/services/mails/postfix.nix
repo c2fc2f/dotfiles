@@ -1,5 +1,6 @@
 {
   config,
+  mainDomain,
   ...
 }:
 
@@ -13,7 +14,7 @@
 
       queue_directory = "/var/spool/postfix";
 
-      virtual_mailbox_domains = "y3.rs, sagbot.com";
+      virtual_mailbox_domains = "y3.rs, ${mainDomain}";
       virtual_transport = "lmtp:unix:private/dovecot-lmtp";
 
       smtpd_sasl_type = "dovecot";
@@ -39,7 +40,7 @@
     };
 
     virtual = ''
-      @y3.rs contact@sagbot.com
+      @y3.rs contact@${mainDomain}
     '';
   };
 

@@ -1,4 +1,9 @@
 {
+  mainDomain,
+  ...
+}:
+
+{
   users.users.sagedt = {
     isSystemUser = true;
     group = "sagedt";
@@ -41,7 +46,7 @@
     maps = {
       url = [
         {
-          url = "api.sagbot.com/sagedt";
+          url = "api.${mainDomain}/sagedt";
           backend = "sagedt";
         }
       ];

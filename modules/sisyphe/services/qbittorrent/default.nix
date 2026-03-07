@@ -1,6 +1,7 @@
 {
   config,
   username,
+  mainDomain,
   ...
 }:
 
@@ -45,7 +46,7 @@
     maps = {
       url = [
         {
-          url = "torrent.sagbot.com";
+          url = "torrent.${mainDomain}";
           backend = "qbittorrent";
         }
       ];

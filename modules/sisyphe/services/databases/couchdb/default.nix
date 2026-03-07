@@ -1,5 +1,6 @@
 {
   config,
+  mainDomain,
   ...
 }:
 let
@@ -39,7 +40,7 @@ in
     maps = {
       url = [
         {
-          url = "couchdb.sagbot.com";
+          url = "couchdb.${mainDomain}";
           backend = name;
         }
       ];

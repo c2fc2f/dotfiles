@@ -1,4 +1,9 @@
 {
+  mainDomain,
+  ...
+}:
+
+{
   custom.services.haproxy = {
     enable = true;
 
@@ -25,6 +30,6 @@
       '';
     };
 
-    defaultBackend = "sagbot.com";
+    defaultBackend = mainDomain;
   };
 }

@@ -1,10 +1,11 @@
 {
   pkgs,
   config,
+  mainDomain,
   ...
 }:
 let
-  domain = "auth.sagbot.com";
+  domain = "auth.${mainDomain}";
 in
 {
   services.keycloak = {

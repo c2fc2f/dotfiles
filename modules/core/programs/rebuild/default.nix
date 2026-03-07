@@ -6,23 +6,22 @@
   username,
   hostName,
   systemInfo,
+  builder,
+  mainDomain,
   ...
 }:
 with lib;
 let
-  serverHosts = filter (
-    name:
-    elem "server" systemInfo.${name}.groups
-    && !(elem "iso" systemInfo.${name}.groups)
-    && name != hostName
-  ) (attrNames systemInfo);
+  serverHosts = filter (name: elem "server" systemInfo.${name}.groups && name != hostName) (
+    attrNames systemInfo
+  );
 
   genCase = name: ''
     ${name} )
       nh os switch \
         --hostname ${name} \
-        --build-host ${username}@sisyphe.sagbot.com \
-        --target-host ${username}@${name}.sagbot.com
+        --build-host ${username}@${builder}.${mainDomain} \
+        --target-host ${username}@${name}.${mainDomain}
       ;;
   '';
 
@@ -42,7 +41,7 @@ in
             "" )
               nh os switch \
                 --hostname ${hostName} \
-                --build-host ${username}@sisyphe.sagbot.com
+                --build-host ${username}@${builder}.${mainDomain}
               ;;
             local )
               nh os switch
@@ -53,7 +52,7 @@ in
               echo ""
 
               echo "Rebuild the configuration and switch to it"
-              echo "  By default it use sisyphe.sagbot.com as the builder"
+              echo "  By default it use ${builder}.${mainDomain} as the builder"
               exit 1
               ;;
           esac
