@@ -1,7 +1,5 @@
 {
   systemd.network = {
-    enable = true;
-
     networks."10-ens6" = {
       matchConfig = {
         Name = "ens6";

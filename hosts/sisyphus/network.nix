@@ -1,16 +1,9 @@
 {
-  networking = {
-    dhcpcd.enable = false;
-    useNetworkd = true;
-
-    firewall.allowedUDPPorts = [
-      546
-    ];
-  };
+  networking.firewall.allowedUDPPorts = [
+    546
+  ];
 
   systemd.network = {
-    enable = true;
-
     networks."10-enp65s0f0" = {
       matchConfig = {
         Name = "enp65s0f0";

@@ -7,7 +7,6 @@
   };
 
   systemd.network = {
-    enable = true;
     networks."10-enp6s0" = {
       matchConfig = {
         Name = "enp6s0";
