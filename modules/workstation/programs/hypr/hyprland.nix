@@ -126,6 +126,10 @@
           disable_hyprland_logo = true;
         };
 
+        cursor = {
+          no_hardware_cursors = true;
+        };
+
         # Inputs
 
         input = {
@@ -171,7 +175,6 @@
           "$mod, Space, togglefloating"
           "$mod, D, exec, pkill -x rofi || $menu"
           "$mod, P, pseudo,"
-          "$mod, J, togglesplit,"
 
           # Lock the session
           "$mod, L, exec, hyprlock"
