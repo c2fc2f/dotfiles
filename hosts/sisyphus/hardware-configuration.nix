@@ -19,8 +19,8 @@
         "nvme"
         "xhci_pci"
         "ahci"
-        "usbhid"
         "usb_storage"
+        "usbhid"
         "sr_mod"
       ];
       kernelModules = [ "dm-snapshot" ];
@@ -36,7 +36,7 @@
     };
 
     "/boot" = {
-      device = "/dev/disk/by-uuid/208E-2657";
+      device = "/dev/disk/by-uuid/B1DC-196A";
       fsType = "vfat";
       options = [
         "fmask=0077"
