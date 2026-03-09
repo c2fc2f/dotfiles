@@ -78,7 +78,7 @@
 
       systemInfo = {
         # keep-sorted start block=yes
-        icare = {
+        icarus = {
           groups = [
             # keep-sorted start
             "server"
@@ -112,7 +112,7 @@
             # keep-sorted end
           ];
         };
-        tantale = {
+        tantalus = {
           groups = [
             # keep-sorted start
             "development"

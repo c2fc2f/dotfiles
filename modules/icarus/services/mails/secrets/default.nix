@@ -4,7 +4,7 @@
 }:
 
 {
-  custom.secrets.icare.enable = true;
+  custom.secrets.icarus.enable = true;
 
   sops.secrets = {
     "dovecot/introspection_url" = {

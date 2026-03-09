@@ -3,6 +3,7 @@
   lib,
   config,
   hostName,
+  clib,
   ...
 }:
 let
@@ -62,13 +63,7 @@ in
           ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -s ${wireconf.address.ipv6}1/64 -o ${wireconf.publicNetworkInterface} -j MASQUERADE
         '';
 
-        peers = genPeers [
-          # keep-sorted start
-          ./_assets/users/dedale.nix
-          ./_assets/users/niobe.nix
-          ./_assets/users/tantale.nix
-          # keep-sorted end
-        ];
+        peers = genPeers (clib.nixFilesRec ./_assets/users);
       };
     };
   };

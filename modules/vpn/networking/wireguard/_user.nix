@@ -2,6 +2,7 @@
   config,
   hostName,
   mainDomain,
+  clib,
   ...
 }:
 let
@@ -46,10 +47,5 @@ let
     );
 in
 {
-  networking.wg-quick.interfaces = genInterfaces [
-    # keep-sorted start
-    ./_assets/servers/icare.nix
-    ./_assets/servers/sisyphe.nix
-    # keep-sorted end
-  ];
+  networking.wg-quick.interfaces = genInterfaces (clib.nixFilesRec ./_assets/servers);
 }
