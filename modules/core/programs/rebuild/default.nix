@@ -18,10 +18,25 @@ let
 
   genCase = name: ''
     ${name} )
-      nh os switch \
-        --hostname ${name} \
-        --build-host ${username}@${builder}.${mainDomain} \
-        --target-host ${username}@${name}.${mainDomain}
+      case "$BUILDER_ARG" in
+        local )
+          nh os switch \
+            --hostname ${name} \
+            --target-host ${username}@${name}.${mainDomain}
+        ;;
+        self )
+          nh os switch \
+            --hostname ${name} \
+            --build-host ${username}@${name}.${mainDomain} \
+            --target-host ${username}@${name}.${mainDomain}
+        ;;
+        * )
+          nh os switch \
+            --hostname ${name} \
+            --build-host ${username}@"$BUILDER_ARG".${mainDomain} \
+            --target-host ${username}@${name}.${mainDomain}
+        ;;
+        esac
       ;;
   '';
 
@@ -37,22 +52,42 @@ in
         ];
 
         text = ''
-          case "''${1-}" in
-            "" )
-              nh os switch \
-                --hostname ${hostName} \
-                --build-host ${username}@${builder}.${mainDomain}
-              ;;
-            local )
-              nh os switch
+          BUILDER_ARG="${builder}"
+          TARGET_HOST_ARG=""
+
+          while [[ $# -gt 0 ]]; do
+            case "$1" in
+              --builder)
+                if [[ -n "''${2-}" && ! "$2" =~ ^- ]]; then
+                  BUILDER_ARG="$2"
+                  shift 2
+                else
+                  echo "Error: --builder requires a value."
+                  exit 1
+                fi
+                ;;
+              *)
+                TARGET_HOST_ARG="$1"
+                shift
+                ;;
+            esac
+          done
+
+          TARGET_HOST_ARG=''${TARGET_HOST_ARG:-"${hostName}"}
+
+          case "$TARGET_HOST_ARG" in
+            local | "${hostName}" )
+              if [[ "$BUILDER_ARG" = "local" || "$BUILDER_ARG" = "self" ]]; then
+                nh os switch
+              else
+                nh os switch --build-host "${username}@$BUILDER_ARG.${mainDomain}"
+              fi
               ;;
           ${clib.indent 2 (concatStringsSep "" (map genCase serverHosts))}
             * )
-              echo "Usage: $0 [local|${concatStringsSep "|" serverHosts}]"
+              echo "Usage: $0 [local|${concatStringsSep "|" serverHosts}] [--builder <hostname>|local|self]"
               echo ""
-
-              echo "Rebuild the configuration and switch to it"
-              echo "  By default it use ${builder}.${mainDomain} as the builder"
+              echo "Default Builder: ${builder}"
               exit 1
               ;;
           esac
