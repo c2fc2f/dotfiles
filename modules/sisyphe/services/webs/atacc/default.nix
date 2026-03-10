@@ -18,7 +18,9 @@ in
 
   systemd.services.${name} = {
     description = "ATACC";
+
     after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
 
     confinement.packages = with pkgs; [
       nodejs_20
@@ -35,9 +37,6 @@ in
       WorkingDirectory = "/opt/atacc/api/v1";
       ExecStart = "${lib.getExe pkgs.nodejs_20} app/api.js";
 
-      wantedBy = [
-        "multi-user.target"
-      ];
       Restart = "always";
 
       EnvironmentFile = config.sops.secrets."atacc/env".path;
