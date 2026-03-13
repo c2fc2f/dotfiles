@@ -2,6 +2,7 @@
   nh,
   pkgs,
   username,
+  lib,
   ...
 }:
 
@@ -14,7 +15,7 @@
     clean = {
       enable = true;
 
-      dates = "daily";
+      dates = lib.mkDefault "daily";
     };
 
     flake = "/home/${username}/git/dotfiles";
