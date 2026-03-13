@@ -26,7 +26,7 @@ BASE_URL="https://github.com/${OWNER}/${REPO}/releases/download"
 FILE_URL="${BASE_URL}/${VERSION}/${FILE}"
 
 echo "Fetching new hash for: $FILE_URL"
-HASH_RAW=$(nix-prefetch-url "$FILE_URL")
+HASH_RAW=$(retry -t 3 -d 2 -- nix-prefetch-url "$FILE_URL")
 NEW_HASH=$(nix hash convert --hash-algo sha256 --from nix32 $HASH_RAW)
 
 echo "New hash is: $NEW_HASH"

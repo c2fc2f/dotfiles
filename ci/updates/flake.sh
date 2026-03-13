@@ -7,7 +7,7 @@ SCRIPT_DIR="$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")"
 FLAKE_URL=$(readlink -f "$SCRIPT_DIR/../../")
 
 echo "Running flake update"
-nix flake update --flake "$FLAKE_URL"
+retry -t 3 -d 2 -- nix flake update --flake "$FLAKE_URL"
 echo "Flake update completed"
 
 git add "$FLAKE_URL/flake.lock"

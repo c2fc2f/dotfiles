@@ -18,6 +18,7 @@ let
       bash
       curl
       jq
+      retry
     ];
     text = ''
       HOME="$(pwd)"
