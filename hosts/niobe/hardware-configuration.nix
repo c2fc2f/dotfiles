@@ -22,10 +22,24 @@
         "usbhid"
         "uas"
         "sd_mod"
+        "nvme"
+        "usb_storage"
       ];
       kernelModules = [ ];
-      luks.devices."luks-0b9710f0-694b-4365-ad01-1393385cf411".device =
-        "/dev/disk/by-uuid/0b9710f0-694b-4365-ad01-1393385cf411";
+
+      luks = {
+        fido2Support = false;
+
+        devices = {
+          "luks-0b9710f0-694b-4365-ad01-1393385cf411" = {
+            device = "/dev/disk/by-uuid/0b9710f0-694b-4365-ad01-1393385cf411";
+
+            crypttabExtraOpts = [
+              "fido2-device=auto"
+            ];
+          };
+        };
+      };
     };
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];

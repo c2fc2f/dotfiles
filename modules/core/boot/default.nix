@@ -27,19 +27,25 @@
       # Disable verbose output for the initramfs
       verbose = false;
 
-      # Add the 'setleds' command to the initramfs
-      extraUtilsCommands = ''
-        copy_bin_and_libs ${pkgs.kbd}/bin/setleds
-      '';
+      systemd = {
+        enable = true;
 
-      # Run commands before devices are initialized
-      # Enable Num Lock on all TTYs
-      preDeviceCommands = ''
-        INITTY=/dev/tty[1-6]
-        for tty in $INITTY; do
-          /bin/setleds -D +num < $tty
-        done
-      '';
+        # Run commands before devices are initialized
+        # Enable Num Lock on all TTYs
+        services.initrd-numlock = {
+          description = "Enable Num Lock";
+
+          wantedBy = [ "cryptsetup.target" ];
+          before = [ "cryptsetup.target" ];
+
+          unitConfig.DefaultDependencies = false;
+
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${lib.getExe pkgs.bash} -c 'for tty in /dev/tty[1-6]; do ${pkgs.kbd}/bin/setleds -D +num < $tty || true; done'";
+          };
+        };
+      };
     };
   };
 }
