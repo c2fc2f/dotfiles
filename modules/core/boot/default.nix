@@ -30,6 +30,8 @@
       systemd = {
         enable = true;
 
+        extraBin.setleds = "${pkgs.kbd}/bin/setleds";
+
         # Run commands before devices are initialized
         # Enable Num Lock on all TTYs
         services.initrd-numlock = {
@@ -42,7 +44,11 @@
 
           serviceConfig = {
             Type = "oneshot";
-            ExecStart = "${lib.getExe pkgs.bash} -c 'for tty in /dev/tty[1-6]; do ${pkgs.kbd}/bin/setleds -D +num < $tty || true; done'";
+
+            StandardOutput = "journal+console";
+            StandardError = "journal+console";
+
+            ExecStart = "/bin/sh -c 'for tty in /dev/tty[1-6]; do /bin/setleds -D +num < $tty || true; done'";
           };
         };
       };
