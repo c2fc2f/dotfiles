@@ -13,11 +13,14 @@ in
     };
 
     loadModels = [
-      "qwen3:0.6b"
       "qwen3:1.7b"
       "qwen3:4b"
-      "qwen3:8b"
-      "qwen3:14b"
+
+      "qwen3.5:0.8b"
+      "qwen3.5:2b"
+      "qwen3.5:4b"
+      "qwen3.5:122b"
+
       "embeddinggemma:latest"
     ];
   };

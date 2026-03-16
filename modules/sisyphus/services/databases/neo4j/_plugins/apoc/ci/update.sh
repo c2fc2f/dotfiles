@@ -5,8 +5,8 @@ set -euo pipefail
 SCRIPT_DIR="$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")"
 PACKAGE_PATH=$(readlink -f "${SCRIPT_DIR}/../default.nix")
 
-OWNER="neo4j-labs"
-REPO="neosemantics"
+OWNER="neo4j"
+REPO="apoc"
 
 VERSION=$(
   curl -sS \
@@ -20,13 +20,13 @@ VERSION=$(
   | sed 's/v//'
 )
 
-FILE="neosemantics-${VERSION}.jar"
+FILE="apoc-${VERSION}-core.jar"
 
 BASE_URL="https://github.com/${OWNER}/${REPO}/releases/download"
 FILE_URL="${BASE_URL}/${VERSION}/${FILE}"
 
 echo "Fetching new hash for: $FILE_URL"
-HASH_RAW=$(retry -t 3 -d 2 -- nix-prefetch-url "$FILE_URL")
+HASH_RAW=$(nix-prefetch-url "$FILE_URL")
 NEW_HASH=$(nix hash convert --hash-algo sha256 --from nix32 $HASH_RAW)
 
 echo "New hash is: $NEW_HASH"
@@ -37,5 +37,5 @@ sed -i -E "s|version = \"[^\"]+\"|version = \"${VERSION}\"|" "$PACKAGE_PATH"
 echo "Hash updated in $PACKAGE_PATH"
 
 git add "$PACKAGE_PATH"
-git commit -m "chore(neo4j/plugins/neosemantics): update to v${VERSION}" \
+git commit -m "chore(neo4j/plugins/apoc): update to v${VERSION}" \
   || true

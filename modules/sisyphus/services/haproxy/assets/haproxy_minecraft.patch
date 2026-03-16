@@ -1,0 +1,5 @@
+--- haproxy_minecraft.lua
++++ haproxy_minecraft.lua
+@@ -97,1 +97,1 @@
+-    local str = string_sub(payload[1], payload[2], payload[2] + str_len)
++    local str = string_sub(payload[1], payload[2], payload[2] + str_len - 1)

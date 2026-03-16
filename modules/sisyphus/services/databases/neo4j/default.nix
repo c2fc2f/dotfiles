@@ -1,30 +1,33 @@
 {
+  clib,
   pkgs,
   config,
   mainDomain,
   ...
 }:
-
+let
+  name = "neo4j";
+in
 {
-  services.neo4j = {
+  services.${name} = {
     enable = true;
 
     https = {
       enable = false;
       listenAddress = "0.0.0.0:7473";
-      advertisedAddress = "neo4j.${mainDomain}";
+      advertisedAddress = "sisyphus.${mainDomain}";
 
     };
 
     http = {
       enable = true;
       listenAddress = "0.0.0.0:7474";
-      advertisedAddress = "neo4j.${mainDomain}";
+      advertisedAddress = "sisyphus.${mainDomain}";
     };
 
     bolt = {
       listenAddress = "0.0.0.0:7687";
-      advertisedAddress = "neo4j.${mainDomain}";
+      advertisedAddress = "sisyphus.${mainDomain}";
 
       tlsLevel = "REQUIRED";
       sslPolicy = "bolt";
@@ -44,6 +47,9 @@
     extraServerConfig = ''
       dbms.ssl.policy.bolt.enabled=true
       server.unmanaged_extension_classes=n10s.endpoint=/rdf
+
+      dbms.security.procedures.unrestricted=fleetManagement.*
+      dbms.security.procedures.allowlist=fleetManagement.*
     '';
   };
 
@@ -52,12 +58,12 @@
       cfg = config.services.neo4j;
     in
     ''
-      rm ${cfg.directories.plugins}/*
+      rm -rf ${cfg.directories.plugins}/*
       ln -sf ${./apoc.conf} ${cfg.directories.home}/conf/apoc.conf
     ''
     + builtins.concatStringsSep "\n" (
-      builtins.map (plugin: "ln -s ${plugin}/* ${cfg.directories.plugins}") (
-        pkgs.callPackage ./_plugins { }
+      map (plugin: "ln -s ${pkgs.callPackage plugin { }}/share/neo4j/* ${cfg.directories.plugins}") (
+        clib.nixFilesRec ./_plugins
       )
     );
 
@@ -74,9 +80,11 @@
   ];
 
   custom.services.haproxy = {
+    defaultBackend = name;
+
     backends = [
       {
-        name = "neo4j";
+        inherit name;
         mode = "http";
         servers =
           let
@@ -100,7 +108,7 @@
         [
           {
             url = server.advertisedAddress;
-            backend = "neo4j";
+            backend = name;
           }
         ];
     };
