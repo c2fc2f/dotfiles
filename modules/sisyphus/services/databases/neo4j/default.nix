@@ -45,6 +45,8 @@ in
       };
 
     extraServerConfig = ''
+      internal.dbms.web_dir_path=${config.services.${name}.package}/share/neo4j/web
+
       dbms.ssl.policy.bolt.enabled=true
       server.unmanaged_extension_classes=n10s.endpoint=/rdf
 
