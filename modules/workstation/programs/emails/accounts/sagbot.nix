@@ -27,7 +27,7 @@
         tls.enable = true;
       };
 
-      gpg.key = "938C455B432779F33";
+      gpg.key = "938C455B432779F3";
 
       thunderbird.enable = true;
     };

@@ -23,8 +23,18 @@
 
       verbose = true;
       pinentry = {
-        package = pkgs.pinentry-curses;
+        package = pkgs.writeShellScriptBin "pinentry-dynamic" ''
+          if [[ -n "$DISPLAY" || -n "$WAYLAND_DISPLAY" ]]; then
+            exec ${pkgs.pinentry-qt}/bin/pinentry "$@"
+          else
+            exec ${pkgs.pinentry-tty}/bin/pinentry "$@"
+          fi
+        '';
       };
+
+      extraConfig = ''
+        allow-loopback-pinentry
+      '';
     };
   };
 }
