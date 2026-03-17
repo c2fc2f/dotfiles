@@ -1,6 +1,4 @@
 {
-  pkgs,
-  lib,
   config,
   hostName,
   clib,
@@ -15,10 +13,11 @@ let
       conf = import file;
     in
     {
-      inherit (conf) publicKey;
-      allowedIPs = [
-        "${wireconf.address.ipv6}${conf.suffix}/128"
-        "${wireconf.address.ipv4}${conf.suffix}/32"
+      PublicKey = conf.publicKey;
+
+      AllowedIPs = [
+        "${wireconf.address.private.ipv6}${conf.suffix}/128"
+        "${wireconf.address.private.ipv4}${conf.suffix}/32"
       ];
     }
   );
@@ -35,36 +34,42 @@ in
     };
 
     firewall.allowedUDPPorts = [
-      config.networking.wg-quick.interfaces.wg0.listenPort
+      51820
     ];
+  };
 
-    wg-quick.interfaces = {
-      wg0 = {
-        address = [
-          "${wireconf.address.ipv6}1/64"
-          "${wireconf.address.ipv4}1/32"
-        ];
+  systemd.network = {
 
-        listenPort = 51820;
+    networks."50-wg0" = {
+      matchConfig.Name = "wg0";
 
-        privateKeyFile = config.sops.secrets."wireguard/privateKey".path;
+      address = [
+        "${wireconf.address.private.ipv6}1/64"
+        "${wireconf.address.private.ipv4}1/32"
+      ];
 
-        postUp = ''
-          ${lib.getExe pkgs.iptables} -A FORWARD -i wg0 -j ACCEPT
-          ${lib.getExe pkgs.iptables} -t nat -A POSTROUTING -s ${wireconf.address.ipv4}1/24 -o ${wireconf.publicNetworkInterface} -j MASQUERADE
-          ${pkgs.iptables}/bin/ip6tables -A FORWARD -i wg0 -j ACCEPT
-          ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -s ${wireconf.address.ipv6}1/64 -o ${wireconf.publicNetworkInterface} -j MASQUERADE
-        '';
-
-        preDown = ''
-          ${lib.getExe pkgs.iptables} -D FORWARD -i wg0 -j ACCEPT
-          ${lib.getExe pkgs.iptables} -t nat -D POSTROUTING -s ${wireconf.address.ipv4}1/24 -o ${wireconf.publicNetworkInterface} -j MASQUERADE
-          ${pkgs.iptables}/bin/ip6tables -D FORWARD -i wg0 -j ACCEPT
-          ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -s ${wireconf.address.ipv6}1/64 -o ${wireconf.publicNetworkInterface} -j MASQUERADE
-        '';
-
-        peers = genPeers (clib.nixFilesRec ./_assets/users);
+      networkConfig = {
+        IPv4Forwarding = true;
+        IPv6Forwarding = true;
       };
+    };
+
+    netdevs."50-wg0" = {
+      netdevConfig = {
+        Kind = "wireguard";
+        Name = "wg0";
+      };
+
+      wireguardConfig = {
+        ListenPort = 51820;
+
+        PrivateKeyFile = config.sops.secrets."wireguard/privateKey".path;
+
+        RouteTable = "main";
+        FirewallMark = 42;
+      };
+
+      wireguardPeers = genPeers (clib.nixFilesRec ./_assets/users);
     };
   };
 }
