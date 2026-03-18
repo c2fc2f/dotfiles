@@ -10,6 +10,8 @@
     programs.git = {
       enable = true;
 
+      lfs.enable = true;
+
       settings = {
         user = {
           name = "c2fc2f";
