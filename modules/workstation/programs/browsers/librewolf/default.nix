@@ -106,8 +106,8 @@
 
         search = {
           force = true;
-          default = "DuckDuckGo";
-          privateDefault = "DuckDuckGo";
+          default = "ddg";
+          privateDefault = "ddg";
 
           engines =
             let
