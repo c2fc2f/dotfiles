@@ -8,10 +8,6 @@
   directly from the desktop environment.
 */
 {
-  nixpkgs.overlays = [
-    (import ./_spotx)
-  ];
-
   environment.systemPackages = [
     pkgs.spotify
   ];
