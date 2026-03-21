@@ -22,27 +22,50 @@
         window_padding_width = 4;
         background_opacity = 0.9;
 
-        background = "#fafafa";
-        foreground = "#5b6673";
+        background = "#000000";
+        foreground = "#deddda";
+
+        selection_background = "#1c1c1c";
+        selection_foreground = "#c0bfbc";
+
+        url_color = "#1a5fb4";
+
+        wayland_titlebar_color = "system";
+        macos_titlebar_color = "system";
+
         cursor = "#ff69ff";
-        selection_background = "#f0ede4";
+        cursor_text_color = "#000000";
+
+        active_border_color = "#1e1e1e";
+        inactive_border_color = "#282828";
+        bell_border_color = "#ed333b";
+        visual_bell_color = "none";
+
+        active_tab_background = "#101010";
+        active_tab_foreground = "#fcfcfc";
+        inactive_tab_background = "#1c1c1c";
+        inactive_tab_foreground = "#b0afac";
+
+        tab_bar_background = "none";
+        tab_bar_margin_color = "none";
+
         color0 = "#000000";
-        color8 = "#323232";
-        color1 = "#ff0000";
-        color9 = "#ff6565";
-        color2 = "#86b200";
-        color10 = "#b8e532";
-        color3 = "#ff7f00";
-        color11 = "#ffc800";
-        color4 = "#41a6d9";
-        color12 = "#73d7ff";
-        color5 = "#ff00ff";
-        color13 = "#ffa3ff";
-        color6 = "#4cbe99";
-        color14 = "#7ff0cb";
-        color7 = "#ffffff";
-        color15 = "#ffffff";
-        selection_foreground = "#fafafa";
+        color1 = "#ed333b";
+        color2 = "#57e389";
+        color3 = "#ff7800";
+        color4 = "#62a0ea";
+        color5 = "#9141ac";
+        color6 = "#5bc8af";
+        color7 = "#deddda";
+        color8 = "#9a9996";
+        color9 = "#f66151";
+        color10 = "#8ff0a4";
+        color11 = "#ffa348";
+        color12 = "#99c1f1";
+        color13 = "#dc8add";
+        color14 = "#93ddc2";
+        color15 = "#f6f5f4";
+
       };
     };
 
