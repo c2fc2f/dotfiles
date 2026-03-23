@@ -43,7 +43,7 @@ let
       chmod +x ci/update.sh
       ./ci/update.sh
 
-      git push origin main
+      retry -t 3 -d 2 -- bash -c 'git pull --rebase origin main && git push origin main'
     '';
   };
 
