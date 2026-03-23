@@ -50,8 +50,8 @@ in
       dbms.ssl.policy.bolt.enabled=true
       server.unmanaged_extension_classes=n10s.endpoint=/rdf
 
-      dbms.security.procedures.unrestricted=fleetManagement.*
-      dbms.security.procedures.allowlist=fleetManagement.*
+      dbms.security.procedures.unrestricted=apoc.*,fleetManagement.*
+      dbms.security.procedures.allowlist=apoc.*,fleetManagement.*
     '';
   };
 
