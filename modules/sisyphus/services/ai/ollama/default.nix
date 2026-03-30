@@ -19,6 +19,8 @@ in
       "qwen3.5:4b"
       "qwen3.5:122b"
 
+      "gemma3:4b"
+
       "ministral-3:3b"
       "ministral-3:8b"
 
