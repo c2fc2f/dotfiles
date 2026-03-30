@@ -21,6 +21,8 @@ in
 
       "gemma3:4b"
 
+      "deepseek-r1:1.5b"
+
       "ministral-3:3b"
       "ministral-3:8b"
 
