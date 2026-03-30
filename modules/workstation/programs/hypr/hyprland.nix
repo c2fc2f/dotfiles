@@ -26,9 +26,10 @@
   };
 
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.brightnessctl
-      pkgs.pamixer
+    home.packages = with pkgs; [
+      brightnessctl
+      pamixer
+      playerctl
     ];
 
     home.file = {
@@ -166,6 +167,11 @@
           ", xf86audioraisevolume, exec, pamixer -i 5"
           ", xf86audiolowervolume, exec, pamixer -d 5"
           ", xf86audiomute, exec, pamixer -t"
+
+          ", xf86audioplay, exec, playerctl play-pause"
+          ", xf86audiopause, exec, playerctl play-pause"
+          ", xf86audionext, exec, playerctl next"
+          ", xf86audioprev, exec, playerctl previous"
 
           # Default bind
           "$mod, Return, exec, $terminal"
