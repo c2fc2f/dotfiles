@@ -3,6 +3,7 @@
   lib,
   config,
   mainDomain,
+  username,
   ...
 }:
 
@@ -24,7 +25,7 @@ let
       HOME="$(pwd)"
       export HOME
 
-      git clone "https://c2fc2f:''${PERSONAL_TOKEN}@github.com/c2fc2f/dotfiles.git" dotfiles
+      git clone "https://${username}:''${PERSONAL_TOKEN}@github.com/${username}/dotfiles.git" dotfiles
 
       cd dotfiles
 
@@ -34,8 +35,8 @@ let
         | awk -F: '/^sec/ {print $5; exit}'
       )
 
-      git config user.name "c2fc2f"
-      git config user.email "culottes@sagbot.com"
+      git config user.name "${username}"
+      git config user.email "culottes@${mainDomain}"
       git config user.signingkey "$KEY_ID"
       git config commit.gpgsign true
 

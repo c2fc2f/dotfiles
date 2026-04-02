@@ -13,7 +13,7 @@
     };
     hermux = {
       url = "github:c2fc2f/hermux";
-      # url = "git+file:///home/culottes/git/hermes-mux/";
+      # url = "git+file:///home/c2fc2f/git/hermes-mux/";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
@@ -37,7 +37,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs = {
-      # url = "git+file:///home/culottes/git/nixpkgs/";
+      # url = "git+file:///home/c2fc2f/git/nixpkgs/";
       url = "github:nixos/nixpkgs";
     };
     nur = {
@@ -68,7 +68,7 @@
       ...
     }@inputs:
     let
-      username = "culottes";
+      username = "c2fc2f";
       builder = "sisyphe";
       mainDomain = "sagbot.com";
 

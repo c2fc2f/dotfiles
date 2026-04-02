@@ -14,7 +14,7 @@
 
       settings = {
         user = {
-          name = "c2fc2f";
+          name = username;
           email = "contact@c2fc2f.com";
         };
 
