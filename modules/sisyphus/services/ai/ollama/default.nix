@@ -21,7 +21,7 @@ in
 
       "gemma3:4b"
 
-      "deepseek-r1:1.5b"
+      "nemotron-3-nano:4b"
 
       "ministral-3:3b"
       "ministral-3:8b"
