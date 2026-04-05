@@ -1,7 +1,0 @@
-# GPU adjustments
-ro.hardware.gralloc=default
-ro.hardware.egl=swiftshader
-
-# Linux 5.18+
-sys.use_memfd=true
-
