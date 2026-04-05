@@ -40,10 +40,6 @@
       # url = "git+file:///home/c2fc2f/git/nixpkgs/";
       url = "github:nixos/nixpkgs";
     };
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nvf = {
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
