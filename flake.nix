@@ -65,7 +65,7 @@
     }@inputs:
     let
       username = "c2fc2f";
-      builder = "sisyphe";
+      builder = "sisyphus";
       mainDomain = "sagbot.com";
 
       systemInfo = {
