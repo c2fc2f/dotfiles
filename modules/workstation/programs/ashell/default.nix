@@ -10,6 +10,17 @@
   ];
 
   home-manager.users.${username} = {
+    systemd.user.services.ashell = {
+      Service = {
+        Environment = "WGPU_BACKEND=gl";
+      };
+    };
+
+    home.packages = with pkgs; [
+      brightnessctl
+      pamixer
+    ];
+
     programs.ashell = {
       enable = true;
 
@@ -24,9 +35,6 @@
         modules = {
           left = [
             "SystemInfo"
-            [
-              "Workspaces"
-            ]
           ];
           center = [
             "WindowTitle"

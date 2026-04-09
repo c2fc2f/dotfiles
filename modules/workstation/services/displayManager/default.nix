@@ -23,7 +23,7 @@
       wayland.enable = true;
     };
 
-    defaultSession = "hyprland";
+    defaultSession = "niri";
   };
 
   environment.sessionVariables = {

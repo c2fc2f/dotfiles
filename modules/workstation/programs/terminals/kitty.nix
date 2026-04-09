@@ -20,7 +20,7 @@
         font_family = "JetBrainsMono Nerd Font";
         font_size = 10.5;
         window_padding_width = 4;
-        background_opacity = 0.9;
+        background_opacity = 1;
 
         background = "#fafafa";
         foreground = "#5b6673";
