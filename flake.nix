@@ -32,6 +32,10 @@
       url = "github:Infinidoge/nix-minecraft";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-wrapper = {
+      url = "github:BirdeeHub/nix-wrapper-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs = {
       # url = "git+file:///home/c2fc2f/git/nixpkgs/";
       url = "github:nixos/nixpkgs";
@@ -46,10 +50,6 @@
     };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-wrapper = {
-      url = "github:BirdeeHub/nix-wrapper-modules";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # keep-sorted end

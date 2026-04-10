@@ -2,6 +2,7 @@
   pkgs,
   lib,
   nix-wrapper,
+  focal,
   ...
 }:
 let
@@ -42,6 +43,7 @@ in
           "Mod+Shift+Q".close-window = { };
           "Mod+X".maximize-column = { };
           "Mod+F".fullscreen-window = { };
+          "Mod+Shift+F".toggle-windowed-fullscreen = { };
           "Mod+Space".toggle-window-floating = { };
           "Mod+C".center-column = { };
 
@@ -79,11 +81,63 @@ in
           "Mod+Shift+agrave".move-column-to-workspace = "chat";
           "Mod+Shift+S".move-column-to-workspace = "magic";
 
+          "Print".spawn = [
+            (lib.getExe focal.packages.${pkgs.stdenv.hostPlatform.system}.default)
+            "image"
+            "--area"
+            "selection"
+          ];
+
+          # Special keys
+          "xf86monbrightnessup".spawn = [
+            (lib.getExe pkgs.brightnessctl)
+            "set"
+            "10%+"
+          ];
+          "xf86monbrightnessdown".spawn = [
+            (lib.getExe pkgs.brightnessctl)
+            "set"
+            "10%-"
+          ];
+          "xf86audioraisevolume".spawn = [
+            (lib.getExe pkgs.pamixer)
+            "-i"
+            "5"
+          ];
+          "xf86audiolowervolume".spawn = [
+            (lib.getExe pkgs.pamixer)
+            "-d"
+            "5"
+          ];
+          "xf86audiomute".spawn = [
+            (lib.getExe pkgs.pamixer)
+            "-t"
+          ];
+
+          "xf86audioplay".spawn = [
+            (lib.getExe pkgs.playerctl)
+            "play-pause"
+          ];
+          "xf86audiopause".spawn = [
+            (lib.getExe pkgs.playerctl)
+            "play-pause"
+          ];
+          "xf86audionext".spawn = [
+            (lib.getExe pkgs.playerctl)
+            "next"
+          ];
+          "xf86audioprev".spawn = [
+            (lib.getExe pkgs.playerctl)
+            "previous"
+          ];
+
           "Mod+d".spawn = [
             "rofi"
             "-show"
             "drun"
           ];
+
+          "Mod+L".spawn = lib.getExe pkgs.hyprlock;
         };
 
         workspaces = {
@@ -133,7 +187,7 @@ in
 
           focus-ring = {
             width = 2;
-            active-color = "#363656";
+            active-color = "#ff69ff";
             inactive-color = "#595959";
           };
         };
