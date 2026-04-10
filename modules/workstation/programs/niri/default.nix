@@ -1,11 +1,15 @@
 {
   pkgs,
   lib,
+  config,
   nix-wrapper,
   focal,
+  niri,
   ...
 }:
 let
+  inherit (pkgs.stdenv.hostPlatform) system;
+
   toggleMagic = pkgs.writeShellApplication {
     name = "toggle-magic";
     runtimeInputs = with pkgs; [
@@ -26,6 +30,8 @@ in
     enable = true;
     package = nix-wrapper.wrappers.niri.wrap {
       inherit pkgs;
+
+      package = niri.packages.${system}.default;
 
       settings = {
         prefer-no-csd = null;
@@ -82,7 +88,7 @@ in
           "Mod+Shift+S".move-column-to-workspace = "magic";
 
           "Print".spawn = [
-            (lib.getExe focal.packages.${pkgs.stdenv.hostPlatform.system}.default)
+            (lib.getExe focal.packages.${system}.default)
             "image"
             "--area"
             "selection"
@@ -192,6 +198,30 @@ in
           };
         };
       };
+    };
+  };
+
+  # restart niri with new settings on rebuild
+  system.userActivationScripts = {
+    niri-reload-config = {
+      text = lib.getExe (
+        pkgs.writeShellApplication {
+          name = "niri-reload-config";
+          runtimeInputs = [
+            config.programs.niri.package
+            pkgs.procps
+          ];
+          text =
+            let
+              inherit (config.programs.niri.package.configuration.constructFiles.generatedConfig) outPath;
+            in
+            ''
+              if pgrep -x "niri" > /dev/null; then
+                niri msg action load-config-file --path "${outPath}"
+              fi
+            '';
+        }
+      );
     };
   };
 }
