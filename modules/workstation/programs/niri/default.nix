@@ -40,7 +40,7 @@ in
           "Mod+Return".spawn = lib.getExe pkgs.kitty;
 
           "Mod+Shift+Q".close-window = { };
-          "Mod+G".maximize-column = { };
+          "Mod+X".maximize-column = { };
           "Mod+F".fullscreen-window = { };
           "Mod+Space".toggle-window-floating = { };
           "Mod+C".center-column = { };
@@ -121,6 +121,12 @@ in
             open-maximized = true;
           }
         ];
+
+        animations = {
+          workspace-switch = {
+            off = { };
+          };
+        };
 
         layout = {
           gaps = 2.5;
