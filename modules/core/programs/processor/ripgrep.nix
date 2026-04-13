@@ -7,7 +7,7 @@
 {
   home-manager.users.${username} = {
     home.packages = [
-      pkgs.rg
+      pkgs.ripgrep
     ];
   };
 }
