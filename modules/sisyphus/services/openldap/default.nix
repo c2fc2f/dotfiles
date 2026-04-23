@@ -84,10 +84,21 @@ in
           olcAccess = [
             # Restricts userPassword so only the user, anonymous binders,
             #   and admin can access it
-            "{0}to attrs=userPassword by self write by anonymous auth by dn.base=\"cn=${username},dc=${domain},dc=${tld}\" write by * none"
+            ''
+              {0}to attrs=userPassword 
+                 by dn.base="cn=${username},dc=${domain},dc=${tld}" write 
+                 by self write 
+                 by anonymous auth 
+                 by * none
+            ''
             # Grants admin full write access, lets users read their own entry,
             #   denies everyone else
-            "{1}to * by dn.base=\"cn=${username},dc=${domain},dc=${tld}\" write by self read by * none"
+            ''
+              {1}to * 
+                 by dn.base="cn=${username},dc=${domain},dc=${tld}" write 
+                 by self read 
+                 by * none
+            ''
           ];
         };
       };
