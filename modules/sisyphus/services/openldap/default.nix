@@ -3,6 +3,7 @@
   lib,
   username,
   mainDomain,
+  config,
   ...
 }:
 let
@@ -28,16 +29,30 @@ in
     enable = true;
 
     urlList = [
-      "ldap://localhost/"
-      "ldapi:///"
+      "ldaps:///"
+      "ldap:///"
     ];
 
     settings = {
+      attrs =
+        let
+          certDir = config.security.acme.certs.${mainDomain}.directory;
+        in
+        {
+          olcTLSCACertificateFile = "${certDir}/fullchain.pem";
+          olcTLSCertificateFile = "${certDir}/cert.pem";
+          olcTLSCertificateKeyFile = "${certDir}/key.pem";
+          olcTLSProtocolMin = "3.3"; # TLS 1.2+
+        };
+
       children = {
         "cn=schema".includes = [
           "${pkgs.openldap}/etc/schema/core.ldif"
           "${pkgs.openldap}/etc/schema/cosine.ldif"
           "${pkgs.openldap}/etc/schema/inetorgperson.ldif"
+
+          "${pkgs.openldap}/etc/schema/nis.ldif"
+          "${pkgs.openldap}/etc/schema/misc.ldif"
         ];
 
         "olcDatabase={0}config".attrs = {
@@ -54,13 +69,17 @@ in
 
           olcDatabase = "{1}mdb";
           olcDbDirectory = "/var/lib/openldap/data";
-          olcSuffix = "dc=${domain},dc=${tld}";
-          olcRootDN = "cn=${username},dc=${domain},dc=${tld}";
-          olcRootPW = "{SSHA}BIrMjNlZJOlURMpV7KxlfDkzT+nKqPmf";
           olcDbIndex = [
             "objectClass eq"
             "cn,uid eq"
+            "mail eq"
+            "sn,givenName eq,sub"
           ];
+
+          olcSuffix = "dc=${domain},dc=${tld}";
+
+          olcRootDN = "cn=${username},dc=${domain},dc=${tld}";
+          olcRootPW.path = config.sops.secrets."openldap/${username}/password".path;
 
           olcAccess = [
             # Restricts userPassword so only the user, anonymous binders,
@@ -90,7 +109,18 @@ in
         dn: ou=groups,dc=${domain},dc=${tld}
         objectClass: organizationalUnit
         ou: groups
+
+        dn: cn=${username},ou=users,dc=${domain},dc=${tld}
+        objectClass: inetOrgPerson
+        cn: ${username}
+        sn: ${username}
+        givenName: ${username}
+        uid: ${username}
+        mail: ${username}@${mainDomain}
       '';
     };
   };
+
+  users.groups.acme.members = [ "openldap" ];
+  security.acme.defaults.reloadServices = [ "openldap" ];
 }

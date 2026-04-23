@@ -7,22 +7,21 @@
 {
   security.acme = {
     acceptTerms = true;
-    defaults.email = "acme@${mainDomain}";
-    defaults.credentialFiles = {
-      "CLOUDFLARE_DNS_API_TOKEN_FILE" = config.sops.secrets."cloudflare/dns-api-token".path;
+
+    defaults = {
+      email = "acme@${mainDomain}";
+      credentialFiles = {
+        "CLOUDFLARE_DNS_API_TOKEN_FILE" = config.sops.secrets."cloudflare/dns-api-token".path;
+      };
     };
+
     certs = {
-      ${mainDomain} = rec {
+      ${mainDomain} = {
         domain = mainDomain;
         extraDomainNames = [
-          "*.${domain}"
+          "*.${mainDomain}"
         ];
         dnsProvider = "cloudflare";
-        postRun = ''
-          cp cert.pem /opt/mailcow-dockerized/data/assets/ssl/
-          cp key.pem /opt/mailcow-dockerized/data/assets/ssl/
-          cd /opt/mailcow-dockerized/ && docker compose down && docker compose up -d
-        '';
       };
 
       atacc = {
