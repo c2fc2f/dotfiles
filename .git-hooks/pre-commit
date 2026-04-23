@@ -3,22 +3,17 @@
 # NixOS Flake Pre-Commit Hook
 # This hook checks if Nix files are properly formatted before committing
 
-set -euo pipefail
+set -o errexit
+set -o nounset
+set -o pipefail
 
-echo "🎨 Checking Nix file formatting..."
-echo "----------------------------------------"
-
-# Check if we're in a directory with a flake
 if [ ! -f "flake.nix" ]; then
-    echo "⚠️  Warning: No flake.nix found. Skipping check."
     exit 0
 fi
 
-# Get list of staged .nix files
 STAGED_NIX_FILES=$(git diff --staged --name-only --diff-filter=ACM)
 
 if [ -z "$STAGED_NIX_FILES" ]; then
-    echo "ℹ️  No files staged for commit."
     exit 0
 fi
 
@@ -26,7 +21,6 @@ echo "📝 Checking formatting for:"
 echo "$STAGED_NIX_FILES" | sed 's/^/  - /'
 echo ""
 
-# Check if files are formatted
 UNFORMATTED_FILES=()
 while IFS= read -r file; do
     if [ -f "$file" ]; then
@@ -45,8 +39,6 @@ if [ ${#UNFORMATTED_FILES[@]} -gt 0 ]; then
     echo "❌ Commit blocked. Please git add before committing."
     exit 1
 else
-    echo "----------------------------------------"
-    echo "✅ All Nix files are properly formatted!"
     echo "✅ Commit allowed."
     exit 0
 fi
