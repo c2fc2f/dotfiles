@@ -50,9 +50,6 @@ in
           "${pkgs.openldap}/etc/schema/core.ldif"
           "${pkgs.openldap}/etc/schema/cosine.ldif"
           "${pkgs.openldap}/etc/schema/inetorgperson.ldif"
-
-          "${pkgs.openldap}/etc/schema/nis.ldif"
-          "${pkgs.openldap}/etc/schema/misc.ldif"
         ];
 
         "olcDatabase={0}config".attrs = {
@@ -69,12 +66,6 @@ in
 
           olcDatabase = "{1}mdb";
           olcDbDirectory = "/var/lib/openldap/data";
-          olcDbIndex = [
-            "objectClass eq"
-            "cn,uid eq"
-            "mail eq"
-            "sn,givenName eq,sub"
-          ];
 
           olcSuffix = "dc=${domain},dc=${tld}";
 
