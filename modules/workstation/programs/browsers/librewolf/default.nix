@@ -103,9 +103,13 @@
           "browser.tabs.unloadOnLowMemory" = true;
           "dom.ipc.processCount" = 2;
 
+          "dom.storage.enabled" = true;
+          "privacy.clearOnShutdown.cache" = true;
+          "privacy.clearOnShutdown.offlineApps" = true;
+          "browser.sessionstore.privacy_level" = 2;
+
           "browser.cache.disk.enable" = false;
           "browser.cache.memory.enable" = false;
-          "dom.storage.enabled" = false;
           "places.history.enabled" = false;
         };
 
