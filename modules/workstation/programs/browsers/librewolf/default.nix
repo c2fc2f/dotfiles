@@ -24,6 +24,13 @@
           Value = true;
         };
 
+        Preferences = {
+          "browser.privatebrowsing.autostart" = {
+            Value = true;
+            Status = "locked";
+          };
+        };
+
         DisplayBookmarksToolbar = "never";
 
         DontCheckDefaultBrowser = true;
@@ -84,7 +91,6 @@
           "browser.theme.content-theme" = 0;
           "browser.theme.toolbar-theme" = 0;
 
-          "browser.privatebrowsing.autostart" = true;
           "browser.translations.automaticallyPopup" = false;
           "browser.chrome.toolbar_tips" = false;
           "browser.ml.chat.enabled" = false;
@@ -93,6 +99,14 @@
           "browser.startup.homepage" = "about:blank";
 
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+
+          "browser.tabs.unloadOnLowMemory" = true;
+          "dom.ipc.processCount" = 2;
+
+          "browser.cache.disk.enable" = false;
+          "browser.cache.memory.enable" = false;
+          "dom.storage.enabled" = false;
+          "places.history.enabled" = false;
         };
 
         userChrome = ''
