@@ -41,7 +41,22 @@ let
       desktopName = app.name;
       exec =
         "${lib.getExe pkgs.brave} --user-data-dir=${configHome}/chromium-${lib.toLower app.name} --app=${app.url} "
-        + (lib.concatStringsSep " " (app.extraFlags or [ ]));
+        + (lib.concatStringsSep " " (
+          [
+            "--process-per-site"
+            "--renderer-process-limit=1"
+
+            "--no-pings"
+
+            "--disable-cache"
+            "--disk-cache-size=1"
+            "--media-cache-size=1"
+            "--disk-cache-dir=/dev/null"
+            "--disable-application-cache"
+            "--disable-gpu-shader-disk-cache"
+          ]
+          ++ (app.extraFlags or [ ])
+        ));
       icon = "${./assets/${lib.toLower app.name}.svg}";
       comment = "Launch ${app.name} in standalone window";
     };

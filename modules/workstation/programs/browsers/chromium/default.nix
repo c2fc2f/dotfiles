@@ -9,9 +9,15 @@
       enable = true;
       commandLineArgs = [
         "--incognito"
+
+        "--no-pings"
+
+        "--disable-cache"
         "--disk-cache-size=1"
         "--media-cache-size=1"
         "--disk-cache-dir=/dev/null"
+        "--disable-application-cache"
+        "--disable-gpu-shader-disk-cache"
       ];
     };
   };
