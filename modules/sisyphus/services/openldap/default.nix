@@ -50,6 +50,7 @@ in
           "${pkgs.openldap}/etc/schema/core.ldif"
           "${pkgs.openldap}/etc/schema/cosine.ldif"
           "${pkgs.openldap}/etc/schema/inetorgperson.ldif"
+          "${pkgs.openldap}/etc/schema/misc.ldif"
         ];
 
         "olcDatabase={0}config".attrs = {
@@ -114,15 +115,17 @@ in
 
         dn: cn=${username},ou=users,dc=${domain},dc=${tld}
         objectClass: inetOrgPerson
+        objectClass: inetLocalMailRecipient
         cn: ${username}
         sn: ${username}
         givenName: ${username}
         uid: ${username}
         mail: ${username}@${mainDomain}
+        mailLocalAddress: @
       '';
     };
   };
 
-  users.groups.acme.members = [ "openldap" ];
+  users.groups.acme.members = [ config.services.openldap.user ];
   security.acme.defaults.reloadServices = [ "openldap" ];
 }

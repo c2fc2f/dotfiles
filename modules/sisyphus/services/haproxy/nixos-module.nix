@@ -155,7 +155,8 @@ in
     };
 
     defaultBackend = lib.mkOption {
-      type = lib.types.enum (builtins.map (e: e.name) cfg.backends);
+      type = lib.types.enum ((builtins.map (e: e.name) cfg.backends) ++ [ "close_connection" ]);
+      default = "close_connection";
       description = "Default backend that will be used if no element in the mapUrl matches";
     };
 

@@ -85,8 +85,6 @@ in
   ];
 
   custom.services.haproxy = {
-    defaultBackend = name;
-
     backends = [
       {
         inherit name;

@@ -24,7 +24,7 @@
         dnsProvider = "cloudflare";
       };
 
-      atacc = {
+      "atacc-edu.org" = {
         domain = "atacc-edu.org";
         extraDomainNames = [
           "*.atacc-edu.org"
@@ -32,7 +32,7 @@
         dnsProvider = "cloudflare";
       };
 
-      culottes = {
+      "culottes.org" = {
         domain = "culottes.org";
         extraDomainNames = [
           "*.culottes.org"
@@ -40,7 +40,7 @@
         dnsProvider = "cloudflare";
       };
 
-      c2fc2f = {
+      "c2fc2f.com" = {
         domain = "c2fc2f.com";
         extraDomainNames = [
           "*.c2fc2f.com"
@@ -48,7 +48,7 @@
         dnsProvider = "cloudflare";
       };
 
-      kill-yourself = {
+      "kill-yourself.fr" = {
         domain = "kill-yourself.fr";
         extraDomainNames = [
           "*.kill-yourself.fr"
