@@ -3,11 +3,8 @@
   username,
   ...
 }:
-
-{
-  custom.secrets.sisyphus.enable = true;
-
-  sops.secrets."openldap/${username}/password" =
+let
+  secret =
     let
       inherit (config.services.openldap) user group;
     in
@@ -17,4 +14,12 @@
       owner = user;
       inherit group;
     };
+in
+{
+  custom.secrets.sisyphus.enable = true;
+
+  sops.secrets = {
+    "openldap/${username}/password" = secret;
+    "openldap/readonly/password" = secret;
+  };
 }

@@ -3,7 +3,6 @@
   pkgs,
   lib,
   mainDomain,
-  username,
   ...
 }:
 let
@@ -84,10 +83,10 @@ in
       auth_username_format = "%{user | username | lower}";
 
       ldap_uris = "ldap://localhost";
-      ldap_base = "ou=users,dc=${domain},dc=${tld}";
+      ldap_base = "dc=${domain},dc=${tld}";
       ldap_scope = "subtree";
-      ldap_auth_dn = "cn=${username},dc=${domain},dc=${tld}";
-      ldap_auth_dn_password = "<${config.sops.secrets."openldap/${username}/password".path}";
+      ldap_auth_dn = "cn=readonly,dc=${domain},dc=${tld}";
+      ldap_auth_dn_password = "<${config.sops.secrets."openldap/readonly/password".path}";
       ldap_version = 3;
 
       "passdb ldap" = {
@@ -104,9 +103,6 @@ in
 
         ldap_filter = "(&(objectClass=inetLocalMailRecipient)(uid=%{user | lower}))";
       };
-
-      dovecot_config_version = version;
-      dovecot_storage_version = version;
 
       "namespace INBOX" = {
         inbox = true;
@@ -136,6 +132,9 @@ in
           auto = "subscribe";
         };
       };
+
+      dovecot_config_version = version;
+      dovecot_storage_version = version;
     };
   };
 
@@ -145,7 +144,10 @@ in
         gid = user.uid;
       };
 
-      acme.members = [ "vmail" ];
+      acme.members = [
+        config.services.dovecot2.settings.default_internal_user
+        "vmail"
+      ];
       openldap.members = [
         config.services.dovecot2.settings.default_internal_user
       ];

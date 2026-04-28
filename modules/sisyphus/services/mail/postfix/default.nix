@@ -2,7 +2,6 @@
   lib,
   config,
   mainDomain,
-  username,
   ...
 }:
 let
@@ -24,6 +23,7 @@ in
         mynetworks = [
           "127.0.0.0/8"
           "[::1]/128"
+          "193.52.159.57/32"
         ];
 
         smtpd_sasl_type = "dovecot";
@@ -60,16 +60,16 @@ in
   sops.templates."postfix-ldap-aliases.cf" = {
     content = ''
       server_host = ldap://localhost
-      search_base = ou=users,dc=sagbot,dc=com
+      search_base = dc=sagbot,dc=com
       version = 3
 
-      query_filter = (&(objectClass=inetLocalMailRecipient)(|(mail=%s)(mailLocalAddress=%s)(mailLocalAddress=@%d)(mailLocalAddress=@)))
+      query_filter = (&(objectClass=inetLocalMailRecipient)(|(mail=%s)(mailLocalAddress=%s)(mailLocalAddress=@%d)))
 
       result_attribute = mail 
 
       bind = yes
-      bind_dn = cn=${username},dc=${domain},dc=${tld}
-      bind_pw = ${config.sops.placeholder."openldap/${username}/password"}
+      bind_dn = cn=readonly,dc=${domain},dc=${tld}
+      bind_pw = ${config.sops.placeholder."openldap/readonly/password"}
     '';
 
     owner = config.services.postfix.user;
@@ -78,7 +78,7 @@ in
   sops.templates."postfix-ldap-users.cf" = {
     content = ''
       server_host = ldap://localhost
-      search_base = ou=users,dc=sagbot,dc=com
+      search_base = dc=sagbot,dc=com
       version = 3
 
       query_filter = (&(objectClass=inetLocalMailRecipient)(mail=%s))
@@ -86,15 +86,15 @@ in
       result_attribute = mail 
 
       bind = yes
-      bind_dn = cn=${username},dc=${domain},dc=${tld}
-      bind_pw = ${config.sops.placeholder."openldap/${username}/password"}
+      bind_dn = cn=readonly,dc=${domain},dc=${tld}
+      bind_pw = ${config.sops.placeholder."openldap/readonly/password"}
     '';
 
     owner = config.services.postfix.user;
   };
 
   users.groups.acme.members = [ config.services.postfix.user ];
-  security.acme.defaults.reloadServices = [ "openldap" ];
+  security.acme.defaults.reloadServices = [ "postfix" ];
 
   networking.firewall.allowedTCPPorts = [
     25 # SMTP

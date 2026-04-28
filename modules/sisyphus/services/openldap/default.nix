@@ -74,20 +74,18 @@ in
           olcRootPW.path = config.sops.secrets."openldap/${username}/password".path;
 
           olcAccess = [
-            # Restricts userPassword so only the user, anonymous binders,
-            #   and admin can access it
             ''
               {0}to attrs=userPassword 
-                 by dn.base="cn=${username},dc=${domain},dc=${tld}" write 
+                 by dn.base="cn=${username},dc=${domain},dc=${tld}" write
+                 by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
                  by self write 
                  by anonymous auth 
                  by * none
             ''
-            # Grants admin full write access, lets users read their own entry,
-            #   denies everyone else
             ''
               {1}to * 
-                 by dn.base="cn=${username},dc=${domain},dc=${tld}" write 
+                 by dn.base="cn=${username},dc=${domain},dc=${tld}" write
+                 by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
                  by self read 
                  by * none
             ''
@@ -97,32 +95,44 @@ in
     };
 
     declarativeContents = {
-      "dc=${domain},dc=${tld}" = ''
-        dn: dc=${domain},dc=${tld}
-        objectClass: top
-        objectClass: dcObject
-        objectClass: organization
-        o: ${lib.toUpper domain}
-        dc: ${domain}
+      "dc=${domain},dc=${tld}" =
+        let
+          inherit (config.security.acme) certs;
+        in
+        ''
+          dn: dc=${domain},dc=${tld}
+          objectClass: top
+          objectClass: dcObject
+          objectClass: organization
+          o: ${lib.toUpper domain}
+          dc: ${domain}
 
-        dn: ou=users,dc=${domain},dc=${tld}
-        objectClass: organizationalUnit
-        ou: users
+          dn: ou=users,dc=${domain},dc=${tld}
+          objectClass: organizationalUnit
+          ou: users
 
-        dn: ou=groups,dc=${domain},dc=${tld}
-        objectClass: organizationalUnit
-        ou: groups
+          dn: ou=groups,dc=${domain},dc=${tld}
+          objectClass: organizationalUnit
+          ou: groups
 
-        dn: cn=${username},ou=users,dc=${domain},dc=${tld}
-        objectClass: inetOrgPerson
-        objectClass: inetLocalMailRecipient
-        cn: ${username}
-        sn: ${username}
-        givenName: ${username}
-        uid: ${username}
-        mail: ${username}@${mainDomain}
-        mailLocalAddress: @
-      '';
+          dn: cn=readonly,dc=${domain},dc=${tld}
+          objectClass: simpleSecurityObject
+          objectClass: organizationalRole
+          cn: readonly
+          userPassword:< file://${config.sops.secrets."openldap/readonly/password".path}
+
+          dn: cn=${username},ou=users,dc=${domain},dc=${tld}
+          objectClass: inetOrgPerson
+          objectClass: inetLocalMailRecipient
+          cn: ${username}
+          sn: ${username}
+          givenName: ${username}
+          uid: ${username}
+          mail: ${username}@${mainDomain}
+          ${builtins.concatStringsSep "\n" (
+            map (cert: "mailLocalAddress: @${cert.domain}") (builtins.attrValues certs)
+          )}
+        '';
     };
   };
 
