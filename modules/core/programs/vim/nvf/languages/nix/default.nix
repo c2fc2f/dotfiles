@@ -1,22 +1,18 @@
 {
+  lib,
+  pkgs,
   username,
   ...
 }:
 
 {
-  home-manager.users.${username} = {
-    programs.nvf.settings.vim.languages.nix = {
+  home-manager.users.${username}.programs.nvf.settings.vim = {
+    languages.nix = {
       enable = true;
 
       extraDiagnostics.enable = true;
 
-      format = {
-        enable = true;
-
-        type = [
-          "nixfmt"
-        ];
-      };
+      format.enable = false;
 
       lsp = {
         enable = true;
@@ -24,6 +20,26 @@
 
       treesitter = {
         enable = true;
+      };
+    };
+
+    formatter.conform-nvim = {
+      enable = true;
+      setupOpts = {
+        formatters_by_ft = {
+          nix = [ "nix-fmt" ];
+        };
+
+        formatters = {
+          nix-fmt = {
+            command = lib.getExe pkgs.nix;
+            args = [
+              "fmt"
+              "$FILENAME"
+            ];
+            stdin = false;
+          };
+        };
       };
     };
   };
