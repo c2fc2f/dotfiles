@@ -31,7 +31,8 @@ in
 
         KEYCLOAK_ISSUER = secrets."${name}/keycloak/issuer".path;
         KEYCLOAK_CLIENT_ID = secrets."${name}/keycloak/client/id".path;
-        KEYCLOAK_CLIENT_SECRET = secrets."${name}/keycloak/client/secret".path;
+        KEYCLOAK_CLIENT_SECRET =
+          secrets."${name}/keycloak/client/secret".path;
       };
   };
 

@@ -5,5 +5,9 @@
 }:
 
 {
-  imports = if builtins.pathExists ./${hostName} then clib.nixFilesRec ./${hostName} else [ ];
+  imports =
+    if builtins.pathExists ./${hostName} then
+      clib.nixFilesRec ./${hostName}
+    else
+      [ ];
 }

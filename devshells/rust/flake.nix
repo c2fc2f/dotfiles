@@ -53,7 +53,9 @@
               # libs
             ]
           );
-          LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath (buildInputs ++ nativeBuildInputs);
+          LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath (
+            buildInputs ++ nativeBuildInputs
+          );
 
           BINDGEN_EXTRA_CLANG_ARGS =
             (builtins.map (a: ''-I"${a}/include"'') [

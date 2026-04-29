@@ -6,9 +6,9 @@
   ...
 }:
 let
-  serverHosts = lib.filter (name: lib.elem "server" systemInfo.${name}.groups) (
-    lib.attrNames systemInfo
-  );
+  serverHosts = lib.filter (
+    name: lib.elem "server" systemInfo.${name}.groups
+  ) (lib.attrNames systemInfo);
 in
 {
   home-manager.users.${username} = {

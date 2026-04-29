@@ -107,7 +107,10 @@ in
         mode = "tcp";
         servers =
           let
-            inherit (config.services.minecraft-servers.servers.${name}.serverProperties) server-port;
+            inherit
+              (config.services.minecraft-servers.servers.${name}.serverProperties)
+              server-port
+              ;
           in
           [
 

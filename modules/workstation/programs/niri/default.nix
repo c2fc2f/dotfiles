@@ -33,7 +33,11 @@
           ];
           text =
             let
-              inherit (config.programs.niri.package.configuration.constructFiles.generatedConfig) outPath;
+              inherit
+                (config.programs.niri.package.configuration.constructFiles.generatedConfig
+                )
+                outPath
+                ;
             in
             ''
               if pgrep -x "niri" > /dev/null; then

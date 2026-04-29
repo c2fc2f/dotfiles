@@ -12,9 +12,9 @@
 }:
 with lib;
 let
-  serverHosts = filter (name: elem "server" systemInfo.${name}.groups && name != hostName) (
-    attrNames systemInfo
-  );
+  serverHosts = filter (
+    name: elem "server" systemInfo.${name}.groups && name != hostName
+  ) (attrNames systemInfo);
 
   genCase = name: ''
     ${name} )

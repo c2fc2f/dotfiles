@@ -37,7 +37,9 @@
 
         ExtensionSettings =
           let
-            moz = short: "https://addons.mozilla.org/firefox/downloads/latest/${short}/latest.xpi";
+            moz =
+              short:
+              "https://addons.mozilla.org/firefox/downloads/latest/${short}/latest.xpi";
           in
           {
             "*" = {

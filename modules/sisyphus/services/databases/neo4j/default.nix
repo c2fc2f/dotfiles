@@ -45,7 +45,9 @@ in
       };
 
     extraServerConfig = ''
-      internal.dbms.web_dir_path=${config.services.${name}.package}/share/neo4j/web
+      internal.dbms.web_dir_path=${
+        config.services.${name}.package
+      }/share/neo4j/web
 
       dbms.ssl.policy.bolt.enabled=true
 
@@ -67,9 +69,10 @@ in
       ln -sf ${./apoc.conf} ${cfg.directories.home}/conf/apoc.conf
     ''
     + builtins.concatStringsSep "\n" (
-      map (plugin: "ln -s ${pkgs.callPackage plugin { }}/share/neo4j/* ${cfg.directories.plugins}") (
-        clib.nixFilesRec ./_plugins
-      )
+      map (
+        plugin:
+        "ln -s ${pkgs.callPackage plugin { }}/share/neo4j/* ${cfg.directories.plugins}"
+      ) (clib.nixFilesRec ./_plugins)
     );
 
   users.groups.acme.members = [

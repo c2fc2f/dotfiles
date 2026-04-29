@@ -17,7 +17,9 @@
     networkmanager = {
       enable = true;
 
-      unmanaged = lib.mapAttrsToList (_: value: value.matchConfig.Name) config.systemd.network.networks;
+      unmanaged = lib.mapAttrsToList (
+        _: value: value.matchConfig.Name
+      ) config.systemd.network.networks;
     };
   };
 

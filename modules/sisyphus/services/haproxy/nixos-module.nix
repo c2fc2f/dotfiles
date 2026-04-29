@@ -10,14 +10,18 @@ let
 
   certMap = pkgs.writeText "haproxy-cert.map" (
     lib.strings.concatLines (
-      builtins.map (cert: "${cert.directory}/full.pem") (builtins.attrValues config.security.acme.certs)
+      builtins.map (cert: "${cert.directory}/full.pem") (
+        builtins.attrValues config.security.acme.certs
+      )
     )
   );
 
   makeMap =
     map:
     pkgs.writeText "haproxy-url.map" (
-      lib.strings.concatLines (builtins.map (e: "${e.url} ${e.backend}") map)
+      lib.strings.concatLines (
+        builtins.map (e: "${e.url} ${e.backend}") map
+      )
     );
 
   haproxy_minecraft = pkgs.stdenv.mkDerivation {
@@ -74,7 +78,9 @@ let
   serversConfig =
     servers:
     lib.strings.concatLines (
-      builtins.map (e: "server ${e.name} ${e.addr}${lib.optionalString e.check " check"}") servers
+      builtins.map (
+        e: "server ${e.name} ${e.addr}${lib.optionalString e.check " check"}"
+      ) servers
     );
 
   maxconn = lib.mkOption {
@@ -155,7 +161,9 @@ in
     };
 
     defaultBackend = lib.mkOption {
-      type = lib.types.enum ((builtins.map (e: e.name) cfg.backends) ++ [ "close_connection" ]);
+      type = lib.types.enum (
+        (builtins.map (e: e.name) cfg.backends) ++ [ "close_connection" ]
+      );
       default = "close_connection";
       description = "Default backend that will be used if no element in the mapUrl matches";
     };
@@ -271,7 +279,9 @@ in
         global
           user ${cfg.user}
           group ${cfg.group}
-          ${lib.optionalString (cfg.global.maxconn != null) "maxconn ${toString cfg.global.maxconn}"}
+          ${lib.optionalString (
+            cfg.global.maxconn != null
+          ) "maxconn ${toString cfg.global.maxconn}"}
           ${lib.optionalString cfg.global.daemon "daemon"}
           ssl-default-bind-options ssl-min-ver TLSv1.2 
           ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
@@ -280,7 +290,9 @@ in
         ${clib.indent 2 cfg.global.extraConfig}
 
         defaults
-          ${lib.optionalString (cfg.defaults.maxconn != null) "maxconn ${toString cfg.defaults.maxconn}"}
+          ${lib.optionalString (
+            cfg.defaults.maxconn != null
+          ) "maxconn ${toString cfg.defaults.maxconn}"}
         ${clib.indent 2 cfg.defaults.extraConfig}
 
         # ============== DEFAULT FRONTEND ==+=============

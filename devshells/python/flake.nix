@@ -35,7 +35,9 @@
       inherit (nixpkgs) lib;
       forAllSystems = lib.genAttrs lib.systems.flakeExposed;
 
-      workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = ./.; };
+      workspace = uv2nix.lib.workspace.loadWorkspace {
+        workspaceRoot = ./.;
+      };
 
       overlay = workspace.mkPyprojectOverlay {
         sourcePreference = "wheel";
@@ -102,7 +104,9 @@
       );
 
       packages = forAllSystems (system: {
-        default = pythonSets.${system}.mkVirtualEnv "${name}-env" workspace.deps.default;
+        default =
+          pythonSets.${system}.mkVirtualEnv "${name}-env"
+            workspace.deps.default;
       });
     };
 }

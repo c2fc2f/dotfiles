@@ -9,7 +9,10 @@ let
   wireconf = import ./_assets/users/${hostName}.nix;
 
   nameWithoutExt =
-    path: builtins.head (builtins.match "(.*)\\.nix" (builtins.baseNameOf (toString path)));
+    path:
+    builtins.head (
+      builtins.match "(.*)\\.nix" (builtins.baseNameOf (toString path))
+    );
 
   genNetworks =
     files:

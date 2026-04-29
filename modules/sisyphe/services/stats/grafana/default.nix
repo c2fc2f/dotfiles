@@ -18,7 +18,9 @@
       };
 
       security = {
-        secret_key = "$__file{${config.sops.secrets."grafana/security/secret_key".path}";
+        secret_key = "$__file{${
+          config.sops.secrets."grafana/security/secret_key".path
+        }";
       };
 
       auth = {
@@ -35,7 +37,9 @@
           name = "Keycloak-OAuth";
           allow_sign_up = true;
           client_id = "grafana-oauth";
-          client_secret = "$__file{${config.sops.secrets."grafana/client/secret".path}}";
+          client_secret = "$__file{${
+            config.sops.secrets."grafana/client/secret".path
+          }}";
           scopes = "openid email profile offline_access roles";
           email_attribute_path = "email";
           login_attribute_path = "username";

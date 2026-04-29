@@ -71,7 +71,8 @@ in
           olcSuffix = "dc=${domain},dc=${tld}";
 
           olcRootDN = "cn=${username},dc=${domain},dc=${tld}";
-          olcRootPW.path = config.sops.secrets."openldap/${username}/password".path;
+          olcRootPW.path =
+            config.sops.secrets."openldap/${username}/password".path;
 
           olcAccess = [
             ''
@@ -119,7 +120,9 @@ in
           objectClass: simpleSecurityObject
           objectClass: organizationalRole
           cn: readonly
-          userPassword:< file://${config.sops.secrets."openldap/readonly/password".path}
+          userPassword:< file://${
+            config.sops.secrets."openldap/readonly/password".path
+          }
 
           dn: cn=${username},ou=users,dc=${domain},dc=${tld}
           objectClass: inetOrgPerson
@@ -130,7 +133,9 @@ in
           uid: ${username}
           mail: ${username}@${mainDomain}
           ${builtins.concatStringsSep "\n" (
-            map (cert: "mailLocalAddress: @${cert.domain}") (builtins.attrValues certs)
+            map (cert: "mailLocalAddress: @${cert.domain}") (
+              builtins.attrValues certs
+            )
           )}
         '';
     };

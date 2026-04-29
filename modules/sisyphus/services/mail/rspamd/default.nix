@@ -94,7 +94,8 @@ in
         autolearn = true;
       '';
 
-      "worker-controller.inc".source = templates."worker-controller.inc".path;
+      "worker-controller.inc".source =
+        templates."worker-controller.inc".path;
     };
   };
 

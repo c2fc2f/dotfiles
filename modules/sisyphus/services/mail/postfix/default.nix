@@ -31,8 +31,12 @@ in
         smtpd_sasl_auth_enable = "yes";
         smtpd_sasl_security_options = "noanonymous";
 
-        virtual_alias_maps = "ldap:${config.sops.templates."postfix-ldap-aliases.cf".path}";
-        virtual_mailbox_maps = "ldap:${config.sops.templates."postfix-ldap-users.cf".path}";
+        virtual_alias_maps = "ldap:${
+          config.sops.templates."postfix-ldap-aliases.cf".path
+        }";
+        virtual_mailbox_maps = "ldap:${
+          config.sops.templates."postfix-ldap-users.cf".path
+        }";
 
         virtual_transport = "lmtp:unix:/var/lib/postfix/dovecot-lmtp";
         mailbox_transport = "lmtp:unix:/var/lib/postfix/dovecot-lmtp";
@@ -43,7 +47,9 @@ in
           "reject_unauth_destination"
         ];
 
-        virtual_mailbox_domains = map (cert: cert.domain) (builtins.attrValues config.security.acme.certs);
+        virtual_mailbox_domains = map (cert: cert.domain) (
+          builtins.attrValues config.security.acme.certs
+        );
 
         smtpd_tls_chain_files =
           let

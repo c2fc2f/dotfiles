@@ -82,7 +82,9 @@
       };
       theme =
         let
-          inherit (config.home-manager.users.${username}.lib.formats.rasi) mkLiteral;
+          inherit (config.home-manager.users.${username}.lib.formats.rasi)
+            mkLiteral
+            ;
         in
         {
           "*" = {

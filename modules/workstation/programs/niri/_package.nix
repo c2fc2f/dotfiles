@@ -136,7 +136,8 @@ nix-wrapper.wrappers.niri.wrap {
         "previous"
       ];
 
-      "Mod+d".spawn-sh = "${pkgs.procps}/bin/pkill -x rofi || rofi -show drun";
+      "Mod+d".spawn-sh =
+        "${pkgs.procps}/bin/pkill -x rofi || rofi -show drun";
 
       "Mod+L".spawn = lib.getExe pkgs.hyprlock;
     };

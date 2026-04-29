@@ -122,9 +122,15 @@
         # keep-sorted end
       };
 
-      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      eachSystem =
+        f:
+        nixpkgs.lib.genAttrs (import systems) (
+          system: f nixpkgs.legacyPackages.${system}
+        );
 
-      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+      treefmtEval = eachSystem (
+        pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix
+      );
 
       clib =
         let
@@ -139,14 +145,21 @@
               null
           ) entries;
 
-          validFunctions = lib.filterAttrs (_: value: value != null) loadLibFunctions;
+          validFunctions = lib.filterAttrs (
+            _: value: value != null
+          ) loadLibFunctions;
         in
         validFunctions;
     in
     {
-      formatter = eachSystem (pkgs: treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.wrapper);
+      formatter = eachSystem (
+        pkgs:
+        treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.wrapper
+      );
       checks = eachSystem (pkgs: {
-        formatting = treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.check self;
+        formatting =
+          treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.check
+            self;
       });
 
       nixosConfigurations = nixpkgs.lib.mapAttrs (

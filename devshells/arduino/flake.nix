@@ -20,8 +20,12 @@
     let
       overlays = [
         arduino-nix.overlay
-        (arduino-nix.mkArduinoPackageOverlay (arduino-index + "/index/package_index.json"))
-        (arduino-nix.mkArduinoLibraryOverlay (arduino-index + "/index/library_index.json"))
+        (arduino-nix.mkArduinoPackageOverlay (
+          arduino-index + "/index/package_index.json"
+        ))
+        (arduino-nix.mkArduinoLibraryOverlay (
+          arduino-index + "/index/library_index.json"
+        ))
       ];
     in
     flake-utils.lib.eachDefaultSystem (

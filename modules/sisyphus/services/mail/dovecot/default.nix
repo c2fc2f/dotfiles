@@ -86,7 +86,9 @@ in
       ldap_base = "dc=${domain},dc=${tld}";
       ldap_scope = "subtree";
       ldap_auth_dn = "cn=readonly,dc=${domain},dc=${tld}";
-      ldap_auth_dn_password = "<${config.sops.secrets."openldap/readonly/password".path}";
+      ldap_auth_dn_password = "<${
+        config.sops.secrets."openldap/readonly/password".path
+      }";
       ldap_version = 3;
 
       "passdb ldap" = {

@@ -15,7 +15,8 @@ in
 
     initialAdminPassword = "password";
 
-    database.passwordFile = config.sops.secrets."keycloak/passwordDB".path;
+    database.passwordFile =
+      config.sops.secrets."keycloak/passwordDB".path;
 
     settings = {
       hostname = "https://${domain}";

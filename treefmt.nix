@@ -5,7 +5,11 @@
 
   programs = {
     keep-sorted.enable = true;
-    nixfmt.enable = true;
+    nixfmt = {
+      enable = true;
+
+      width = 70;
+    };
 
     yamlfmt = {
       enable = true;

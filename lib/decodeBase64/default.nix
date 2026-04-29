@@ -4,7 +4,9 @@
 let
   base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   base64Table = builtins.listToAttrs (
-    lib.imap0 (i: c: lib.nameValuePair c i) (lib.stringToCharacters base64Chars)
+    lib.imap0 (i: c: lib.nameValuePair c i) (
+      lib.stringToCharacters base64Chars
+    )
   );
 
   intToChar =
@@ -114,9 +116,9 @@ in
 lib.concatMapStrings (
   chunk:
   if builtins.length chunk == 4 then
-    decodeBase64Chunk (builtins.elemAt chunk 0) (builtins.elemAt chunk 1) (builtins.elemAt chunk 2) (
-      builtins.elemAt chunk 3
-    )
+    decodeBase64Chunk (builtins.elemAt chunk 0) (builtins.elemAt chunk 1)
+      (builtins.elemAt chunk 2)
+      (builtins.elemAt chunk 3)
   else
     ""
 ) chunks

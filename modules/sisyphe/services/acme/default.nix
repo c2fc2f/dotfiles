@@ -9,7 +9,8 @@
     acceptTerms = true;
     defaults.email = "acme@${mainDomain}";
     defaults.credentialFiles = {
-      "CLOUDFLARE_DNS_API_TOKEN_FILE" = config.sops.secrets."cloudflare/dns-api-token".path;
+      "CLOUDFLARE_DNS_API_TOKEN_FILE" =
+        config.sops.secrets."cloudflare/dns-api-token".path;
     };
     certs = {
       ${mainDomain} = rec {
