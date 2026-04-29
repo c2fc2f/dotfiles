@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   tokei is a fast and cross-platform command-line tool that displays
   statisticsvabout your code, such as the number of files, lines of code,
@@ -12,8 +8,6 @@
 */
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.tokei
-    ];
+    home.packages = [ pkgs.tokei ];
   };
 }

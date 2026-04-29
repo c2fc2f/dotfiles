@@ -75,17 +75,11 @@ in
       ) (clib.nixFilesRec ./_plugins)
     );
 
-  users.groups.acme.members = [
-    "neo4j"
-  ];
+  users.groups.acme.members = [ "neo4j" ];
 
-  security.acme.certs.${mainDomain}.reloadServices = [
-    "neo4j"
-  ];
+  security.acme.certs.${mainDomain}.reloadServices = [ "neo4j" ];
 
-  networking.firewall.allowedTCPPorts = [
-    7687
-  ];
+  networking.firewall.allowedTCPPorts = [ 7687 ];
 
   custom.services.haproxy = {
     backends = [

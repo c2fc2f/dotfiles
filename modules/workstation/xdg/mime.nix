@@ -1,7 +1,4 @@
-{
-  username,
-  ...
-}:
+{ username, ... }:
 /*
   Enables management of default applications for MIME types and file
   extensions through Home Manager. This allows you to set which applications

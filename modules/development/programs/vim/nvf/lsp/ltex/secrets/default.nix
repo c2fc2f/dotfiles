@@ -1,7 +1,4 @@
-{
-  username,
-  ...
-}:
+{ username, ... }:
 
 {
   custom.secrets.development.enable = true;

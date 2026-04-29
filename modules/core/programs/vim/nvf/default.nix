@@ -1,14 +1,8 @@
-{
-  nvf,
-  username,
-  ...
-}:
+{ nvf, username, ... }:
 
 {
   home-manager.users.${username} = {
-    imports = [
-      nvf.homeManagerModules.default
-    ];
+    imports = [ nvf.homeManagerModules.default ];
 
     programs.nvf = {
       enable = true;

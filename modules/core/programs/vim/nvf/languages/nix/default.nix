@@ -26,6 +26,10 @@
     formatter.conform-nvim = {
       enable = true;
       setupOpts = {
+        format_on_save = {
+          timeout_ms = 10000;
+        };
+
         formatters_by_ft = {
           nix = [ "nix-fmt" ];
         };

@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   GIMP (GNU Image Manipulation Program), a powerful open-source image editor
   used for tasks such as photo retouching, image composition, and graphic
@@ -11,8 +7,6 @@
 */
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.gimp
-    ];
+    home.packages = [ pkgs.gimp ];
   };
 }

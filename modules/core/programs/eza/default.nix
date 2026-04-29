@@ -1,7 +1,4 @@
-{
-  username,
-  ...
-}:
+{ username, ... }:
 /*
   eza is a modern replacement for `ls` written in Rust. It supports colors,
   Git integration, icons, and improved formatting, making directory listing

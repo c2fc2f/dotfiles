@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   Enables the GPG agent, which handles private key operations for GnuPG.
    This configuration also:

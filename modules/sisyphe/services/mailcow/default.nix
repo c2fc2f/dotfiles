@@ -1,7 +1,4 @@
-{
-  mainDomain,
-  ...
-}:
+{ mainDomain, ... }:
 
 {
   networking.firewall.allowedTCPPorts = [

@@ -97,9 +97,7 @@ in
         PrivateTmp = true;
         EnvironmentFile = config.sops.secrets."auto-update/env".path;
 
-        SupplementaryGroups = [
-          "nixbld"
-        ];
+        SupplementaryGroups = [ "nixbld" ];
       };
     };
 

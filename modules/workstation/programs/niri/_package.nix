@@ -10,9 +10,7 @@ let
 
   toggleMagic = pkgs.writeShellApplication {
     name = "toggle-magic";
-    runtimeInputs = with pkgs; [
-      jq
-    ];
+    runtimeInputs = with pkgs; [ jq ];
     text = ''
       CURRENT_WS=$(niri msg --json workspaces | jq -r '.[] | select(.is_focused == true) | .name')
       if [ "$CURRENT_WS" == "magic" ]; then
@@ -28,9 +26,7 @@ nix-wrapper.wrappers.niri.wrap {
 
   package = niri.packages.${system}.default;
 
-  extraPackages = with pkgs; [
-    xwayland-satellite
-  ];
+  extraPackages = with pkgs; [ xwayland-satellite ];
 
   settings = {
     prefer-no-csd = { };
@@ -159,20 +155,12 @@ nix-wrapper.wrappers.niri.wrap {
 
     window-rules = [
       {
-        matches = [
-          {
-            app-id = "vesktop";
-          }
-        ];
+        matches = [ { app-id = "vesktop"; } ];
         open-on-workspace = "chat";
         open-maximized = true;
       }
       {
-        matches = [
-          {
-            app-id = "brave-www.youtube.com__-Default";
-          }
-        ];
+        matches = [ { app-id = "brave-www.youtube.com__-Default"; } ];
         open-on-workspace = "entertainment";
         open-maximized = true;
       }

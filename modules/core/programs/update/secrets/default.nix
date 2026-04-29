@@ -1,7 +1,4 @@
-{
-  username,
-  ...
-}:
+{ username, ... }:
 
 {
   sops.secrets."github/token/readonly" = {

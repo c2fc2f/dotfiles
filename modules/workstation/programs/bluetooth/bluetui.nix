@@ -1,13 +1,7 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.bluetui
-    ];
+    home.packages = [ pkgs.bluetui ];
   };
 }

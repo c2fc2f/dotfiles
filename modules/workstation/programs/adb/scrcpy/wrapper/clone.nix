@@ -15,8 +15,6 @@ let
 in
 {
   home-manager.users.${username} = {
-    home.packages = [
-      scrcpyCloner
-    ];
+    home.packages = [ scrcpyCloner ];
   };
 }

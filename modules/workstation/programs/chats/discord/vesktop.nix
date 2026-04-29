@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   Vesktop, a community-maintained Electron-based desktop client for Discord
   with Vencord pre-installed. It offers enhanced customization, additional
@@ -10,8 +6,6 @@
 */
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.vesktop
-    ];
+    home.packages = [ pkgs.vesktop ];
   };
 }

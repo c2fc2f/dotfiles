@@ -14,9 +14,7 @@
      the user environment declaratively.
 */
 {
-  imports = [
-    home-manager.nixosModules.home-manager
-  ];
+  imports = [ home-manager.nixosModules.home-manager ];
 
   home-manager = {
     useGlobalPkgs = true;

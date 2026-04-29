@@ -1,10 +1,5 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 
 {
-  plugins = [
-    (pkgs.callPackage ./tailcloakify { })
-  ];
+  plugins = [ (pkgs.callPackage ./tailcloakify { }) ];
 }

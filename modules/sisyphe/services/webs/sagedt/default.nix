@@ -1,7 +1,4 @@
-{
-  mainDomain,
-  ...
-}:
+{ mainDomain, ... }:
 
 {
   users.users.sagedt = {

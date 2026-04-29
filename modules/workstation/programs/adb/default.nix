@@ -1,17 +1,9 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.android-tools
-    ];
+    home.packages = [ pkgs.android-tools ];
   };
 
-  users.users.${username}.extraGroups = [
-    "adbusers"
-  ];
+  users.users.${username}.extraGroups = [ "adbusers" ];
 }

@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   ffmpeg, a powerful and widely-used command-line tool for handling multimedia
   data. It can record, convert, stream, and manipulate audio and video files
@@ -11,8 +7,6 @@
 */
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.ffmpeg
-    ];
+    home.packages = [ pkgs.ffmpeg ];
   };
 }

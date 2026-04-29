@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   fd is a simple, fast, and user-friendly alternative to the Unix `find`
   command. It offers intuitive syntax, colorized output, and smart defaults,
@@ -10,8 +6,6 @@
 */
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.fd
-    ];
+    home.packages = [ pkgs.fd ];
   };
 }

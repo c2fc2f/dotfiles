@@ -1,6 +1,4 @@
-{
-  lib,
-}:
+{ lib }:
 let
   base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   base64Table = builtins.listToAttrs (

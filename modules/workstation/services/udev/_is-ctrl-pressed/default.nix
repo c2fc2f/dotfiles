@@ -15,20 +15,14 @@ rustPlatform.buildRustPackage {
     lockFile = ./Cargo.lock;
   };
 
-  nativeBuildInputs = [
-    pkg-config
-  ];
+  nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [
-    glib
-  ];
+  buildInputs = [ glib ];
 
   meta = {
     description = "Utilities to determine if the control is pressed";
     homepage = "https://github.com/c2fc2f/dotfiles";
     license = lib.licenses.mit;
-    maintainers = [
-      lib.maintainers.c2fc2f
-    ];
+    maintainers = [ lib.maintainers.c2fc2f ];
   };
 }

@@ -12,9 +12,7 @@
       servers = {
         ltex = {
           enable = true;
-          cmd = [
-            "${lib.getExe pkgs.ltex-ls}"
-          ];
+          cmd = [ "${lib.getExe pkgs.ltex-ls}" ];
           filetypes = [
             "tex"
             "md"
@@ -28,9 +26,7 @@
                 enablePickyRules = true;
               };
               disabledRules = {
-                fr = [
-                  "QB_NEW_FR"
-                ];
+                fr = [ "QB_NEW_FR" ];
               };
               motherTongue = "fr";
               languageToolHttpServerUri = "https://api.languagetoolplus.com/";

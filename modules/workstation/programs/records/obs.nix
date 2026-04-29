@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   OBS Studio, a comprehensive and highly extensible open-source application
   used for video recording, live streaming, and multimedia production. OBS
@@ -11,9 +7,7 @@
 */
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.android-tools
-    ];
+    home.packages = [ pkgs.android-tools ];
   };
 
   programs.obs-studio = {

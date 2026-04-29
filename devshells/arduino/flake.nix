@@ -31,9 +31,7 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = (import nixpkgs) {
-          inherit system overlays;
-        };
+        pkgs = (import nixpkgs) { inherit system overlays; };
       in
       rec {
         inherit pkgs;
@@ -50,15 +48,11 @@
                 builtins.sort (a: b: a > b) (builtins.attrNames platforms.arduino.avr)
               );
             in
-            [
-              platforms.arduino.avr.${latestVersion}
-            ];
+            [ platforms.arduino.avr.${latestVersion} ];
         };
 
         devShells.default = pkgs.mkShell {
-          buildInputs = [
-            packages.arduino-cli
-          ];
+          buildInputs = [ packages.arduino-cli ];
         };
       }
     );

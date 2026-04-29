@@ -1,8 +1,4 @@
-{
-  clib,
-  username,
-  ...
-}:
+{ clib, username, ... }:
 
 {
   home-manager.users.${username} = {

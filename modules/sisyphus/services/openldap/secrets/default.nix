@@ -1,8 +1,4 @@
-{
-  config,
-  username,
-  ...
-}:
+{ config, username, ... }:
 let
   secret =
     let

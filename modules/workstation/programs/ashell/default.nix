@@ -1,13 +1,7 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 
 {
-  fonts.packages = with pkgs; [
-    montserrat
-  ];
+  fonts.packages = with pkgs; [ montserrat ];
 
   home-manager.users.${username} = {
     systemd.user.services.ashell = {
@@ -33,12 +27,8 @@
         enable_esc_key = true;
 
         modules = {
-          left = [
-            "SystemInfo"
-          ];
-          center = [
-            "WindowTitle"
-          ];
+          left = [ "SystemInfo" ];
+          center = [ "WindowTitle" ];
           right = [
             [
               "Tray"
@@ -83,9 +73,7 @@
           success_color = "#45f045";
           text_color = "#f0f0f0";
 
-          workspace_colors = [
-            "#f0f0f0"
-          ];
+          workspace_colors = [ "#f0f0f0" ];
 
           danger_color = {
             base = "#f7768e";

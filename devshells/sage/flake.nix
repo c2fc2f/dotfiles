@@ -22,9 +22,7 @@
       in
       {
         devShells.default = pkgs.mkShell rec {
-          buildInputs = with pkgs; [
-            sage
-          ];
+          buildInputs = with pkgs; [ sage ];
         };
       }
     );

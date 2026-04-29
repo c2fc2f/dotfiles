@@ -1,13 +1,7 @@
-{
-  config,
-  hermux,
-  ...
-}:
+{ config, hermux, ... }:
 
 {
-  imports = [
-    hermux.nixosModules.hermux
-  ];
+  imports = [ hermux.nixosModules.hermux ];
 
   services.hermux = {
     enable = true;

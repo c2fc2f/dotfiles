@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 
 {
   programs.zsh = {
@@ -12,9 +8,7 @@
   users.defaultUserShell = pkgs.zsh;
 
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.yazi
-    ];
+    home.packages = [ pkgs.yazi ];
 
     programs.zsh = {
       enable = true;
@@ -45,9 +39,7 @@
       oh-my-zsh = {
         enable = true;
 
-        plugins = [
-          "git"
-        ];
+        plugins = [ "git" ];
       };
     };
   };

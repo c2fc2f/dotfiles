@@ -1,13 +1,7 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.networkmanager_dmenu
-    ];
+    home.packages = [ pkgs.networkmanager_dmenu ];
   };
 }

@@ -1,7 +1,4 @@
-{
-  username,
-  ...
-}:
+{ username, ... }:
 
 {
   home-manager.users.${username}.programs.nvf.settings.vim = {
@@ -11,17 +8,13 @@
       format = {
         enable = true;
 
-        type = [
-          "ruff"
-        ];
+        type = [ "ruff" ];
       };
 
       lsp = {
         enable = true;
 
-        servers = [
-          "basedpyright"
-        ];
+        servers = [ "basedpyright" ];
       };
 
       treesitter = {

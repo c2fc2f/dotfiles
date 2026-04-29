@@ -53,9 +53,8 @@
           pkgs = nixpkgs.legacyPackages.${system};
           python = pkgs.python3;
         in
-        (pkgs.callPackage pyproject-nix.build.packages {
-          inherit python;
-        }).overrideScope
+        (pkgs.callPackage pyproject-nix.build.packages { inherit python; })
+        .overrideScope
           (
             lib.composeManyExtensions [
               pyproject-build-systems.overlays.wheel

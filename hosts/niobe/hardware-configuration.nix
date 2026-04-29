@@ -9,9 +9,7 @@
 }:
 
 {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
     initrd = {
@@ -34,9 +32,7 @@
           "luks-0b9710f0-694b-4365-ad01-1393385cf411" = {
             device = "/dev/disk/by-uuid/0b9710f0-694b-4365-ad01-1393385cf411";
 
-            crypttabExtraOpts = [
-              "fido2-device=auto"
-            ];
+            crypttabExtraOpts = [ "fido2-device=auto" ];
           };
         };
       };

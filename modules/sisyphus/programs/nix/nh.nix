@@ -1,3 +1,1 @@
-{
-  programs.nh.clean.dates = "weekly";
-}
+{ programs.nh.clean.dates = "weekly"; }

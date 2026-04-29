@@ -34,9 +34,7 @@
     };
   };
 
-  users.users.${username}.extraGroups = [
-    "nginx"
-  ];
+  users.users.${username}.extraGroups = [ "nginx" ];
 
   custom.services.haproxy = {
     backends = lib.mapAttrsToList (name: value: {

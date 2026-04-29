@@ -28,14 +28,10 @@ in
       enable = true;
       enableIPv6 = true;
       externalInterface = wireconf.publicNetworkInterface;
-      internalInterfaces = [
-        "wg0"
-      ];
+      internalInterfaces = [ "wg0" ];
     };
 
-    firewall.allowedUDPPorts = [
-      51820
-    ];
+    firewall.allowedUDPPorts = [ 51820 ];
   };
 
   systemd.network = {

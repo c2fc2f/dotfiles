@@ -1,8 +1,4 @@
-{
-  hostName,
-  clib,
-  ...
-}:
+{ hostName, clib, ... }:
 
 {
   imports =

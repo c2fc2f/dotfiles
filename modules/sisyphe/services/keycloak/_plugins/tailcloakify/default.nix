@@ -26,8 +26,6 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/ALMiG-Kompressoren-GmbH/tailcloakify";
     license = licenses.asl20;
     platforms = platforms.all;
-    maintainers = with lib.maintainers; [
-      c2fc2f
-    ];
+    maintainers = with lib.maintainers; [ c2fc2f ];
   };
 }

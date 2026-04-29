@@ -1,7 +1,4 @@
-{
-  username,
-  ...
-}:
+{ username, ... }:
 /*
   Hypridle service, a lightweight Wayland-compatible idle daemon designed to
   work with Hyprland. Hypridle monitors user activity (keyboard, mouse) and

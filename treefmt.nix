@@ -9,6 +9,7 @@
       enable = true;
 
       width = 70;
+      strict = true;
     };
 
     yamlfmt = {

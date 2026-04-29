@@ -12,9 +12,7 @@ in
         listenAddress = "127.0.0.1";
         port = 9000;
 
-        enabledCollectors = [
-          "systemd"
-        ];
+        enabledCollectors = [ "systemd" ];
         extraFlags = [
           "--collector.ethtool"
           "--collector.tcpstat"
@@ -35,13 +33,7 @@ in
       }
       {
         job_name = "haproxy";
-        static_configs = [
-          {
-            targets = [
-              addr
-            ];
-          }
-        ];
+        static_configs = [ { targets = [ addr ]; } ];
       }
     ];
   };

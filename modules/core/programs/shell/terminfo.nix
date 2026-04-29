@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ pkgs, ... }:
 /*
   terminfo definitions for :
     - the Kitty terminal.
@@ -11,7 +8,5 @@
   using tools that rely on accurate terminfo entries.
 */
 {
-  environment.systemPackages = [
-    pkgs.kitty.terminfo
-  ];
+  environment.systemPackages = [ pkgs.kitty.terminfo ];
 }

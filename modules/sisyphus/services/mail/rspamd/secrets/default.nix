@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}:
+{ config, ... }:
 let
   inherit (config.services.rspamd) user group;
   secret = {

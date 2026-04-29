@@ -1,7 +1,4 @@
-{
-  hostName,
-  ...
-}:
+{ hostName, ... }:
 
 {
   custom.secrets.${hostName}.enable = true;

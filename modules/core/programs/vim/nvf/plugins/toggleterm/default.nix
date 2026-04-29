@@ -1,8 +1,4 @@
-{
-  username,
-  config,
-  ...
-}:
+{ username, config, ... }:
 
 {
   home-manager.users.${username}.programs.nvf.settings.vim = {

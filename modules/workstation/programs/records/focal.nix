@@ -12,9 +12,7 @@
 */
 {
   nix.settings = {
-    substituters = [
-      "https://focal.cachix.org"
-    ];
+    substituters = [ "https://focal.cachix.org" ];
     trusted-public-keys = [
       "focal.cachix.org-1:/YkOWkXNH2uK7TnskrVMvda8LyCe4iIbMM1sZN2AOXY="
     ];

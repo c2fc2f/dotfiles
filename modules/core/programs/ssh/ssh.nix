@@ -1,7 +1,4 @@
-{
-  username,
-  ...
-}:
+{ username, ... }:
 /*
   SSH client configuration for the user, allowing customization of SSH
   settings such as known hosts, identities, and connection preferences.

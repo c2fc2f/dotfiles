@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   ImageMagick, a versatile command-line tool for creating, editing,
   converting, and displaying image files. It supports a wide range of image
@@ -11,8 +7,6 @@
 */
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.imagemagick
-    ];
+    home.packages = [ pkgs.imagemagick ];
   };
 }

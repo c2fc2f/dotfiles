@@ -1,13 +1,7 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.nix-output-monitor
-    ];
+    home.packages = [ pkgs.nix-output-monitor ];
   };
 }

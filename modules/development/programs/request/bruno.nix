@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   Bruno, an open-source HTTP API client designed for testing and debugging
   RESTful APIs. It offers a developer-friendly interface similar to tools like
@@ -11,8 +7,6 @@
 */
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.bruno
-    ];
+    home.packages = [ pkgs.bruno ];
   };
 }

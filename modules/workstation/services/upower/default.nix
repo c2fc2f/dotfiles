@@ -6,6 +6,4 @@
   UPower is commonly used by desktop environments and panel applets to display
   battery and power status.
 */
-{
-  services.upower.enable = true;
-}
+{ services.upower.enable = true; }

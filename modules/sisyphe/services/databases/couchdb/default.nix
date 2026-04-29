@@ -1,8 +1,4 @@
-{
-  config,
-  mainDomain,
-  ...
-}:
+{ config, mainDomain, ... }:
 let
   name = "couchdb";
 in
@@ -10,9 +6,7 @@ in
   services.${name} = {
     enable = true;
 
-    extraConfigFiles = [
-      config.sops.secrets."couchdb/admin".path
-    ];
+    extraConfigFiles = [ config.sops.secrets."couchdb/admin".path ];
 
     bindAddress = "127.0.0.59";
     port = 5984;

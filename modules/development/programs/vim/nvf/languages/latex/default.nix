@@ -20,9 +20,7 @@
       vimtex_view_method = "zathura";
       vimtex_view_zathura_check_libsynctex = false;
       vimtex_compiler_method = "latexmk";
-      vimtex_compiler_clean_paths = [
-        "_minted*"
-      ];
+      vimtex_compiler_clean_paths = [ "_minted*" ];
       vimtex_compiler_latexmk_engines = {
         "_" = "-lualatex";
       };
@@ -41,12 +39,8 @@
       servers = {
         texlab = {
           enable = true;
-          cmd = [
-            "${lib.getExe pkgs.texlab}"
-          ];
-          filetypes = [
-            "tex"
-          ];
+          cmd = [ "${lib.getExe pkgs.texlab}" ];
+          filetypes = [ "tex" ];
 
           settings = {
             texlab = {

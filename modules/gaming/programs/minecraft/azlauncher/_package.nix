@@ -1,7 +1,4 @@
-{
-  pkgs,
-  lib,
-}:
+{ pkgs, lib }:
 
 let
   pname = "az-launcher";
@@ -51,8 +48,6 @@ pkgs.appimageTools.wrapType2 {
     description = "AZ-Launcher Minecraft Launcher";
     homepage = "https://www.az-launcher.nz/";
     platforms = [ "x86_64-linux" ];
-    maintainers = [
-      lib.maintainers.c2fc2f
-    ];
+    maintainers = [ lib.maintainers.c2fc2f ];
   };
 }

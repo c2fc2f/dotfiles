@@ -1,13 +1,7 @@
-{
-  username,
-  pkgs,
-  ...
-}:
+{ username, pkgs, ... }:
 
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.hyprpicker
-    ];
+    home.packages = [ pkgs.hyprpicker ];
   };
 }

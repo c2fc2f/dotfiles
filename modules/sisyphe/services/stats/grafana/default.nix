@@ -80,12 +80,8 @@
             name = "Global Stats";
             options.path = pkgs.writeText "grafana-global-dashboard.json" (
               builtins.replaceStrings
-                [
-                  "$\{DS_PROMETHEUS}"
-                ]
-                [
-                  (builtins.elemAt datasources.settings.datasources 0).uid
-                ]
+                [ "$\{DS_PROMETHEUS}" ]
+                [ (builtins.elemAt datasources.settings.datasources 0).uid ]
                 (builtins.readFile ./dashboards/global.json)
             );
           }

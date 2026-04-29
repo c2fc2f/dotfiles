@@ -1,8 +1,4 @@
-{
-  config,
-  mainDomain,
-  ...
-}:
+{ config, mainDomain, ... }:
 let
   name = "linkwarden";
 in

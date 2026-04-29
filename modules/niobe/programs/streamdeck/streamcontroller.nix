@@ -7,16 +7,12 @@
 
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.streamcontroller
-    ];
+    home.packages = [ pkgs.streamcontroller ];
 
     systemd.user.services.streamcontroller = {
       Unit = {
         Description = "Stream Controller";
-        After = [
-          "graphical-session.target"
-        ];
+        After = [ "graphical-session.target" ];
       };
 
       Service = {
@@ -26,9 +22,7 @@
       };
 
       Install = {
-        WantedBy = [
-          "graphical-session.target"
-        ];
+        WantedBy = [ "graphical-session.target" ];
       };
     };
   };

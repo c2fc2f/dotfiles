@@ -1,7 +1,4 @@
-{
-  username,
-  ...
-}:
+{ username, ... }:
 /*
   Oh My Posh, a prompt theme engine for the shell. It allows creating highly
   customizable and informative prompts with support for Git, Kubernetes, time,

@@ -118,9 +118,7 @@ in
 {
   networking.firewall = {
     checkReversePath = "loose";
-    allowedUDPPorts = [
-      51820
-    ];
+    allowedUDPPorts = [ 51820 ];
   };
 
   systemd.network = {

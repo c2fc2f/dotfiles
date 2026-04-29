@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   gzip is a widely used command-line utility for file compression and
   decompression. It uses the DEFLATE algorithm and is typically used to reduce
@@ -12,8 +8,6 @@
 */
 {
   home-manager.users.${username} = {
-    home.packages = [
-      pkgs.gzip
-    ];
+    home.packages = [ pkgs.gzip ];
   };
 }

@@ -1,8 +1,4 @@
-{
-  pkgs,
-  username,
-  ...
-}:
+{ pkgs, username, ... }:
 /*
   Hyprlock, the official screen locker for Hyprland. Hyprlock is designed to
   integrate seamlessly with Hyprland, supporting modern aesthetics,

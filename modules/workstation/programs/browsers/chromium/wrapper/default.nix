@@ -12,9 +12,7 @@ let
     {
       name = "Youtube";
       url = "https://www.youtube.com";
-      extraFlags = [
-        "--incognito"
-      ];
+      extraFlags = [ "--incognito" ];
     }
     {
       name = "Figma";

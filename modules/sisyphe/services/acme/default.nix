@@ -1,8 +1,4 @@
-{
-  config,
-  mainDomain,
-  ...
-}:
+{ config, mainDomain, ... }:
 
 {
   security.acme = {
@@ -15,9 +11,7 @@
     certs = {
       ${mainDomain} = rec {
         domain = mainDomain;
-        extraDomainNames = [
-          "*.${domain}"
-        ];
+        extraDomainNames = [ "*.${domain}" ];
         dnsProvider = "cloudflare";
         postRun = ''
           cp cert.pem /opt/mailcow-dockerized/data/assets/ssl/
@@ -28,33 +22,25 @@
 
       atacc = {
         domain = "atacc-edu.org";
-        extraDomainNames = [
-          "*.atacc-edu.org"
-        ];
+        extraDomainNames = [ "*.atacc-edu.org" ];
         dnsProvider = "cloudflare";
       };
 
       culottes = {
         domain = "culottes.org";
-        extraDomainNames = [
-          "*.culottes.org"
-        ];
+        extraDomainNames = [ "*.culottes.org" ];
         dnsProvider = "cloudflare";
       };
 
       c2fc2f = {
         domain = "c2fc2f.com";
-        extraDomainNames = [
-          "*.c2fc2f.com"
-        ];
+        extraDomainNames = [ "*.c2fc2f.com" ];
         dnsProvider = "cloudflare";
       };
 
       kill-yourself = {
         domain = "kill-yourself.fr";
-        extraDomainNames = [
-          "*.kill-yourself.fr"
-        ];
+        extraDomainNames = [ "*.kill-yourself.fr" ];
         dnsProvider = "cloudflare";
       };
     };

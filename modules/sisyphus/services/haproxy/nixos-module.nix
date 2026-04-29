@@ -33,9 +33,7 @@ let
       hash = "sha256-9+du5t3tZ0rJw+7/1Y9O8vIHFwvev3HIx/vsgBm2P08=";
     };
 
-    patches = [
-      ./assets/haproxy_minecraft.patch
-    ];
+    patches = [ ./assets/haproxy_minecraft.patch ];
 
     unpackPhase = ''
       cp $src haproxy_minecraft.lua
@@ -156,9 +154,7 @@ in
       };
     };
 
-    defaults = {
-      inherit maxconn extraConfig;
-    };
+    defaults = { inherit maxconn extraConfig; };
 
     defaultBackend = lib.mkOption {
       type = lib.types.enum (
@@ -341,13 +337,9 @@ in
       '';
     };
 
-    users.groups.acme.members = [
-      cfg.user
-    ];
+    users.groups.acme.members = [ cfg.user ];
 
-    security.acme.defaults.reloadServices = [
-      "haproxy"
-    ];
+    security.acme.defaults.reloadServices = [ "haproxy" ];
 
     networking.firewall.allowedTCPPorts = [
       80

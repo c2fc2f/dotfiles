@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}:
+{ pkgs, lib, ... }:
 let
   lockScript = pkgs.writeShellApplication {
     name = "lock-all-sessions";
@@ -22,9 +18,7 @@ let
   };
 in
 {
-  nixpkgs.overlays = [
-    (import ./_overlay.nix)
-  ];
+  nixpkgs.overlays = [ (import ./_overlay.nix) ];
 
   services.udev.extraRules = ''
     ACTION=="remove", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", RUN+="${lib.getExe lockScript}"

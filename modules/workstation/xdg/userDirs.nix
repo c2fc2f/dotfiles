@@ -1,8 +1,4 @@
-{
-  username,
-  config,
-  ...
-}:
+{ username, config, ... }:
 /*
   Enables XDG user directories and sets the path for the Pictures directory.
   - `enable = true` allows Home Manager to manage standard XDG user folders
