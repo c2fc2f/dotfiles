@@ -2,7 +2,6 @@
   username,
   config,
   lib,
-  pkgs,
   mainDomain,
   ...
 }:
@@ -20,16 +19,9 @@
         ];
         root = "/var/www/www.${mainDomain}/public_html";
         extraConfig = ''
-          index index.php index.html;
+          index index.html;
           absolute_redirect off;
         '';
-        locations = {
-          "~ \\.php$".extraConfig = ''
-            fastcgi_pass  unix:${config.services.phpfpm.pools.mypool.socket};
-            fastcgi_index index.php;
-            include ${pkgs.nginx}/conf/fastcgi.conf;
-          '';
-        };
       };
     };
   };
