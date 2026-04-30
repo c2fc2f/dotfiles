@@ -9,6 +9,8 @@ let
 
       owner = user;
       inherit group;
+
+      mode = "0440";
     };
 in
 {

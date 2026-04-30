@@ -70,14 +70,14 @@ in
 
           olcSuffix = "dc=${domain},dc=${tld}";
 
-          olcRootDN = "cn=${username},dc=${domain},dc=${tld}";
+          olcRootDN = "cn=${username},ou=users,dc=${domain},dc=${tld}";
           olcRootPW.path =
             config.sops.secrets."openldap/${username}/password".path;
 
           olcAccess = [
             ''
               {0}to attrs=userPassword 
-                 by dn.base="cn=${username},dc=${domain},dc=${tld}" write
+                 by dn.base="cn=${username},ou=users,dc=${domain},dc=${tld}" write
                  by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
                  by self write 
                  by anonymous auth 
@@ -85,7 +85,7 @@ in
             ''
             ''
               {1}to * 
-                 by dn.base="cn=${username},dc=${domain},dc=${tld}" write
+                 by dn.base="cn=${username},ou=users,dc=${domain},dc=${tld}" write
                  by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
                  by self read 
                  by * none
@@ -112,10 +112,6 @@ in
           objectClass: organizationalUnit
           ou: users
 
-          dn: ou=groups,dc=${domain},dc=${tld}
-          objectClass: organizationalUnit
-          ou: groups
-
           dn: cn=readonly,dc=${domain},dc=${tld}
           objectClass: simpleSecurityObject
           objectClass: organizationalRole
@@ -137,6 +133,15 @@ in
               builtins.attrValues certs
             )
           )}
+
+          dn: ou=groups,dc=${domain},dc=${tld}
+          objectClass: organizationalUnit
+          ou: groups
+
+          dn: cn=admins,ou=groups,dc=${domain},dc=${tld}
+          objectClass: groupOfNames
+          cn: admins
+          member: cn=${username},ou=users,dc=${domain},dc=${tld}
         '';
     };
   };

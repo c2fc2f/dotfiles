@@ -6,8 +6,6 @@
 }:
 let
   listenAddress = "127.0.0.113:11334";
-
-  inherit (config.sops) secrets templates placeholder;
 in
 {
   services.rspamd = {
@@ -45,7 +43,7 @@ in
         }
       '';
 
-      "rbl.conf".source = templates."rbl.conf".path;
+      "rbl.conf".source = config.sops.templates."rbl.conf".path;
       "rbl_group.conf".source = ./config/rbl_group.conf;
 
       "actions.conf".text = ''
@@ -76,7 +74,9 @@ in
             cert:
             clib.indent 2 ''
               ${cert.domain} {
-                path = "${secrets."rspamd/dkim/${cert.domain}/key".path}";
+                path = "${
+                  config.sops.secrets."rspamd/dkim/${cert.domain}/key".path
+                }";
                 selector = "mail";
               }
             ''
@@ -95,7 +95,7 @@ in
       '';
 
       "worker-controller.inc".source =
-        templates."worker-controller.inc".path;
+        config.sops.templates."worker-controller.inc".path;
     };
   };
 
@@ -107,8 +107,8 @@ in
       "worker-controller.inc" = {
         content = ''
           bind_socket = "${listenAddress}";
-          password = "${placeholder."rspamd/password"}";
-          enable_password = "${placeholder."rspamd/password"}";
+          password = "${config.sops.placeholder."rspamd/password"}";
+          enable_password = "${config.sops.placeholder."rspamd/password"}";
         '';
         inherit owner;
       };
@@ -116,7 +116,7 @@ in
       "rbl.conf" = {
         content =
           let
-            dqs = placeholder."rspamd/spamhaus/dqs";
+            dqs = config.sops.placeholder."rspamd/spamhaus/dqs";
           in
           ''
             rbls {
@@ -410,7 +410,7 @@ in
     maps = {
       url = [
         {
-          url = "mail.${mainDomain}/rspamd";
+          url = "rspamd.${mainDomain}";
           backend = "rspamd";
         }
       ];

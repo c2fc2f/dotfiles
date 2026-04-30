@@ -66,7 +66,7 @@ in
   sops.templates."postfix-ldap-aliases.cf" = {
     content = ''
       server_host = ldap://localhost
-      search_base = dc=sagbot,dc=com
+      search_base = ou=users,dc=${domain},dc=${tld}
       version = 3
 
       query_filter = (&(objectClass=inetLocalMailRecipient)(|(mail=%s)(mailLocalAddress=%s)(mailLocalAddress=@%d)))
@@ -84,7 +84,7 @@ in
   sops.templates."postfix-ldap-users.cf" = {
     content = ''
       server_host = ldap://localhost
-      search_base = dc=sagbot,dc=com
+      search_base = ou=users,dc=${domain},dc=${tld}
       version = 3
 
       query_filter = (&(objectClass=inetLocalMailRecipient)(mail=%s))

@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  clib,
   mainDomain,
   ...
 }:
@@ -28,7 +29,7 @@ let
       version = "2.4.3";
     in
     lib.warnIf (pkgs.dovecot.version != version) ''
-      dovecot2 package version is ${pkgs.dovecot.version} but config targets ${version} review:
+      dovecot2 (v${pkgs.dovecot.version}) but targets v${version} review:
       - dovecot_config_version
       - dovecot_storage_version
     '' version;
@@ -83,7 +84,7 @@ in
       auth_username_format = "%{user | username | lower}";
 
       ldap_uris = "ldap://localhost";
-      ldap_base = "dc=${domain},dc=${tld}";
+      ldap_base = "ou=users,dc=${domain},dc=${tld}";
       ldap_scope = "subtree";
       ldap_auth_dn = "cn=readonly,dc=${domain},dc=${tld}";
       ldap_auth_dn_password = "<${
@@ -95,15 +96,21 @@ in
         driver = "ldap";
 
         ldap_bind = true;
-        bind_userdn = "cn=%{user},dc=${domain},dc=${tld}";
+        bind_userdn = "cn=%{user},ou=users,dc=${domain},dc=${tld}";
 
-        ldap_filter = "(&(objectClass=inetLocalMailRecipient)(uid=%{user | lower}))";
+        ldap_filter = clib.rmNewline ''
+          (&(objectClass=inetLocalMailRecipient)
+          (uid=%{user | lower}))
+        '';
       };
 
       "userdb ldap" = {
         driver = "ldap";
 
-        ldap_filter = "(&(objectClass=inetLocalMailRecipient)(uid=%{user | lower}))";
+        ldap_filter = clib.rmNewline ''
+          (&(objectClass=inetLocalMailRecipient)
+          (uid=%{user | lower}))
+        '';
       };
 
       "namespace INBOX" = {
