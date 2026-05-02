@@ -282,11 +282,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777671051,
-        "narHash": "sha256-h215lfBUcT4/HlY7v56hjS90rjAbhKgRGxT6tuq5icc=",
+        "lastModified": 1777716383,
+        "narHash": "sha256-DM1fnj0Pqy/JyALhBWVbo3DOkh/afgnKPu6GxlNZ2zo=",
         "owner": "BirdeeHub",
         "repo": "nix-wrapper-modules",
-        "rev": "5eeeb153ad8869f584e949541e858f3be76e761a",
+        "rev": "32022b4c09599b8b421dfce7df030c1efa976fe2",
         "type": "github"
       },
       "original": {
@@ -297,11 +297,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1777715868,
-        "narHash": "sha256-o1JM9RmPE6WzJFXnjNaD9Q7Q2vsx2q3hM3pBAq3KqL4=",
+        "lastModified": 1777716104,
+        "narHash": "sha256-sSvCafKpKZLNh5bHCCdj2m9WxQLor1HXcwk1Ee09pug=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d8b1db42e01432bc4d74b2d3a3a5c10ae449f79e",
+        "rev": "45f916ecea9913346812fd084a2a03c034c1772e",
         "type": "github"
       },
       "original": {
