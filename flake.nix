@@ -89,7 +89,6 @@
             "gaming"
             "vpn"
             "workstation"
-            "yubikey"
             # keep-sorted end
           ];
         };
@@ -115,7 +114,6 @@
             "laptop"
             "vpn"
             "workstation"
-            "yubikey"
             # keep-sorted end
           ];
         };
