@@ -1,1 +1,6 @@
-{ programs.nh.clean.dates = "weekly"; }
+{
+  programs.nh.clean = {
+    dates = "weekly";
+    extraArgs = "--keep-since 4d";
+  };
+}
