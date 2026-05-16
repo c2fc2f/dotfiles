@@ -35,6 +35,9 @@ pkgs.appimageTools.wrapType2 {
   profile = ''
     export GIO_EXTRA_MODULES=${pkgs.glib-networking}/lib/gio/modules
     export GSettingsSchemesPath=${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}
+
+    # Disable DMABUF renderer to prevent WebKitGTK from crashing on NVIDIA drivers
+    export WEBKIT_DISABLE_DMABUF_RENDERER=1
   '';
 
   extraInstallCommands = ''
