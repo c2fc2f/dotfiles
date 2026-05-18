@@ -1,6 +1,6 @@
 <!--- LTeX: language=en-US --->
 
-# culxttes/dotfiles
+# c2fc2f/dotfiles
 
 <div align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/c/c4/NixOS_logo.svg" alt="NixOS Logo" width="500"/>
@@ -37,7 +37,7 @@ This repository contains my personal NixOS configuration files, structured to fa
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/culxttes/dotfiles.git
+   git clone https://github.com/c2fc2f/dotfiles.git
    cd dotfiles
    ```
 
