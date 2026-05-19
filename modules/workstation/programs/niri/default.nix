@@ -21,6 +21,10 @@
     };
   };
 
+  systemd.user.services.niri = {
+    stopIfChanged = false;
+  };
+
   # restart niri with new settings on rebuild
   system.userActivationScripts = {
     niri-reload-config = {
