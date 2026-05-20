@@ -26,7 +26,7 @@ nix-wrapper.wrappers.niri.wrap {
 
   package = niri.packages.${system}.default;
 
-  extraPackages = with pkgs; [ xwayland-satellite ];
+  runtimePkgs = with pkgs; [ xwayland-satellite ];
 
   settings = {
     prefer-no-csd = { };
