@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ lib, ... }:
 
 {
   boot = {
@@ -12,9 +12,6 @@
       # Reduce kernel output during boot
       "quiet"
 
-      # Enable graphical boot screen (via Plymouth)
-      "splash"
-
       # Disable automatic USB device suspension
       "usbcore.autosuspend=-1"
     ];
@@ -23,31 +20,7 @@
       # Disable verbose output for the initramfs
       verbose = false;
 
-      systemd = {
-        enable = true;
-
-        extraBin.setleds = "${pkgs.kbd}/bin/setleds";
-
-        # Run commands before devices are initialized
-        # Enable Num Lock on all TTYs
-        services.initrd-numlock = {
-          description = "Enable Num Lock";
-
-          wantedBy = [ "cryptsetup.target" ];
-          before = [ "cryptsetup.target" ];
-
-          unitConfig.DefaultDependencies = false;
-
-          serviceConfig = {
-            Type = "oneshot";
-
-            StandardOutput = "journal+console";
-            StandardError = "journal+console";
-
-            ExecStart = "/bin/sh -c 'for tty in /dev/tty[1-6]; do /bin/setleds -D +num < $tty || true; done'";
-          };
-        };
-      };
+      systemd.enable = true;
     };
   };
 }
