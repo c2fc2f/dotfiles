@@ -12,8 +12,8 @@ let
 in
 {
   home-manager.users.${username} = {
-    programs.ssh.matchBlocks = {
-      "github.com" = {
+    programs.ssh.settings = {
+      "Host github.com" = {
         user = username;
         identityFile = "~/.ssh/${username}";
         identitiesOnly = true;
@@ -21,7 +21,7 @@ in
     }
     // (builtins.listToAttrs (
       map (name: {
-        inherit name;
+        name = "Host ${name}";
         value = {
           hostname = "${name}.${mainDomain}";
           user = username;
