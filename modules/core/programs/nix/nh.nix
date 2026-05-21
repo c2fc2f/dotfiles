@@ -13,7 +13,7 @@
     package = nh.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
     clean = {
-      enable = true;
+      enable = false;
 
       dates = lib.mkDefault "daily";
     };
