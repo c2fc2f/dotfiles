@@ -78,7 +78,7 @@
           groups = [
             # keep-sorted start
             "server"
-            "vpn"
+            "tunnels"
             # keep-sorted end
           ];
         };
@@ -87,7 +87,7 @@
             # keep-sorted start
             "development"
             "gaming"
-            "vpn"
+            "tunnels"
             "workstation"
             # keep-sorted end
           ];
@@ -96,7 +96,7 @@
           groups = [
             # keep-sorted start
             "server"
-            "vpn"
+            "tunnels"
             # keep-sorted end
           ];
         };
@@ -112,7 +112,7 @@
             # keep-sorted start
             "development"
             "laptop"
-            "vpn"
+            "tunnels"
             "workstation"
             # keep-sorted end
           ];
