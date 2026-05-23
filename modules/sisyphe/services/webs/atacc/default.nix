@@ -33,5 +33,7 @@ in
         }
       ];
     };
+
+    defaultBackend = name;
   };
 }
