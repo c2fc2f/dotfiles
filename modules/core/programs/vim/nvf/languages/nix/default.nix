@@ -27,7 +27,7 @@
       enable = true;
       setupOpts = {
         format_on_save = {
-          timeout_ms = 10000;
+          timeout_ms = 1000000;
         };
 
         formatters_by_ft = {
