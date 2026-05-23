@@ -66,6 +66,9 @@ in
             password_reset = {
               disable = false;
             };
+            password_change = {
+              disable = false;
+            };
 
             ldap = {
               implementation = "custom";
