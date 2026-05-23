@@ -121,6 +121,8 @@ in
           default_2fa_method = "webauthn";
           webauthn = {
             enable_passkey_login = true;
+            experimental_enable_passkey_uv_two_factors = true;
+
             display_name = lib.toUpper domain;
           };
 
