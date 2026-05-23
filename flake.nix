@@ -3,6 +3,10 @@
 
   inputs = {
     # keep-sorted start block=yes
+    cliclicker = {
+      url = "github:c2fc2f/cliclicker";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,7 +17,6 @@
     };
     hermux = {
       url = "github:c2fc2f/hermux";
-      # url = "git+file:///home/c2fc2f/git/hermes-mux/";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
