@@ -10,7 +10,7 @@
     enable = true;
 
     webuiPort = 8113;
-    group = "media";
+    inherit (config.custom.media) group;
 
     serverConfig = {
       LegalNotice.Accepted = true;

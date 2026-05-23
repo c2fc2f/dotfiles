@@ -9,13 +9,17 @@ in
     forceEncodingConfig = true;
   };
 
+  systemd.services.jellyfin.serviceConfig = {
+    BindReadOnlyPaths = [ config.custom.media.directory ];
+  };
+
   networking.firewall.allowedUDPPorts = [
     1900
     7359
   ];
 
   users.users.${config.services.jellyfin.user}.extraGroups = [
-    "media"
+    config.custom.media.group
   ];
 
   custom.services.haproxy = {
