@@ -68,7 +68,10 @@ in
         sign_local = true;
         sign_inbound = false;
 
-        domains {
+        allow_username_mismatch = true;
+        allow_hdrfrom_mismatch = true;
+
+        domain {
         ${builtins.concatStringsSep "\n" (
           map (
             cert:
