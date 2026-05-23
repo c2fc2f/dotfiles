@@ -15,19 +15,19 @@ in
     https = {
       enable = false;
       listenAddress = "0.0.0.0:7473";
-      advertisedAddress = "sisyphus.${mainDomain}";
+      advertisedAddress = "neo4j.${mainDomain}";
 
     };
 
     http = {
       enable = true;
       listenAddress = "0.0.0.0:7474";
-      advertisedAddress = "sisyphus.${mainDomain}";
+      advertisedAddress = "neo4j.${mainDomain}";
     };
 
     bolt = {
       listenAddress = "0.0.0.0:7687";
-      advertisedAddress = "sisyphus.${mainDomain}";
+      advertisedAddress = "neo4j.${mainDomain}";
 
       tlsLevel = "REQUIRED";
       sslPolicy = "bolt";

@@ -17,7 +17,13 @@ in
       SMTP_FROM = "vaultwarden@${mainDomain}";
       SMTP_FROM_NAME = "Vaultwarden server";
     };
-    environmentFile = config.sops.secrets."vaultwarden/env".path;
+    environmentFile = config.sops.templates."vaultwarden.env".path;
+  };
+
+  sops.templates."vaultwarden.env" = {
+    content = ''
+      ADMIN_TOKEN="${config.sops.placeholder."vaultwarden/admin/token"}"
+    '';
   };
 
   custom.services.haproxy = {

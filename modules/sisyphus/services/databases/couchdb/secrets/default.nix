@@ -1,7 +1,7 @@
 { config, ... }:
 
 {
-  custom.secrets.sisyphe.enable = true;
+  custom.secrets.sisyphus.enable = true;
 
   sops.secrets."couchdb/admin" = {
     sopsFile = ./admin;

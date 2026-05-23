@@ -6,10 +6,10 @@
       enable = true;
 
       realName = clib.decodeBase64 "U0FHQk9U";
-      address = clib.decodeBase64 "Y29udGFjdEBzYWdib3QuY29t";
+      address = clib.decodeBase64 "YzJmYzJmQHNhZ2JvdC5jb20=";
       primary = true;
 
-      userName = clib.decodeBase64 "Y29udGFjdEBzYWdib3QuY29t";
+      userName = clib.decodeBase64 "YzJmYzJm";
 
       smtp = {
         host = clib.decodeBase64 "bWFpbC5zYWdib3QuY29t";
