@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  hostName,
   mainDomain,
   ...
 }:
@@ -19,7 +20,7 @@ in
     settings = {
       main = {
         mydomain = mainDomain;
-        myhostname = "mail.${mainDomain}";
+        myhostname = "${hostName}.${mainDomain}";
         mynetworks = [
           "127.0.0.0/8"
           "[::1]/128"
