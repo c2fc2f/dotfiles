@@ -99,7 +99,6 @@
           groups = [
             # keep-sorted start
             "server"
-            "tunnels"
             # keep-sorted end
           ];
         };
@@ -107,6 +106,7 @@
           groups = [
             # keep-sorted start
             "server"
+            "tunnels"
             # keep-sorted end
           ];
         };

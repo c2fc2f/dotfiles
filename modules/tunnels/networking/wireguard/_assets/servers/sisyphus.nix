@@ -1,8 +1,8 @@
 {
   address = {
     public = {
-      ipv6 = "2001:41d0:303:4ea4::";
-      ipv4 = "54.37.86.164";
+      ipv6 = "2001:41d0:1004:2666::";
+      ipv4 = "51.255.74.102";
     };
     private = {
       ipv6 = "fd03:82c3:601f::";
@@ -10,7 +10,7 @@
     };
   };
 
-  publicKey = "BLsMxFkGL64SM7nNjXY96eiUz4Vn1lP6uBeHfD4JzlI=";
+  publicKey = "cVVzjCOiJ+IDQhYEdgD6KfQk21XSvuWet48riugHCgs=";
 
   publicNetworkInterface = "enp6s0";
 }
