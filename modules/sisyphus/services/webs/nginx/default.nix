@@ -17,7 +17,7 @@
             port = 3380;
           }
         ];
-        root = "/var/www/${mainDomain}/public_html";
+        root = "/var/www/${mainDomain}/public";
         extraConfig = ''
           index index.html;
           absolute_redirect off;
