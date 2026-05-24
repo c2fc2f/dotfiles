@@ -52,6 +52,7 @@ in
           public = false;
           require_pkce = true;
           pkce_challenge_method = "S256";
+          consent_mode = "implicit";
           redirect_uris = [
             "https://${fullDomain}/identity/connect/oidc-signin"
           ];
