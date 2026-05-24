@@ -14,12 +14,38 @@
 
     serverConfig = {
       LegalNotice.Accepted = true;
+
       Preferences = {
+        General.Locale = "en";
+
         WebUI = {
           Username = username;
           Password_PBKDF2 = "\"@ByteArray(N1H1mfNGSNxXT6RqaQXDsQ==:l/u/nZ/giFlPrUqW9oj/GPykVuBYjaMf5bHj0+/Zsn1xOx6ZKwThToNyyDtl6p80a6UyUzo6RoQnxJKhcxz7SA==)\"";
         };
-        General.Locale = "en";
+      };
+
+      BitTorrent = {
+        Session = {
+          DefaultSavePath = config.custom.media.directory;
+
+          ProxyPeerConnections = true;
+        };
+      };
+
+      Network = {
+        Proxy = {
+          IP = "icarus.proxy";
+          Port = 1080;
+          Type = "SOCKS5";
+          AuthEnabled = false;
+
+          HostnameLookupEnabled = true;
+          Profiles = {
+            BitTorrent = true;
+            Misc = true;
+            RSS = true;
+          };
+        };
       };
     };
   };
