@@ -12,13 +12,13 @@
       userName = clib.decodeBase64 "YzJmYzJm";
 
       smtp = {
-        host = clib.decodeBase64 "bWFpbC5zYWdib3QuY29t";
+        host = clib.decodeBase64 "c2lzeXBodXMuc2FnYm90LmNvbQ==";
         port = 465;
         tls.enable = true;
       };
 
       imap = {
-        host = clib.decodeBase64 "bWFpbC5zYWdib3QuY29t";
+        host = clib.decodeBase64 "c2lzeXBodXMuc2FnYm90LmNvbQ==";
         port = 993;
         tls.enable = true;
       };
