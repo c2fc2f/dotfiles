@@ -24,6 +24,10 @@
         };
       };
 
+      Meta = {
+        MigrationVersion = 8;
+      };
+
       BitTorrent = {
         Session = {
           DefaultSavePath = config.custom.media.directory;
