@@ -1,6 +1,6 @@
 { config, mainDomain, ... }:
 let
-  name = "radarr";
+  name = "prowlarr";
 in
 {
   services.${name} = {
@@ -8,7 +8,7 @@ in
 
     settings = {
       app = {
-        instancename = "SAG Movies";
+        instancename = "SAG Indexer";
       };
 
       auth = {
@@ -17,9 +17,9 @@ in
       };
 
       server = {
-        bindaddress = "127.0.0.78";
-        port = 7878;
-        urlbase = "/movies";
+        bindaddress = "127.0.0.96";
+        port = 9696;
+        urlbase = "/indexer";
       };
     };
   };
