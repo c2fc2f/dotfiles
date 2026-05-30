@@ -13,9 +13,11 @@ let
   cfg = config.custom.services.authelia;
 
   address = "127.0.0.90:9091";
+
+  name = "authelia";
 in
 {
-  options.custom.services.authelia = {
+  options.custom.services.${name} = {
     domain = lib.mkOption {
       type = lib.types.str;
       default = "auth.${mainDomain}";
@@ -31,7 +33,7 @@ in
 
   config = {
     services = {
-      authelia.instances.${cfg.mainInstance} = {
+      ${name}.instances.${cfg.mainInstance} = {
         enable = true;
 
         environmentVariables = {
@@ -117,7 +119,7 @@ in
             ];
 
             redis = {
-              host = config.services.redis.servers.authelia.unixSocket;
+              host = config.services.redis.servers.${name}.unixSocket;
             };
           };
 
@@ -142,8 +144,8 @@ in
           storage = {
             postgres = {
               address = "unix:///run/postgresql";
-              database = config.services.authelia.instances.main.user;
-              username = config.services.authelia.instances.main.user;
+              database = config.services.${name}.instances.main.user;
+              username = config.services.${name}.instances.main.user;
             };
           };
 
@@ -162,29 +164,37 @@ in
       };
 
       postgresql = {
-        ensureDatabases = [ config.services.authelia.instances.main.user ];
+        ensureDatabases = [ config.services.${name}.instances.main.user ];
         ensureUsers = [
           {
-            name = config.services.authelia.instances.main.user;
+            name = config.services.${name}.instances.main.user;
             ensureDBOwnership = true;
           }
         ];
       };
 
-      redis.servers.authelia.enable = true;
+      redis.servers.${name}.enable = true;
     };
 
     users.groups = {
-      openldap.members = [ config.services.authelia.instances.main.user ];
-      redis-authelia.members = [
-        config.services.authelia.instances.main.user
+      openldap.members = [ config.services.${name}.instances.main.user ];
+      "redis-${name}".members = [
+        config.services.${name}.instances.main.user
       ];
     };
 
     custom.services.haproxy = {
+      authz = {
+        enable = true;
+
+        backend = name;
+        path = "/api/verify";
+        redirectUrl = "https://${cfg.domain}/?rd=";
+      };
+
       backends = [
         {
-          name = "authelia";
+          inherit name;
           mode = "http";
           servers = [
             {
@@ -200,7 +210,7 @@ in
         url = [
           {
             url = cfg.domain;
-            backend = "authelia";
+            backend = name;
           }
         ];
       };

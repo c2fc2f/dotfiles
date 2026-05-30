@@ -24,6 +24,16 @@ let
       )
     );
 
+  makeAuthMap =
+    map:
+    pkgs.writeText "haproxy-auth.map" (
+      lib.strings.concatLines (
+        builtins.map (e: "${e.url} true") (
+          builtins.filter (e: e.needAuth) map
+        )
+      )
+    );
+
   haproxy_minecraft = pkgs.stdenv.mkDerivation {
     pname = "haproxy_minecraft-patch";
     version = "1.0";
@@ -46,6 +56,36 @@ let
     installPhase = ''
       mkdir -p $out
       cp haproxy_minecraft.lua $out/
+    '';
+  };
+
+  haproxy_auth_request = pkgs.stdenv.mkDerivation {
+    pname = "haproxy-auth-request";
+    version = "cdb891c";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "TimWolla";
+      repo = "haproxy-auth-request";
+      rev = "cdb891c";
+      hash = "sha256-1JibFpzfDljK8gMJUilQaWHuxQ0hRvQesu8wCB4MbCI=";
+    };
+
+    luaHttpSrc = pkgs.fetchurl {
+      url = "https://raw.githubusercontent.com/haproxytech/haproxy-lua-http/master/http.lua";
+      hash = "sha256-4e8BmV+wQPgsrS4ULQFmLRIJ/tgcGabJdo0Zkk6w794=";
+    };
+
+    jsonLuaSrc = pkgs.fetchurl {
+      url = "https://raw.githubusercontent.com/rxi/json.lua/master/json.lua";
+      hash = "sha256-DqzNpX+rwDMHNt4l9Fz1iYIaQrXg/gLk4xJffcC/K34=";
+    };
+
+    installPhase = ''
+      mkdir -p $out/share/lua
+      cp auth-request.lua $out/
+
+      cp $luaHttpSrc $out/share/lua/haproxy-lua-http.lua
+      cp $jsonLuaSrc $out/share/lua/json.lua
     '';
   };
 
@@ -93,28 +133,6 @@ let
       Additional configuration.
     '';
   };
-
-  mapback = lib.mkOption {
-    type =
-      with lib.types;
-      listOf (submodule {
-        options = {
-          url = lib.mkOption {
-            type = lib.types.str;
-            description = "Regex that matches the URL that the request must match";
-          };
-
-          backend = lib.mkOption {
-            type = lib.types.enum (builtins.map (e: e.name) cfg.backends);
-            description = "Backend that will be used when the request URL matches.";
-          };
-        };
-      });
-    default = [ ];
-    description = ''
-      Map of regex to match the right backend for the URL
-    '';
-  };
 in
 {
   options.custom.services.haproxy = {
@@ -155,6 +173,31 @@ in
     };
 
     defaults = { inherit maxconn extraConfig; };
+
+    authz = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          Whether to enable Authz authentication.
+        '';
+      };
+
+      backend = lib.mkOption {
+        type = lib.types.enum (builtins.map (e: e.name) cfg.backends);
+        description = "Backend of the Authz authenticator";
+      };
+
+      path = lib.mkOption {
+        type = lib.types.str;
+        description = "Path to request to verify";
+      };
+
+      redirectUrl = lib.mkOption {
+        type = lib.types.str;
+        description = "Url of the redirection";
+      };
+    };
 
     defaultBackend = lib.mkOption {
       type = lib.types.enum (
@@ -254,14 +297,69 @@ in
     };
 
     maps = {
-      minecraft = mapback;
-      url = mapback;
+      minecraft = lib.mkOption {
+        type =
+          with lib.types;
+          listOf (submodule {
+            options = {
+              url = lib.mkOption {
+                type = lib.types.str;
+                description = "Regex that matches the URL that the request must match";
+              };
+
+              backend = lib.mkOption {
+                type = lib.types.enum (builtins.map (e: e.name) cfg.backends);
+                description = "Backend that will be used when the request URL matches.";
+              };
+            };
+          });
+        default = [ ];
+        description = ''
+          Map of regex to match the right backend for the URL
+        '';
+      };
+
+      url = lib.mkOption {
+        type =
+          with lib.types;
+          listOf (submodule {
+            options = {
+              url = lib.mkOption {
+                type = lib.types.str;
+                description = "Regex that matches the URL that the request must match";
+              };
+
+              backend = lib.mkOption {
+                type = lib.types.enum (builtins.map (e: e.name) cfg.backends);
+                description = "Backend that will be used when the request URL matches.";
+              };
+
+              needAuth = lib.mkOption {
+                type = lib.types.bool;
+                default = false;
+                description = "Require Authz authentication for this URL.";
+              };
+            };
+          });
+        default = [ ];
+        description = ''
+          Map of regex to match the right backend for the URL
+        '';
+      };
     };
 
     inherit extraConfig;
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion =
+          cfg.authz.enable || !(builtins.any (u: u.needAuth) cfg.maps.url);
+        message = "Authentication must be enabled (cfg.authz.enable = true) if any URL requires it (needAuth = true).";
+      }
+    ];
+
     services.haproxy = {
       inherit (cfg)
         enable
@@ -283,6 +381,12 @@ in
           ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
           tune.lua.bool-sample-conversion normal
           lua-load ${haproxy_minecraft}/haproxy_minecraft.lua
+        ${lib.optionalString cfg.authz.enable (
+          clib.indent 2 ''
+            lua-prepend-path ${haproxy_auth_request}/share/lua/?.lua
+            lua-load ${haproxy_auth_request}/auth-request.lua
+          ''
+        )}
         ${clib.indent 2 cfg.global.extraConfig}
 
         defaults
@@ -304,6 +408,21 @@ in
           option forwardfor
           http-request set-header X-Forwarded-Proto https if { ssl_fc }
           http-response set-header Strict-Transport-Security "max-age=16000000; includeSubDomains; preload;"
+
+        ${lib.optionalString cfg.authz.enable (
+          clib.indent 2 ''
+            acl requires_auth base,map_beg(${makeAuthMap cfg.maps.url}) -m found
+
+            http-request set-header X-Forwarded-Host %[req.hdr(Host)] if requires_auth
+            http-request lua.auth-request ${cfg.authz.backend} ${cfg.authz.path} if requires_auth
+
+            http-request redirect location ${cfg.authz.redirectUrl}%[url] if requires_auth !{ var(txn.auth_response_successful) -m bool } { var(txn.auth_response_code) -m int 401 }
+            http-request deny deny_status 403 if requires_auth !{ var(txn.auth_response_successful) -m bool }
+
+            http-request set-header Remote-User %[var(txn.auth_response_header.remote_user)] if requires_auth { var(txn.auth_response_successful) -m bool }
+            http-request set-header Remote-Groups %[var(txn.auth_response_header.remote_groups)] if requires_auth { var(txn.auth_response_successful) -m bool }
+          ''
+        )}
 
           use_backend %[base,map_beg(${makeMap cfg.maps.url},${cfg.defaultBackend})]
 
