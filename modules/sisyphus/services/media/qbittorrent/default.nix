@@ -30,7 +30,7 @@
 
       BitTorrent = {
         Session = {
-          DefaultSavePath = config.custom.media.directory;
+          DefaultSavePath = "${config.custom.media.directory}/downloads";
 
           ProxyPeerConnections = true;
         };

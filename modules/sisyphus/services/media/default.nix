@@ -36,6 +36,9 @@ in
 
     systemd.tmpfiles.rules = [
       "d ${cfg.directory} ${cfg.permissions} nobody ${cfg.group} - -"
+      "d ${cfg.directory}/downloads ${cfg.permissions} nobody ${cfg.group} - -"
+      "d ${cfg.directory}/content ${cfg.permissions} nobody ${cfg.group} - -"
+
     ];
   };
 }
