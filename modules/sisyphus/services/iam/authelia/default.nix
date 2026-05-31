@@ -101,7 +101,13 @@ in
               '';
 
               additional_groups_dn = "ou=groups";
-              groups_filter = "(member={dn})";
+              group_search_mode = "filter";
+              groups_filter = clib.rmBlank ''
+                (&
+                  (member={dn})
+                  (objectClass=groupOfNames)
+                )
+              '';
 
               user = "cn=readonly,dc=${domain},dc=${tld}";
             };

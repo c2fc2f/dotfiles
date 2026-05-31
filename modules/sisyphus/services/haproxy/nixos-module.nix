@@ -421,6 +421,8 @@ in
 
             http-request set-header Remote-User %[var(txn.auth_response_header.remote_user)] if requires_auth { var(txn.auth_response_successful) -m bool }
             http-request set-header Remote-Groups %[var(txn.auth_response_header.remote_groups)] if requires_auth { var(txn.auth_response_successful) -m bool }
+            http-request set-header Remote-Name %[var(txn.auth_response_header.remote_name)] if requires_auth { var(txn.auth_response_successful) -m bool }
+            http-request set-header Remote-Email %[var(txn.auth_response_header.remote_email)] if requires_auth { var(txn.auth_response_successful) -m bool }
           ''
         )}
 
