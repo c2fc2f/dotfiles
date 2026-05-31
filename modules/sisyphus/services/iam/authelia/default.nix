@@ -61,7 +61,7 @@ in
           };
 
           log = {
-            level = "info";
+            level = "debug";
           };
 
           authentication_backend = {
@@ -139,7 +139,7 @@ in
 
           access_control = {
             default_policy = "deny";
-            rules = [
+            rules = lib.mkAfter [
               {
                 domain = "*.${mainDomain}";
                 policy = "two_factor";
@@ -194,8 +194,8 @@ in
         enable = true;
 
         backend = name;
-        path = "/api/verify";
-        redirectUrl = "https://${cfg.domain}/?rd=";
+        path = "/api/authz/forward-auth";
+        extraArgs = "HEAD * remote-user,remote-groups,remote-name,remote-email -";
       };
 
       backends = [

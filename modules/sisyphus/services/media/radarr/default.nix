@@ -1,6 +1,9 @@
 { config, mainDomain, ... }:
 let
   name = "radarr";
+
+  fullDomain = "media.${mainDomain}";
+  inherit (config.custom.services.authelia) mainInstance;
 in
 {
   services.${name} = {
@@ -52,11 +55,29 @@ in
         in
         [
           {
-            url = "media.${mainDomain}${urlbase}";
+            url = "${fullDomain}${urlbase}";
             backend = name;
             needAuth = true;
           }
         ];
     };
   };
+
+  services.authelia.instances.${mainInstance}.settings.access_control.rules =
+    let
+      inherit (config.services.${name}.settings.server) urlbase;
+    in
+    [
+      {
+        domain = fullDomain;
+        resources = [ "^${urlbase}.*" ];
+        policy = "two_factor";
+        subject = [ "group:admins" ];
+      }
+      {
+        domain = fullDomain;
+        resources = [ "^${urlbase}.*" ];
+        policy = "deny";
+      }
+    ];
 }

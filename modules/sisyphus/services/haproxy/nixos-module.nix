@@ -193,9 +193,10 @@ in
         description = "Path to request to verify";
       };
 
-      redirectUrl = lib.mkOption {
+      extraArgs = lib.mkOption {
         type = lib.types.str;
-        description = "Url of the redirection";
+        default = "";
+        description = "Extra arguments given to request to verify";
       };
     };
 
@@ -413,16 +414,25 @@ in
           clib.indent 2 ''
             acl requires_auth base,map_beg(${makeAuthMap cfg.maps.url}) -m found
 
-            http-request set-header X-Forwarded-Host %[req.hdr(Host)] if requires_auth
-            http-request lua.auth-request ${cfg.authz.backend} ${cfg.authz.path} if requires_auth
+            http-request del-header X-Forwarded-For if requires_auth
 
-            http-request redirect location ${cfg.authz.redirectUrl}%[url] if requires_auth !{ var(txn.auth_response_successful) -m bool } { var(txn.auth_response_code) -m int 401 }
-            http-request deny deny_status 403 if requires_auth !{ var(txn.auth_response_successful) -m bool }
+            acl hdr-xff_exists req.hdr(X-Forwarded-For) -m found
+            http-request set-header X-Forwarded-For %[src] if !hdr-xff_exists
+            option forwardfor
 
-            http-request set-header Remote-User %[var(txn.auth_response_header.remote_user)] if requires_auth { var(txn.auth_response_successful) -m bool }
-            http-request set-header Remote-Groups %[var(txn.auth_response_header.remote_groups)] if requires_auth { var(txn.auth_response_successful) -m bool }
-            http-request set-header Remote-Name %[var(txn.auth_response_header.remote_name)] if requires_auth { var(txn.auth_response_successful) -m bool }
-            http-request set-header Remote-Email %[var(txn.auth_response_header.remote_email)] if requires_auth { var(txn.auth_response_successful) -m bool }
+            http-request set-var(req.scheme) str(https) if { ssl_fc }
+            http-request set-var(req.scheme) str(http) if !{ ssl_fc }
+            http-request set-var(req.questionmark) str(?) if { query -m found }
+
+            http-request set-header X-Forwarded-Method %[method]
+            http-request set-header X-Forwarded-Proto  %[var(req.scheme)]
+            http-request set-header X-Forwarded-Host   %[req.hdr(Host)]
+            http-request set-header X-Forwarded-URI    %[path]%[var(req.questionmark)]%[query]
+
+            http-request lua.auth-intercept ${cfg.authz.backend} ${cfg.authz.path} ${cfg.authz.extraArgs} if requires_auth
+
+            http-request deny if requires_auth !{ var(txn.auth_response_successful) -m bool } { var(txn.auth_response_code) -m int 403 }
+            http-request redirect location %[var(txn.auth_response_location)] if requires_auth !{ var(txn.auth_response_successful) -m bool }
           ''
         )}
 
