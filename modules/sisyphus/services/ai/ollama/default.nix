@@ -13,18 +13,13 @@ in
       OLLAMA_MAX_LOADED_MODELS = "4";
     };
 
+    syncModels = true;
+
     loadModels = [
-      "qwen3.5:0.8b"
-      "qwen3.5:2b"
-      "qwen3.5:4b"
-      "qwen3.5:122b"
-
-      "gemma3:4b"
-
-      "nemotron-3-nano:4b"
-
-      "ministral-3:3b"
+      "qwen3.5:9b"
+      "gemma4:e4b"
       "ministral-3:8b"
+      "granite4.1:8b"
 
       "embeddinggemma:latest"
     ];
