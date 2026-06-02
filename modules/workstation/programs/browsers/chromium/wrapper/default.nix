@@ -3,6 +3,7 @@
   pkgs,
   lib,
   config,
+  mainDomain,
   ...
 }:
 let
@@ -29,6 +30,10 @@ let
     {
       name = "ChatGPT";
       url = "https://chatgpt.com";
+    }
+    {
+      name = "SAGAI";
+      url = "https://chat.${mainDomain}";
     }
   ];
 
