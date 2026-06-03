@@ -13,7 +13,7 @@
         appid = "nixos";
 
         # pamu2fcfg -u `whoami` -o nixos -i nixos
-        authfile = ./assets/u2f_keys;
+        authfile = "${./assets/u2f_keys}";
       };
       control = "required";
     };
