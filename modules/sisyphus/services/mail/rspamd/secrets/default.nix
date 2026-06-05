@@ -1,19 +1,17 @@
 { config, ... }:
 let
   inherit (config.services.rspamd) user group;
-  secret = {
-    sopsFile = ./secrets.yaml;
-
-    owner = user;
-    inherit group;
-  };
 in
 {
   custom.secrets.sisyphus.enable = true;
 
   sops.secrets = {
-    "rspamd/password" = secret;
-    "rspamd/spamhaus/dqs" = secret;
+    "rspamd/spamhaus/dqs" = {
+      sopsFile = ./secrets.yaml;
+
+      owner = user;
+      inherit group;
+    };
   }
   // builtins.listToAttrs (
     map (cert: {

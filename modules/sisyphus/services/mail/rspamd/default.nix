@@ -6,100 +6,124 @@
 }:
 let
   listenAddress = "127.0.0.113:11334";
+
+  fullDomain = "rspamd.${mainDomain}";
+  inherit (config.custom.services.authelia) mainInstance;
 in
 {
-  services.rspamd = {
-    enable = true;
-
-    postfix = {
+  services = {
+    rspamd = {
       enable = true;
-      config = {
-        milter_default_action = "accept";
-        milter_protocol = "6";
 
-        non_smtpd_milters = [ "unix:/run/rspamd/rspamd-milter.sock" ];
-        smtpd_milters = [ "unix:/run/rspamd/rspamd-milter.sock" ];
+      postfix = {
+        enable = true;
+        config = {
+          milter_default_action = "accept";
+          milter_protocol = "6";
+
+          non_smtpd_milters = [ "unix:/run/rspamd/rspamd-milter.sock" ];
+          smtpd_milters = [ "unix:/run/rspamd/rspamd-milter.sock" ];
+        };
+      };
+
+      overrides = {
+        "rbl.conf".text = ''
+          rbls {
+            senderscore {
+              enabled = false;
+              disable_monitoring = true;
+            }
+          }
+        '';
+      };
+
+      locals = {
+        "options.inc".text = ''
+          dns {
+            nameserver = [
+              "127.0.0.1:53", 
+              "[::1]:53"
+            ];
+          }
+        '';
+
+        "rbl.conf".source = config.sops.templates."rbl.conf".path;
+        "rbl_group.conf".source = ./config/rbl_group.conf;
+
+        "actions.conf".text = ''
+          reject = null;
+          greylist = null;
+          add_header = 6;
+        '';
+
+        "milter_headers.conf".text = ''
+          use = [
+            "x-spamd-result", 
+            "x-rspamd-server", 
+            "x-rspamd-queue-id"
+          ];
+          authenticated_headers = [ "x-spamd-result" ];
+        '';
+
+        "dkim_signing.conf".text = ''
+          enabled = true;
+
+          sign_authenticated = true;
+          sign_local = true;
+          sign_inbound = false;
+
+          allow_username_mismatch = true;
+          allow_hdrfrom_mismatch = true;
+
+          domain {
+          ${builtins.concatStringsSep "\n" (
+            map (
+              cert:
+              clib.indent 2 ''
+                ${cert.domain} {
+                  path = "${
+                    config.sops.secrets."rspamd/dkim/${cert.domain}/key".path
+                  }";
+                  selector = "mail";
+                }
+              ''
+            ) (builtins.attrValues config.security.acme.certs)
+          )}
+          }
+        '';
+
+        "redis.conf".text = ''
+          servers = "${config.services.redis.servers.rspamd.unixSocket}";
+        '';
+
+        "classifier-bayes.conf".text = ''
+          backend = "redis";
+          autolearn = true;
+        '';
+
+        "worker-controller.inc".source =
+          config.sops.templates."worker-controller.inc".path;
       };
     };
 
-    overrides = {
-      "rbl.conf".text = ''
-        rbls {
-          senderscore {
-            enabled = false;
-            disable_monitoring = true;
-          }
-        }
-      '';
+    redis.servers.rspamd = {
+      enable = true;
+
+      port = 0;
+      inherit (config.services.rspamd) user;
     };
 
-    locals = {
-      "options.inc".text = ''
-        dns {
-          nameserver = [
-            "127.0.0.1:53", 
-            "[::1]:53"
-          ];
-        }
-      '';
-
-      "rbl.conf".source = config.sops.templates."rbl.conf".path;
-      "rbl_group.conf".source = ./config/rbl_group.conf;
-
-      "actions.conf".text = ''
-        reject = null;
-        greylist = null;
-        add_header = 6;
-      '';
-
-      "milter_headers.conf".text = ''
-        use = [
-          "x-spamd-result", 
-          "x-rspamd-server", 
-          "x-rspamd-queue-id"
-        ];
-        authenticated_headers = [ "x-spamd-result" ];
-      '';
-
-      "dkim_signing.conf".text = ''
-        enabled = true;
-
-        sign_authenticated = true;
-        sign_local = true;
-        sign_inbound = false;
-
-        allow_username_mismatch = true;
-        allow_hdrfrom_mismatch = true;
-
-        domain {
-        ${builtins.concatStringsSep "\n" (
-          map (
-            cert:
-            clib.indent 2 ''
-              ${cert.domain} {
-                path = "${
-                  config.sops.secrets."rspamd/dkim/${cert.domain}/key".path
-                }";
-                selector = "mail";
-              }
-            ''
-          ) (builtins.attrValues config.security.acme.certs)
-        )}
-        }
-      '';
-
-      "redis.conf".text = ''
-        servers = "${config.services.redis.servers.rspamd.unixSocket}";
-      '';
-
-      "classifier-bayes.conf".text = ''
-        backend = "redis";
-        autolearn = true;
-      '';
-
-      "worker-controller.inc".source =
-        config.sops.templates."worker-controller.inc".path;
-    };
+    authelia.instances.${mainInstance}.settings.access_control.rules = [
+      {
+        domain = fullDomain;
+        policy = "two_factor";
+        subject = [ "group:admins" ];
+      }
+      {
+        domain = fullDomain;
+        policy = "deny";
+      }
+    ];
   };
 
   sops.templates =
@@ -110,8 +134,7 @@ in
       "worker-controller.inc" = {
         content = ''
           bind_socket = "${listenAddress}";
-          password = "${config.sops.placeholder."rspamd/password"}";
-          enable_password = "${config.sops.placeholder."rspamd/password"}";
+          secure_ip = ["0.0.0.0/0", "::/0"];
         '';
         inherit owner;
       };
@@ -387,13 +410,6 @@ in
       };
     };
 
-  services.redis.servers.rspamd = {
-    enable = true;
-
-    port = 0;
-    inherit (config.services.rspamd) user;
-  };
-
   custom.services.haproxy = {
     backends = [
       {
@@ -406,15 +422,15 @@ in
             check = true;
           }
         ];
-        extraConfig = "http-request set-path %[path,regsub(^/rspamd/?,/)]";
       }
     ];
 
     maps = {
       url = [
         {
-          url = "rspamd.${mainDomain}";
+          url = fullDomain;
           backend = "rspamd";
+          needAuth = true;
         }
       ];
     };
