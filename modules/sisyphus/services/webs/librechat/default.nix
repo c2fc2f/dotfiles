@@ -115,6 +115,7 @@ in
             "openid"
             "email"
             "profile"
+            "offline_access"
           ];
           response_types = [ "code" ];
           grant_types = [
