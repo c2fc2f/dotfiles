@@ -28,11 +28,17 @@
         MigrationVersion = 8;
       };
 
+      Core = {
+        AutoDeleteAddedTorrentFile = "Never";
+      };
+
       BitTorrent = {
         Session = {
           DefaultSavePath = "${config.custom.media.directory}/downloads";
 
           ProxyPeerConnections = true;
+
+          QueueingSystemEnabled = false;
         };
       };
 
