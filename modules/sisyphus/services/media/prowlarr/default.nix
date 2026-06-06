@@ -25,6 +25,14 @@ in
         urlbase = "/indexer";
       };
     };
+
+    environmentFiles = [ config.sops.templates."prowlarr.env".path ];
+  };
+
+  sops.templates."prowlarr.env" = {
+    content = ''
+      PROWLARR__AUTH__APIKEY="${config.sops.placeholder."prowlarr/apiKey"}"
+    '';
   };
 
   users.groups.${config.custom.media.group}.members = [ name ];
