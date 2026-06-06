@@ -7,6 +7,4 @@
   recognized by applications, especially when connecting to remote systems or
   using tools that rely on accurate terminfo entries.
 */
-{
-  environment.systemPackages = [ pkgs.kitty.terminfo ];
-}
+{ environment.systemPackages = [ pkgs.kitty.terminfo ]; }
