@@ -10,7 +10,7 @@
     };
   };
 
-  publicKey = "cVVzjCOiJ+IDQhYEdgD6KfQk21XSvuWet48riugHCgs=";
+  serverPublicKey = "cVVzjCOiJ+IDQhYEdgD6KfQk21XSvuWet48riugHCgs=";
 
   publicNetworkInterface = "enp6s0";
 }

@@ -10,7 +10,7 @@
     };
   };
 
-  publicKey = "1DUL+/nGLAnJalmYMLGRWX2xfUtb+H6bLaNctCBJg2E=";
+  serverPublicKey = "1DUL+/nGLAnJalmYMLGRWX2xfUtb+H6bLaNctCBJg2E=";
 
   publicNetworkInterface = "ens6";
 }

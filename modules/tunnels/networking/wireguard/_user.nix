@@ -1,6 +1,7 @@
 {
   config,
   hostName,
+  lib,
   clib,
   mainDomain,
   ...
@@ -8,11 +9,9 @@
 let
   wireconf = import ./_assets/users/${hostName}.nix;
 
-  nameWithoutExt =
-    path:
-    builtins.head (
-      builtins.match "(.*)\\.nix" (builtins.baseNameOf (toString path))
-    );
+  serversConf = builtins.filter (
+    file: (clib.nameWithoutExt file) != hostName
+  ) (clib.nixFilesRec ./_assets/servers);
 
   genNetworks =
     files:
@@ -21,7 +20,7 @@ let
         file:
         let
           conf = import file;
-          name = nameWithoutExt file;
+          name = clib.nameWithoutExt file;
         in
         {
           name = "50-${name}";
@@ -29,7 +28,7 @@ let
             matchConfig.Name = "wg-${name}";
 
             linkConfig = {
-              ActivationPolicy = "down";
+              ActivationPolicy = if wireconf.alwaysUp then "always-up" else "down";
             };
 
             address = [
@@ -37,28 +36,18 @@ let
               "${conf.address.private.ipv4}${wireconf.suffix}/32"
             ];
 
-            domains = [ "~." ];
-            dns = [
-              "1.1.1.1"
-              "1.0.0.1"
-              "2606:4700:4700::1111"
-              "2606:4700:4700::1001"
+            domains = lib.mkIf wireconf.routeEverything [ "~." ];
+            dns = lib.mkIf wireconf.routeEverything [
+              "${conf.address.private.ipv6}1"
+              "${conf.address.private.ipv4}1"
             ];
+
             networkConfig = {
-              DNSDefaultRoute = true;
+              DefaultRouteOnDevice = wireconf.routeEverything;
+              DNSDefaultRoute = wireconf.routeEverything;
             };
 
             routingPolicyRules = [
-              {
-                Family = "both";
-
-                InvertRule = true;
-                FirewallMark = 42;
-
-                Table = 1000;
-
-                Priority = 10;
-              }
               {
                 To = "${conf.address.public.ipv6}/128";
                 Priority = 5;
@@ -67,7 +56,38 @@ let
                 To = "${conf.address.public.ipv4}/32";
                 Priority = 5;
               }
-            ];
+              {
+                To = "${conf.address.private.ipv4}0/24";
+                Table = 1000;
+                Priority = 10;
+              }
+              {
+                To = "${conf.address.private.ipv6}/64";
+                Table = 1000;
+                Priority = 10;
+              }
+            ]
+            ++ (
+              if wireconf.routeEverything then
+                [
+                  {
+                    Family = "both";
+                    InvertRule = true;
+                    FirewallMark = 42;
+                    Table = 1000;
+                    Priority = 10;
+                  }
+                ]
+              else
+                [
+                  {
+                    Family = "both";
+                    FirewallMark = 33;
+                    Table = 1000;
+                    Priority = 15;
+                  }
+                ]
+            );
           };
         }
       ) files
@@ -80,7 +100,7 @@ let
         file:
         let
           conf = import file;
-          name = nameWithoutExt file;
+          name = clib.nameWithoutExt file;
         in
         {
           name = "50-${name}";
@@ -91,9 +111,9 @@ let
             };
 
             wireguardConfig = {
-              ListenPort = 51820;
+              ListenPort = 43282;
 
-              PrivateKeyFile = config.sops.secrets."wireguard/privateKey".path;
+              PrivateKeyFile = config.sops.secrets."wireguard/userPrivateKey".path;
 
               RouteTable = "main";
               FirewallMark = 42;
@@ -101,7 +121,7 @@ let
 
             wireguardPeers = [
               {
-                PublicKey = conf.publicKey;
+                PublicKey = conf.serverPublicKey;
                 AllowedIPs = [
                   "::/0"
                   "0.0.0.0/0"
@@ -115,16 +135,20 @@ let
       ) files
     );
 in
+
 {
   networking.firewall = {
     checkReversePath = "loose";
-    allowedUDPPorts = [ 51820 ];
+    allowedUDPPorts = [
+      51820
+      43282
+    ];
   };
 
   systemd.network = {
     enable = true;
 
-    networks = genNetworks (clib.nixFilesRec ./_assets/servers);
-    netdevs = genNetdevs (clib.nixFilesRec ./_assets/servers);
+    networks = genNetworks serversConf;
+    netdevs = genNetdevs serversConf;
   };
 }

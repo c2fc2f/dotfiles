@@ -13,7 +13,7 @@ let
       conf = import file;
     in
     {
-      PublicKey = conf.publicKey;
+      PublicKey = conf.userPublicKey;
 
       AllowedIPs = [
         "${wireconf.address.private.ipv6}${conf.suffix}/128"
@@ -31,11 +31,16 @@ in
       internalInterfaces = [ "wg0" ];
     };
 
-    firewall.allowedUDPPorts = [ 51820 ];
+    firewall = {
+      allowedTCPPorts = [ 53 ];
+      allowedUDPPorts = [
+        config.systemd.network.netdevs."50-wg0".wireguardConfig.ListenPort
+        53
+      ];
+    };
   };
 
   systemd.network = {
-
     networks."50-wg0" = {
       matchConfig.Name = "wg0";
 
@@ -59,13 +64,34 @@ in
       wireguardConfig = {
         ListenPort = 51820;
 
-        PrivateKeyFile = config.sops.secrets."wireguard/privateKey".path;
+        PrivateKeyFile =
+          config.sops.secrets."wireguard/serverPrivateKey".path;
 
         RouteTable = "main";
         FirewallMark = 42;
       };
 
-      wireguardPeers = genPeers (clib.nixFilesRec ./_assets/users);
+      wireguardPeers = genPeers (
+        builtins.filter (file: (clib.nameWithoutExt file) != hostName) (
+          clib.nixFilesRec ./_assets/users
+        )
+      );
+    };
+  };
+
+  services.unbound = {
+    enable = true;
+    settings = {
+      server = {
+        interface = [
+          "${wireconf.address.private.ipv6}1"
+          "${wireconf.address.private.ipv4}1"
+        ];
+        access-control = [
+          "${wireconf.address.private.ipv6}0/64 allow"
+          "${wireconf.address.private.ipv4}0/24 allow"
+        ];
+      };
     };
   };
 }

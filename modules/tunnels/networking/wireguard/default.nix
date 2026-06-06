@@ -1,9 +1,7 @@
-{ hostName, systemInfo, ... }:
+{ hostName, lib, ... }:
 
 {
   imports =
-    if builtins.elem "server" systemInfo.${hostName}.groups then
-      [ ./_server.nix ]
-    else
-      [ ./_user.nix ];
+    (lib.optional (builtins.pathExists ./_assets/servers/${hostName}.nix) ./_server.nix)
+    ++ (lib.optional (builtins.pathExists ./_assets/users/${hostName}.nix) ./_user.nix);
 }

@@ -1,4 +1,6 @@
 {
-  publicKey = "PHQfBhf3i4KRPIvtmiNhMaTb7sn6RsmhZ5xAOnPEEHU=";
+  userPublicKey = "PHQfBhf3i4KRPIvtmiNhMaTb7sn6RsmhZ5xAOnPEEHU=";
   suffix = "4";
+  routeEverything = true;
+  alwaysUp = false;
 }
