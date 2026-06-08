@@ -13,10 +13,9 @@ in
 {
   home-manager.users.${username} = {
     programs.ssh.settings = {
-      "Host github.com" = {
+      "Host github" = {
+        hostname = "github.com";
         user = username;
-        identityFile = "~/.ssh/${username}";
-        identitiesOnly = true;
       };
     }
     // (builtins.listToAttrs (
@@ -25,8 +24,6 @@ in
         value = {
           hostname = "${name}.${mainDomain}";
           user = username;
-          identityFile = "~/.ssh/${username}";
-          identitiesOnly = true;
         };
       }) serverHosts
     ));

@@ -21,6 +21,11 @@ in
   nixpkgs.overlays = [ (import ./_overlay.nix) ];
 
   services.udev.extraRules = ''
-    ACTION=="remove", ATTRS{idVendor}=="1050", ATTRS{idProduct}=="0407", RUN+="${lib.getExe lockScript}"
+    ACTION=="remove",\
+      ENV{ID_BUS}=="usb",\
+      ENV{ID_MODEL_ID}=="0024",\
+      ENV{ID_VENDOR_ID}=="349e",\
+      ENV{ID_VENDOR}=="TOKEN2",\
+      RUN+="${lib.getExe lockScript}"
   '';
 }

@@ -7,7 +7,6 @@
 
       realName = clib.decodeBase64 "RWRvdWFyZCBIQUREQUc=";
       address = clib.decodeBase64 "ZWRvdWFyZC5oYWRkYWdAdW5pdi1yb3Vlbi5mcg==";
-
       primary = false;
 
       userName = clib.decodeBase64 "aGFkZGFlZG8=";
@@ -24,7 +23,7 @@
         tls.enable = true;
       };
 
-      gpg.key = "938C455B432779F3";
+      gpg.key = "42E0E1D10B611208";
 
       thunderbird.enable = true;
     };
