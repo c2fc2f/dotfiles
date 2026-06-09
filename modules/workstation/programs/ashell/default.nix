@@ -26,6 +26,15 @@
 
         enable_esc_key = true;
 
+        region = "fr-FR";
+
+        osd = {
+          enabled = true;
+          timeout = 1500;
+          show_volume_percentage = true;
+          show_brightness_percentage = true;
+        };
+
         modules = {
           left = [ "SystemInfo" ];
           center = [ "WindowTitle" ];
@@ -33,7 +42,7 @@
             [
               "Tray"
               "Privacy"
-              "Clock"
+              "Tempo"
               "Settings"
             ]
           ];
@@ -47,8 +56,11 @@
           ];
         };
 
-        clock = {
-          format = "%a %d %b %T";
+        tempo = {
+          clock_format = "%a %d %b %T";
+          weather_location = {
+            City = "Rouen";
+          };
         };
 
         settings = {
