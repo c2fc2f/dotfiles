@@ -10,6 +10,7 @@
     programs.gpg.scdaemonSettings = {
       pcsc-shared = true;
       disable-ccid = true;
+      card-timeout = "5";
     };
   };
 }
