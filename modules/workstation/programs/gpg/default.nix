@@ -7,6 +7,9 @@
 */
 {
   home-manager.users.${username} = {
-    programs.gpg.enable = true;
+    programs.gpg.scdaemonSettings = {
+      pcsc-shared = true;
+      disable-ccid = true;
+    };
   };
 }
