@@ -14,7 +14,7 @@ let
   s = config.services.sonarr.settings.server;
   r = config.services.radarr.settings.server;
 
-  indexer = 8;
+  indexer = 9;
 in
 {
 
