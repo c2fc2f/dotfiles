@@ -1,4 +1,9 @@
-{ config, mainDomain, ... }:
+{
+  lib,
+  config,
+  mainDomain,
+  ...
+}:
 let
   name = "radarr";
 
@@ -25,6 +30,16 @@ in
         urlbase = "/movies";
       };
     };
+
+    environmentFiles = [ config.sops.templates."${name}.env".path ];
+  };
+
+  sops.templates."${name}.env" = {
+    content = ''
+      ${lib.toUpper name}__AUTH__APIKEY="${
+        config.sops.placeholder."${name}/apiKey"
+      }"
+    '';
   };
 
   users.groups.${config.custom.media.group}.members = [ name ];

@@ -62,6 +62,8 @@
     };
   };
 
+  systemd.services.qbittorrent.serviceConfig.UMask = "0002";
+
   networking.firewall.interfaces."wg-icarus" = {
     allowedTCPPorts = [
       config.services.qbittorrent.serverConfig.BitTorrent.Session.Port

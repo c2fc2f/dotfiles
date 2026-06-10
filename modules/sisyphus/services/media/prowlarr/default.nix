@@ -1,4 +1,9 @@
-{ config, mainDomain, ... }:
+{
+  lib,
+  config,
+  mainDomain,
+  ...
+}:
 let
   name = "prowlarr";
 
@@ -26,12 +31,14 @@ in
       };
     };
 
-    environmentFiles = [ config.sops.templates."prowlarr.env".path ];
+    environmentFiles = [ config.sops.templates."${name}.env".path ];
   };
 
-  sops.templates."prowlarr.env" = {
+  sops.templates."${name}.env" = {
     content = ''
-      PROWLARR__AUTH__APIKEY="${config.sops.placeholder."prowlarr/apiKey"}"
+      ${lib.toUpper name}__AUTH__APIKEY="${
+        config.sops.placeholder."${name}/apiKey"
+      }"
     '';
   };
 
