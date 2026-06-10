@@ -36,6 +36,8 @@
         Session = {
           DefaultSavePath = "${config.custom.media.directory}/downloads";
 
+          AnnounceToAllTrackers = true;
+
           Port = 51413;
           ProxyPeerConnections = false;
           QueueingSystemEnabled = false;
