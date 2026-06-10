@@ -6,11 +6,11 @@
 
 stdenv.mkDerivation rec {
   pname = "fleet-management";
-  version = "1.1.1";
+  version = "1.2.0";
 
   src = fetchurl {
     url = "https://dist.neo4j.org/fleet-management/${version}/neo4j-fleet-management-plugin-${version}-v2025.jar";
-    hash = "sha256-kqpSVjryN9NGFfBIb5qiuy/0QLa4Xw6hg6X47qcir5c=";
+    hash = "sha256-5MMlCmC6PPNBxgVzyKwgI3epOoL2IXLZTKbMVGIiL68=";
   };
 
   dontUnpack = true;
