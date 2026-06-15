@@ -53,44 +53,66 @@ in
           "${pkgs.openldap}/etc/schema/misc.ldif"
         ];
 
+        "cn=module{0}".attrs = {
+          objectClass = "olcModuleList";
+          olcModuleLoad = [ "memberof" ];
+        };
+
         "olcDatabase={0}config".attrs = {
           objectClass = "olcDatabaseConfig";
           olcDatabase = "{0}config";
           olcAccess = [ "{0}to * by * none" ];
         };
 
-        "olcDatabase={1}mdb".attrs = {
-          objectClass = [
-            "olcDatabaseConfig"
-            "olcMdbConfig"
-          ];
+        "olcDatabase={1}mdb" = {
+          attrs = {
+            objectClass = [
+              "olcDatabaseConfig"
+              "olcMdbConfig"
+            ];
 
-          olcDatabase = "{1}mdb";
-          olcDbDirectory = "/var/lib/openldap/data";
+            olcDatabase = "{1}mdb";
+            olcDbDirectory = "/var/lib/openldap/data";
 
-          olcSuffix = "dc=${domain},dc=${tld}";
+            olcSuffix = "dc=${domain},dc=${tld}";
 
-          olcRootDN = "cn=${username},ou=users,dc=${domain},dc=${tld}";
-          olcRootPW.path =
-            config.sops.secrets."openldap/${username}/password".path;
+            olcRootDN = "cn=${username},ou=users,dc=${domain},dc=${tld}";
+            olcRootPW.path =
+              config.sops.secrets."openldap/${username}/password".path;
 
-          olcAccess = [
-            ''
-              {0}to attrs=userPassword 
-                 by dn.base="cn=${username},ou=users,dc=${domain},dc=${tld}" write
-                 by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
-                 by self write 
-                 by anonymous auth 
-                 by * none
-            ''
-            ''
-              {1}to * 
-                 by dn.base="cn=${username},ou=users,dc=${domain},dc=${tld}" write
-                 by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
-                 by self read 
-                 by * none
-            ''
-          ];
+            olcAccess = [
+              ''
+                {0}to attrs=userPassword 
+                   by dn.base="cn=${username},ou=users,dc=${domain},dc=${tld}" write
+                   by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
+                   by self write 
+                   by anonymous auth 
+                   by * none
+              ''
+              ''
+                {1}to * 
+                   by dn.base="cn=${username},ou=users,dc=${domain},dc=${tld}" write
+                   by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
+                   by self read 
+                   by * none
+              ''
+            ];
+          };
+
+          children = {
+            "olcOverlay={0}memberof".attrs = {
+              objectClass = [
+                "olcOverlayConfig"
+                "olcMemberOf"
+              ];
+              olcOverlay = "memberof";
+              olcMemberOfDangling = "ignore";
+              olcMemberOfRefInt = "TRUE";
+              olcMemberOfGroupOC = "groupOfNames";
+              olcMemberOfMemberAD = "member";
+              olcMemberOfMemberOfAD = "memberOf";
+            };
+          };
         };
       };
     };
