@@ -9,8 +9,8 @@ in
     port = 11434;
 
     environmentVariables = {
-      OLLAMA_NUM_PARALLEL = "4";
-      OLLAMA_MAX_LOADED_MODELS = "4";
+      OLLAMA_NUM_PARALLEL = "8";
+      OLLAMA_MAX_LOADED_MODELS = "8";
     };
 
     syncModels = true;
