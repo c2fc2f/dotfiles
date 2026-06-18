@@ -95,6 +95,13 @@
             # keep-sorted end
           ];
         };
+        prometheus = {
+          groups = [
+            # keep-sorted start
+            "server"
+            # keep-sorted end
+          ];
+        };
         sisyphe = {
           groups = [
             # keep-sorted start
