@@ -4,7 +4,9 @@
   mainDomain,
   ...
 }:
-
+let
+  tunnels = "prometheus";
+in
 {
   services.qbittorrent = {
     enable = true;
@@ -41,14 +43,14 @@
           Port = 51413;
           ProxyPeerConnections = false;
           QueueingSystemEnabled = false;
-          Interface = "wg-icarus";
-          InterfaceName = "wg-icarus";
+          Interface = "wg-${tunnels}";
+          InterfaceName = "wg-${tunnels}";
         };
       };
 
       Network = {
         Proxy = {
-          IP = "icarus.proxy";
+          IP = "${tunnels}.proxy";
           Port = 1080;
           Type = "SOCKS5";
           AuthEnabled = false;
@@ -66,7 +68,7 @@
 
   systemd.services.qbittorrent.serviceConfig.UMask = "0002";
 
-  networking.firewall.interfaces."wg-icarus" = {
+  networking.firewall.interfaces."wg-${tunnels}" = {
     allowedTCPPorts = [
       config.services.qbittorrent.serverConfig.BitTorrent.Session.Port
     ];
@@ -74,18 +76,6 @@
       config.services.qbittorrent.serverConfig.BitTorrent.Session.Port
     ];
   };
-
-  networking.firewall.extraCommands =
-    let
-      inherit (config.services.qbittorrent) user;
-    in
-    ''
-      iptables -t mangle -D OUTPUT -m owner --uid-owner ${user} -j MARK \
-        --set-mark 0x21 2>/dev/null || true
-
-      iptables -t mangle -A OUTPUT -m owner --uid-owner ${user} -j MARK \
-        --set-mark 0x21
-    '';
 
   custom.services.haproxy = {
     backends = [

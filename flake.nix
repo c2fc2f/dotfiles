@@ -98,7 +98,9 @@
         prometheus = {
           groups = [
             # keep-sorted start
+            "seedbox"
             "server"
+            "tunnels"
             # keep-sorted end
           ];
         };

@@ -1,8 +1,10 @@
-{ lib, hostName, ... }:
+{
+  lib,
+  config,
+  hostName,
+  ...
+}:
 let
-  isServer = builtins.pathExists ../_assets/servers/${hostName}.nix;
-  isUser = builtins.pathExists ../_assets/users/${hostName}.nix;
-
   secret = {
     sopsFile = ./${hostName}.yaml;
 
@@ -15,7 +17,11 @@ in
   custom.secrets.${hostName}.enable = true;
 
   sops.secrets = {
-    "wireguard/userPrivateKey" = lib.mkIf isUser secret;
-    "wireguard/serverPrivateKey" = lib.mkIf isServer secret;
+    "wireguard/userPrivateKey" = lib.mkIf (
+      config.custom.vpn.users ? ${hostName}
+    ) secret;
+    "wireguard/serverPrivateKey" = lib.mkIf (
+      config.custom.vpn.servers ? ${hostName}
+    ) secret;
   };
 }
