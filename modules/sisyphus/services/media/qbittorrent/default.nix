@@ -1,10 +1,13 @@
 {
+  lib,
+  pkgs,
   config,
   username,
   mainDomain,
   ...
 }:
 let
+  cfg = config.services.qbittorrent;
   tunnels = "prometheus";
 in
 {
@@ -63,18 +66,47 @@ in
           };
         };
       };
+
+      AutoRun = {
+        enabled = true;
+        program = "${cfg.profileDir}scripts/autorun.sh %I";
+      };
     };
   };
 
-  systemd.services.qbittorrent.serviceConfig.UMask = "0002";
+  systemd.services.qbittorrent.serviceConfig = {
+    UMask = "0002";
+    ExecStartPre = lib.mkAfter [
+      "+${pkgs.coreutils}/bin/install -D -m 0550 -o ${cfg.user} -g ${cfg.group} ${
+        config.sops.templates."qbittorrent-autorun-config.sh".path
+      } ${cfg.profileDir}scripts/autorun.sh"
+    ];
+  };
+
+  sops.templates."qbittorrent-autorun-config.sh" = {
+    content =
+      let
+        inherit (config.services.cross-seed.settings) host port;
+      in
+      ''
+        #!/bin/sh
+        set -o errexit
+        set -o nounset
+        set -o pipefail
+
+        ${lib.getExe pkgs.curl} \
+          "http://${host}:${toString port}/api/webhook?apikey=${
+            config.sops.placeholder."cross-seed/apiKey"
+          }" \
+          -XPOST \
+          -d "infoHash=$1" \
+          -d "includeSingleEpisodes=true"
+      '';
+  };
 
   networking.firewall.interfaces."wg-${tunnels}" = {
-    allowedTCPPorts = [
-      config.services.qbittorrent.serverConfig.BitTorrent.Session.Port
-    ];
-    allowedUDPPorts = [
-      config.services.qbittorrent.serverConfig.BitTorrent.Session.Port
-    ];
+    allowedTCPPorts = [ cfg.serverConfig.BitTorrent.Session.Port ];
+    allowedUDPPorts = [ cfg.serverConfig.BitTorrent.Session.Port ];
   };
 
   custom.services.haproxy = {
@@ -82,18 +114,13 @@ in
       {
         name = "qbittorrent";
         mode = "http";
-        servers =
-          let
-            inherit (config.services.qbittorrent) webuiPort;
-          in
-          [
-
-            {
-              name = "server1";
-              addr = "127.0.0.1:${toString webuiPort}";
-              check = true;
-            }
-          ];
+        servers = [
+          {
+            name = "server1";
+            addr = "127.0.0.1:${toString cfg.webuiPort}";
+            check = true;
+          }
+        ];
       }
     ];
 
