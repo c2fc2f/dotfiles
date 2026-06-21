@@ -14,7 +14,7 @@ let
   s = config.services.sonarr.settings.server;
   r = config.services.radarr.settings.server;
 
-  indexer = 12;
+  indexer = 14;
 in
 {
 
@@ -85,9 +85,10 @@ in
     config.services.cross-seed.user
   ];
 
-  systemd.services.cross-seed.serviceConfig.ReadWritePaths = [
-    cfg.directory
-  ];
+  systemd.services.cross-seed = {
+    restartTriggers = [ config.sops.templates."cross-seed.json".path ];
+    serviceConfig.ReadWritePaths = [ cfg.directory ];
+  };
 
   systemd.tmpfiles.rules = [
     "d ${cfg.directory}/cross-seed ${cfg.permissions} nobody ${cfg.group} - -"
