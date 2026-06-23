@@ -58,7 +58,7 @@ nix-wrapper.wrappers.niri.wrap {
       "Mod+Shift+Up".move-window-up = { };
       "Mod+Shift+Down".move-window-down = { };
 
-      "Mod+ampersand".focus-workspace = "_w1";
+      "Mod+ampersand".focus-workspace = "browser";
       "Mod+eacute".focus-workspace = "_w2";
       "Mod+quotedbl".focus-workspace = "_w3";
       "Mod+apostrophe".focus-workspace = "_w4";
@@ -70,7 +70,7 @@ nix-wrapper.wrappers.niri.wrap {
       "Mod+agrave".focus-workspace = "chat";
       "Mod+S".spawn = lib.getExe toggleMagic;
 
-      "Mod+Shift+ampersand".move-column-to-workspace = "_w1";
+      "Mod+Shift+ampersand".move-column-to-workspace = "browser";
       "Mod+Shift+eacute".move-column-to-workspace = "_w2";
       "Mod+Shift+quotedbl".move-column-to-workspace = "_w3";
       "Mod+Shift+apostrophe".move-column-to-workspace = "_w4";
@@ -139,7 +139,8 @@ nix-wrapper.wrappers.niri.wrap {
     };
 
     workspaces = {
-      "_w1" = { };
+      "browser" = { };
+
       "_w2" = { };
       "_w3" = { };
       "_w4" = { };
@@ -156,6 +157,22 @@ nix-wrapper.wrappers.niri.wrap {
     window-rules = [
       {
         matches = [
+          { app-id = "librewolf"; }
+          { app-id = "chromium-browser"; }
+        ];
+        open-on-workspace = "browser";
+        open-maximized = true;
+      }
+      {
+        matches = [
+          { app-id = "brave-www.youtube.com__-Default"; }
+          { app-id = "spotify"; }
+        ];
+        open-on-workspace = "entertainment";
+        open-maximized = true;
+      }
+      {
+        matches = [
           { app-id = "vesktop"; }
           { app-id = "element"; }
           { app-id = "thunderbird"; }
@@ -166,10 +183,11 @@ nix-wrapper.wrappers.niri.wrap {
       }
       {
         matches = [
-          { app-id = "brave-www.youtube.com__-Default"; }
-          { app-id = "spotify"; }
+          { app-id = "brave-claude.ai__-Default"; }
+          { app-id = "brave-chat.sagbot.com__-Default"; }
+          { app-id = "brave-gemini.google.com__-Default"; }
         ];
-        open-on-workspace = "entertainment";
+        open-on-workspace = "magic";
         open-maximized = true;
       }
     ];
