@@ -155,12 +155,20 @@ nix-wrapper.wrappers.niri.wrap {
 
     window-rules = [
       {
-        matches = [ { app-id = "vesktop"; } ];
+        matches = [
+          { app-id = "vesktop"; }
+          { app-id = "element"; }
+          { app-id = "thunderbird"; }
+          { app-id = "org.telegram.desktop"; }
+        ];
         open-on-workspace = "chat";
         open-maximized = true;
       }
       {
-        matches = [ { app-id = "brave-www.youtube.com__-Default"; } ];
+        matches = [
+          { app-id = "brave-www.youtube.com__-Default"; }
+          { app-id = "spotify"; }
+        ];
         open-on-workspace = "entertainment";
         open-maximized = true;
       }
