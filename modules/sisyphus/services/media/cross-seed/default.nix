@@ -14,7 +14,23 @@ let
   s = config.services.sonarr.settings.server;
   r = config.services.radarr.settings.server;
 
-  indexer = 16;
+  indexers = [
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    10
+    11
+    12
+    14
+    15
+    16
+  ];
 in
 {
 
@@ -59,7 +75,7 @@ in
                   config.sops.placeholder."prowlarr/apiKey"
                 }"
               ''
-            ) (lib.range 1 indexer)
+            ) indexers
           )}
         ],
         "sonarr": [ 
