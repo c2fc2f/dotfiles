@@ -42,7 +42,6 @@ in
           );
 
           networkConfig = {
-            DefaultRouteOnDevice = cfg.routeEverything;
             DNSDefaultRoute = cfg.routeEverything;
           };
 
@@ -55,10 +54,6 @@ in
               To = "${value.address.private.ipv4}0/24";
               Table = value.RouteTable;
               Priority = 10;
-            }
-            {
-              From = "${value.address.private.ipv4}${cfg.suffix}/32";
-              Table = value.RouteTable;
             }
             {
               Family = "both";
@@ -76,15 +71,11 @@ in
             Table = value.RouteTable;
             Priority = 10;
           })
-          ++ (lib.optional (value.address.private.ipv6 != null) {
-            From = "${value.address.private.ipv6}${cfg.suffix}/128";
-            Table = value.RouteTable;
-          })
           ++ (lib.optional cfg.routeEverything {
             Family = "both";
             InvertRule = true;
             Table = value.RouteTable;
-            Priority = 10;
+            Priority = 15;
             FirewallMark = value.firewallMarks.outgoing;
           });
         };
@@ -120,12 +111,6 @@ in
       }) servers;
     };
 
-    networking.firewall = {
-      checkReversePath = "loose";
-      allowedUDPPorts = [
-        51820
-        43282
-      ];
-    };
+    networking.firewall.checkReversePath = "loose";
   };
 }
