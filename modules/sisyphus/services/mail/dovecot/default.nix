@@ -3,15 +3,11 @@
   pkgs,
   lib,
   clib,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
-  splitDomain = lib.splitString "." mainDomain;
-  tld = builtins.elemAt splitDomain 1;
-  domain = builtins.elemAt splitDomain 0;
-
-  certDir = config.security.acme.certs.${mainDomain}.directory;
+  certDir = config.security.acme.certs.${toString rootDomain}.directory;
 
   user = {
     uid = 5000;
@@ -84,9 +80,9 @@ in
       auth_username_format = "%{user | username | lower}";
 
       ldap_uris = "ldap://localhost";
-      ldap_base = "ou=users,dc=${domain},dc=${tld}";
+      ldap_base = "ou=users,dc=${rootDomain.sld},dc=${rootDomain.tld}";
       ldap_scope = "subtree";
-      ldap_auth_dn = "cn=readonly,dc=${domain},dc=${tld}";
+      ldap_auth_dn = "cn=readonly,dc=${rootDomain.sld},dc=${rootDomain.tld}";
       ldap_auth_dn_password = "<${
         config.sops.secrets."openldap/readonly/password".path
       }";
@@ -96,7 +92,12 @@ in
         driver = "ldap";
 
         ldap_bind = true;
-        bind_userdn = "cn=%{user},ou=users,dc=${domain},dc=${tld}";
+        bind_userdn = clib.rmNewline ''
+          cn=%{user},
+          ou=users,
+          dc=${rootDomain.sld},
+          dc=${rootDomain.tld}
+        '';
 
         ldap_filter = clib.rmNewline ''
           (&(objectClass=inetLocalMailRecipient)

@@ -2,7 +2,7 @@
   username,
   config,
   lib,
-  mainDomain,
+  rootDomain,
   ...
 }:
 
@@ -10,14 +10,14 @@
   services.nginx = {
     enable = true;
     virtualHosts = {
-      "${mainDomain}" = {
+      ${toString rootDomain} = {
         listen = [
           {
             addr = "127.0.0.80";
             port = 3380;
           }
         ];
-        root = "/var/www/${mainDomain}/public";
+        root = "/var/www/${rootDomain}/public";
         extraConfig = ''
           index index.html;
           absolute_redirect off;
@@ -47,11 +47,11 @@
 
     maps.url = [
       {
-        url = mainDomain;
-        backend = mainDomain;
+        url = toString rootDomain;
+        backend = toString rootDomain;
       }
     ];
 
-    defaultBackend = mainDomain;
+    defaultBackend = toString rootDomain;
   };
 }

@@ -1,8 +1,8 @@
-{ config, mainDomain, ... }:
+{ config, rootDomain, ... }:
 let
   name = "vaultwarden";
 
-  fullDomain = "pass.${mainDomain}";
+  fullDomain = "pass.${rootDomain}";
 
   inherit (config.custom.services.authelia) mainInstance;
 in
@@ -20,7 +20,7 @@ in
       SMTP_HOST = "127.0.0.1";
       SMTP_PORT = 25;
       SMTP_SSL = false;
-      SMTP_FROM = "${name}@${mainDomain}";
+      SMTP_FROM = "${name}@${rootDomain}";
       SMTP_FROM_NAME = "Vaultwarden server";
 
       SSO_ENABLED = true;

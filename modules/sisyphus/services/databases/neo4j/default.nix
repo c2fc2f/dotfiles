@@ -2,7 +2,7 @@
   clib,
   pkgs,
   config,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
@@ -15,19 +15,19 @@ in
     https = {
       enable = false;
       listenAddress = "0.0.0.0:7473";
-      advertisedAddress = "neo4j.${mainDomain}";
+      advertisedAddress = "neo4j.${rootDomain}";
 
     };
 
     http = {
       enable = true;
       listenAddress = "0.0.0.0:7474";
-      advertisedAddress = "neo4j.${mainDomain}";
+      advertisedAddress = "neo4j.${rootDomain}";
     };
 
     bolt = {
       listenAddress = "0.0.0.0:7687";
-      advertisedAddress = "neo4j.${mainDomain}";
+      advertisedAddress = "neo4j.${rootDomain}";
 
       tlsLevel = "REQUIRED";
       sslPolicy = "bolt";
@@ -35,7 +35,7 @@ in
 
     ssl.policies.bolt =
       let
-        certDir = config.security.acme.certs.${mainDomain}.directory;
+        certDir = config.security.acme.certs.${toString rootDomain}.directory;
       in
       {
         clientAuth = "OPTIONAL";
@@ -77,7 +77,9 @@ in
 
   users.groups.acme.members = [ "neo4j" ];
 
-  security.acme.certs.${mainDomain}.reloadServices = [ "neo4j" ];
+  security.acme.certs.${toString rootDomain}.reloadServices = [
+    "neo4j"
+  ];
 
   networking.firewall.allowedTCPPorts = [ 7687 ];
 

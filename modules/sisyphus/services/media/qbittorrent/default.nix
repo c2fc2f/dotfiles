@@ -3,7 +3,7 @@
   pkgs,
   config,
   username,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
@@ -127,7 +127,7 @@ in
     maps = {
       url = [
         {
-          url = "torrent.${mainDomain}";
+          url = "torrent.${rootDomain}";
           backend = "qbittorrent";
         }
       ];

@@ -1,13 +1,13 @@
 {
   config,
   pkgs,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
   name = "linkwarden";
 
-  fullDomain = "link.${mainDomain}";
+  fullDomain = "link.${rootDomain}";
 
   inherit (config.custom.services.authelia) mainInstance;
 in

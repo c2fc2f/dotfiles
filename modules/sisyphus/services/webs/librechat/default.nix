@@ -1,8 +1,8 @@
-{ config, mainDomain, ... }:
+{ config, rootDomain, ... }:
 let
   name = "librechat";
 
-  fullDomain = "chat.${mainDomain}";
+  fullDomain = "chat.${rootDomain}";
 
   inherit (config.custom.services.authelia) mainInstance domain;
 in

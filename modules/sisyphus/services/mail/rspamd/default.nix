@@ -1,13 +1,13 @@
 {
   config,
   clib,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
   listenAddress = "127.0.0.113:11334";
 
-  fullDomain = "rspamd.${mainDomain}";
+  fullDomain = "rspamd.${rootDomain}";
   inherit (config.custom.services.authelia) mainInstance;
 in
 {

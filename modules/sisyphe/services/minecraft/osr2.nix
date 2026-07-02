@@ -3,7 +3,7 @@
   config,
   lib,
   nix-minecraft,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
@@ -126,7 +126,7 @@ in
     maps = {
       minecraft = [
         {
-          url = "${name}.${mainDomain}";
+          url = "${name}.${rootDomain}";
           backend = name;
         }
       ];

@@ -1,25 +1,21 @@
 {
   pkgs,
+  clib,
   lib,
   username,
-  mainDomain,
+  rootDomain,
   config,
   ...
 }:
-let
-  splitDomain = lib.splitString "." mainDomain;
-  tld = builtins.elemAt splitDomain 1;
-  domain = builtins.elemAt splitDomain 0;
-in
 /*
   VISUALIZING THE DN (Distinguished Name)
   The DN is the 'Full Path' to an object.
 
-  Example: cn=alice,ou=users,dc=sagbot,dc=com
+  Example: cn=alice,ou=users,dc=toto,dc=com
 
   [Root]
     └── dc=com (DC - Domain Component)
-        └── dc=sagbot (DC - Domain Component)
+        └── dc=toto (DC - Domain Component)
             ├── ou=groups (OU - Organizational Unit / Folder)
             └── ou=users (OU - Organizational Unit / Folder)
                 └── cn=alice (CN - Common Name / The actual entry)
@@ -36,7 +32,7 @@ in
     settings = {
       attrs =
         let
-          certDir = config.security.acme.certs.${mainDomain}.directory;
+          certDir = config.security.acme.certs.${toString rootDomain}.directory;
         in
         {
           olcTLSCACertificateFile = "${certDir}/fullchain.pem";
@@ -74,29 +70,38 @@ in
             olcDatabase = "{1}mdb";
             olcDbDirectory = "/var/lib/openldap/data";
 
-            olcSuffix = "dc=${domain},dc=${tld}";
+            olcSuffix = "dc=${rootDomain.sld},dc=${rootDomain.tld}";
 
-            olcRootDN = "cn=${username},ou=users,dc=${domain},dc=${tld}";
+            olcRootDN = clib.rmNewline ''
+              cn=${username},
+              ou=users,
+              dc=${rootDomain.sld},
+              dc=${rootDomain.tld}
+            '';
             olcRootPW.path =
               config.sops.secrets."openldap/${username}/password".path;
 
-            olcAccess = [
-              ''
-                {0}to attrs=userPassword 
-                   by dn.base="cn=${username},ou=users,dc=${domain},dc=${tld}" write
-                   by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
-                   by self write 
-                   by anonymous auth 
-                   by * none
-              ''
-              ''
-                {1}to * 
-                   by dn.base="cn=${username},ou=users,dc=${domain},dc=${tld}" write
-                   by dn.base="cn=readonly,dc=${domain},dc=${tld}" read
-                   by self read 
-                   by * none
-              ''
-            ];
+            olcAccess =
+              let
+                inherit (rootDomain) sld tld;
+              in
+              [
+                ''
+                  {0}to attrs=userPassword 
+                     by dn.base="cn=${username},ou=users,dc=${sld},dc=${tld}" write
+                     by dn.base="cn=readonly,dc=${sld},dc=${tld}" read
+                     by self write 
+                     by anonymous auth 
+                     by * none
+                ''
+                ''
+                  {1}to * 
+                     by dn.base="cn=${username},ou=users,dc=${sld},dc=${tld}" write
+                     by dn.base="cn=readonly,dc=${sld},dc=${tld}" read
+                     by self read 
+                     by * none
+                ''
+              ];
           };
 
           children = {
@@ -117,55 +122,59 @@ in
       };
     };
 
-    declarativeContents = {
-      "dc=${domain},dc=${tld}" =
-        let
-          inherit (config.security.acme) certs;
-        in
-        ''
-          dn: dc=${domain},dc=${tld}
-          objectClass: top
-          objectClass: dcObject
-          objectClass: organization
-          o: ${lib.toUpper domain}
-          dc: ${domain}
+    declarativeContents =
+      let
+        inherit (rootDomain) sld tld;
+      in
+      {
+        "dc=${sld},dc=${tld}" =
+          let
+            inherit (config.security.acme) certs;
+          in
+          ''
+            dn: dc=${sld},dc=${tld}
+            objectClass: top
+            objectClass: dcObject
+            objectClass: organization
+            o: ${lib.toUpper sld}
+            dc: ${sld}
 
-          dn: ou=users,dc=${domain},dc=${tld}
-          objectClass: organizationalUnit
-          ou: users
+            dn: ou=users,dc=${sld},dc=${tld}
+            objectClass: organizationalUnit
+            ou: users
 
-          dn: cn=readonly,dc=${domain},dc=${tld}
-          objectClass: simpleSecurityObject
-          objectClass: organizationalRole
-          cn: readonly
-          userPassword:< file://${
-            config.sops.secrets."openldap/readonly/password".path
-          }
+            dn: cn=readonly,dc=${sld},dc=${tld}
+            objectClass: simpleSecurityObject
+            objectClass: organizationalRole
+            cn: readonly
+            userPassword:< file://${
+              config.sops.secrets."openldap/readonly/password".path
+            }
 
-          dn: cn=${username},ou=users,dc=${domain},dc=${tld}
-          objectClass: inetOrgPerson
-          objectClass: inetLocalMailRecipient
-          cn: ${username}
-          sn: ${username}
-          givenName: ${username}
-          uid: ${username}
-          mail: ${username}@${mainDomain}
-          ${builtins.concatStringsSep "\n" (
-            map (cert: "mailLocalAddress: @${cert.domain}") (
-              builtins.attrValues certs
-            )
-          )}
+            dn: cn=${username},ou=users,dc=${sld},dc=${tld}
+            objectClass: inetOrgPerson
+            objectClass: inetLocalMailRecipient
+            cn: ${username}
+            sn: ${username}
+            givenName: ${username}
+            uid: ${username}
+            mail: ${username}@${rootDomain}
+            ${builtins.concatStringsSep "\n" (
+              map (cert: "mailLocalAddress: @${cert.domain}") (
+                builtins.attrValues certs
+              )
+            )}
 
-          dn: ou=groups,dc=${domain},dc=${tld}
-          objectClass: organizationalUnit
-          ou: groups
+            dn: ou=groups,dc=${sld},dc=${tld}
+            objectClass: organizationalUnit
+            ou: groups
 
-          dn: cn=admins,ou=groups,dc=${domain},dc=${tld}
-          objectClass: groupOfNames
-          cn: admins
-          member: cn=${username},ou=users,dc=${domain},dc=${tld}
-        '';
-    };
+            dn: cn=admins,ou=groups,dc=${sld},dc=${tld}
+            objectClass: groupOfNames
+            cn: admins
+            member: cn=${username},ou=users,dc=${sld},dc=${tld}
+          '';
+      };
   };
 
   users.groups.acme.members = [ config.services.openldap.user ];

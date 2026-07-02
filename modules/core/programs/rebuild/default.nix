@@ -7,7 +7,7 @@
   hostName,
   systemInfo,
   builder,
-  mainDomain,
+  rootDomain,
   ...
 }:
 with lib;
@@ -22,19 +22,19 @@ let
         local )
           nh os switch \
             --hostname ${name} \
-            --target-host ${username}@${name}.${mainDomain}
+            --target-host ${username}@${name}.${rootDomain}
         ;;
         self )
           nh os switch \
             --hostname ${name} \
-            --build-host ${username}@${name}.${mainDomain} \
-            --target-host ${username}@${name}.${mainDomain}
+            --build-host ${username}@${name}.${rootDomain} \
+            --target-host ${username}@${name}.${rootDomain}
         ;;
         * )
           nh os switch \
             --hostname ${name} \
-            --build-host ${username}@"$BUILDER_ARG".${mainDomain} \
-            --target-host ${username}@${name}.${mainDomain}
+            --build-host ${username}@"$BUILDER_ARG".${rootDomain} \
+            --target-host ${username}@${name}.${rootDomain}
         ;;
         esac
       ;;
@@ -80,7 +80,7 @@ in
               if [[ "$BUILDER_ARG" = "local" || "$BUILDER_ARG" = "self" ]]; then
                 nh os switch
               else
-                nh os switch --build-host "${username}@$BUILDER_ARG.${mainDomain}"
+                nh os switch --build-host "${username}@$BUILDER_ARG.${rootDomain}"
               fi
               ;;
           ${clib.indent 2 (concatStringsSep "" (map genCase serverHosts))}

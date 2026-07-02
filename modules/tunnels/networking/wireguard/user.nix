@@ -2,7 +2,7 @@
   config,
   hostName,
   lib,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
@@ -103,7 +103,7 @@ in
                 "0.0.0.0/0"
               ]
               ++ (lib.optional (value.address.private.ipv6 != null) "::/0");
-              Endpoint = "${name}.${mainDomain}:51820";
+              Endpoint = "${name}.${rootDomain}:51820";
               inherit (value) RouteTable;
             }
           ];

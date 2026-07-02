@@ -1,13 +1,13 @@
 {
   lib,
   config,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
   name = "prowlarr";
 
-  fullDomain = "media.${mainDomain}";
+  fullDomain = "media.${rootDomain}";
   inherit (config.custom.services.authelia) mainInstance;
 in
 {

@@ -5,6 +5,7 @@
   nix-wrapper,
   focal,
   niri,
+  rootDomain,
   ...
 }:
 {
@@ -18,6 +19,7 @@
       inherit nix-wrapper;
       inherit focal;
       inherit niri;
+      inherit rootDomain;
     };
   };
 

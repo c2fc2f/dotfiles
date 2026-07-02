@@ -1,15 +1,9 @@
 {
-  lib,
   config,
   hostName,
-  mainDomain,
+  rootDomain,
   ...
 }:
-let
-  splitDomain = lib.splitString "." mainDomain;
-  tld = builtins.elemAt splitDomain 1;
-  domain = builtins.elemAt splitDomain 0;
-in
 {
   services.postfix = {
     enable = true;
@@ -19,8 +13,8 @@ in
 
     settings = {
       main = {
-        mydomain = mainDomain;
-        myhostname = "${hostName}.${mainDomain}";
+        mydomain = toString rootDomain;
+        myhostname = "${hostName}.${rootDomain}";
         mynetworks = [
           "127.0.0.0/8"
           "[::1]/128"
@@ -54,7 +48,7 @@ in
 
         smtpd_tls_chain_files =
           let
-            certDir = config.security.acme.certs.${mainDomain}.directory;
+            certDir = config.security.acme.certs.${toString rootDomain}.directory;
           in
           [
             "${certDir}/key.pem"
@@ -64,41 +58,49 @@ in
     };
   };
 
-  sops.templates."postfix-ldap-aliases.cf" = {
-    content = ''
-      server_host = ldap://localhost
-      search_base = ou=users,dc=${domain},dc=${tld}
-      version = 3
+  sops.templates."postfix-ldap-aliases.cf" =
+    let
+      inherit (rootDomain) sld tld;
+    in
+    {
+      content = ''
+        server_host = ldap://localhost
+        search_base = ou=users,dc=${sld},dc=${tld}
+        version = 3
 
-      query_filter = (&(objectClass=inetLocalMailRecipient)(|(mail=%s)(mailLocalAddress=%s)(mailLocalAddress=@%d)))
+        query_filter = (&(objectClass=inetLocalMailRecipient)(|(mail=%s)(mailLocalAddress=%s)(mailLocalAddress=@%d)))
 
-      result_attribute = mail 
+        result_attribute = mail 
 
-      bind = yes
-      bind_dn = cn=readonly,dc=${domain},dc=${tld}
-      bind_pw = ${config.sops.placeholder."openldap/readonly/password"}
-    '';
+        bind = yes
+        bind_dn = cn=readonly,dc=${sld},dc=${tld}
+        bind_pw = ${config.sops.placeholder."openldap/readonly/password"}
+      '';
 
-    owner = config.services.postfix.user;
-  };
+      owner = config.services.postfix.user;
+    };
 
-  sops.templates."postfix-ldap-users.cf" = {
-    content = ''
-      server_host = ldap://localhost
-      search_base = ou=users,dc=${domain},dc=${tld}
-      version = 3
+  sops.templates."postfix-ldap-users.cf" =
+    let
+      inherit (rootDomain) sld tld;
+    in
+    {
+      content = ''
+        server_host = ldap://localhost
+        search_base = ou=users,dc=${sld},dc=${tld}
+        version = 3
 
-      query_filter = (&(objectClass=inetLocalMailRecipient)(mail=%s))
+        query_filter = (&(objectClass=inetLocalMailRecipient)(mail=%s))
 
-      result_attribute = mail 
+        result_attribute = mail 
 
-      bind = yes
-      bind_dn = cn=readonly,dc=${domain},dc=${tld}
-      bind_pw = ${config.sops.placeholder."openldap/readonly/password"}
-    '';
+        bind = yes
+        bind_dn = cn=readonly,dc=${sld},dc=${tld}
+        bind_pw = ${config.sops.placeholder."openldap/readonly/password"}
+      '';
 
-    owner = config.services.postfix.user;
-  };
+      owner = config.services.postfix.user;
+    };
 
   users.groups.acme.members = [ config.services.postfix.user ];
   security.acme.defaults.reloadServices = [ "postfix" ];

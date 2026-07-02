@@ -4,6 +4,7 @@
   nix-wrapper,
   focal,
   niri,
+  rootDomain,
   ...
 }:
 let
@@ -15,6 +16,7 @@ let
     inherit nix-wrapper;
     inherit focal;
     inherit niri;
+    inherit rootDomain;
   };
 in
 {

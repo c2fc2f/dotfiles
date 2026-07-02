@@ -1,13 +1,13 @@
 {
   lib,
   config,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
   name = "radarr";
 
-  fullDomain = "media.${mainDomain}";
+  fullDomain = "media.${rootDomain}";
   inherit (config.custom.services.authelia) mainInstance;
 in
 {

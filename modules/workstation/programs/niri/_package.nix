@@ -4,6 +4,7 @@
   focal,
   lib,
   pkgs,
+  rootDomain,
 }:
 let
   inherit (pkgs.stdenv.hostPlatform) system;
@@ -184,7 +185,7 @@ nix-wrapper.wrappers.niri.wrap {
       {
         matches = [
           { app-id = "brave-claude.ai__-Default"; }
-          { app-id = "brave-chat.sagbot.com__-Default"; }
+          { app-id = "brave-chat.${rootDomain}__-Default"; }
           { app-id = "brave-gemini.google.com__-Default"; }
         ];
         open-on-workspace = "magic";

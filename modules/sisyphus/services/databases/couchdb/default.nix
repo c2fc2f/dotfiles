@@ -1,4 +1,4 @@
-{ config, mainDomain, ... }:
+{ config, rootDomain, ... }:
 let
   name = "couchdb";
 in
@@ -34,7 +34,7 @@ in
     maps = {
       url = [
         {
-          url = "couchdb.${mainDomain}";
+          url = "couchdb.${rootDomain}";
           backend = name;
         }
       ];

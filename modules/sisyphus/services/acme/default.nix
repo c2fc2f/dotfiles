@@ -1,11 +1,11 @@
-{ config, mainDomain, ... }:
+{ config, rootDomain, ... }:
 
 {
   security.acme = {
     acceptTerms = true;
 
     defaults = {
-      email = "acme@${mainDomain}";
+      email = "acme@${rootDomain}";
       credentialFiles = {
         "CLOUDFLARE_DNS_API_TOKEN_FILE" =
           config.sops.secrets."cloudflare/dns-api-token".path;
@@ -13,9 +13,9 @@
     };
 
     certs = {
-      ${mainDomain} = {
-        domain = mainDomain;
-        extraDomainNames = [ "*.${mainDomain}" ];
+      ${toString rootDomain} = {
+        domain = toString rootDomain;
+        extraDomainNames = [ "*.${rootDomain}" ];
         dnsProvider = "cloudflare";
       };
 

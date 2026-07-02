@@ -2,7 +2,7 @@
   pkgs,
   lib,
   config,
-  mainDomain,
+  rootDomain,
   username,
   ...
 }:
@@ -48,7 +48,7 @@
               )
 
               git config user.name "${username}"
-              git config user.email "culottes@${mainDomain}"
+              git config user.email "culottes@${rootDomain}"
               git config user.signingkey "$KEY_ID"
               git config commit.gpgsign true
 

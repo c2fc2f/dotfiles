@@ -1,7 +1,7 @@
 {
   hostName,
   systemInfo,
-  mainDomain,
+  rootDomain,
   config,
   lib,
   pkgs,
@@ -21,7 +21,7 @@ let
       i: name: {
         inherit name;
         localIp = "127.0.0.${toString (i + 1)}";
-        remoteHost = "${name}.${mainDomain}";
+        remoteHost = "${name}.${rootDomain}";
       }
     ))
   ];

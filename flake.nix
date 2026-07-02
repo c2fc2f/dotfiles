@@ -73,7 +73,13 @@
     let
       username = "c2fc2f";
       builder = "sisyphus";
-      mainDomain = "sagbot.com";
+
+      rootDomain = {
+        sld = "sagbot";
+        tld = "com";
+
+        __toString = self: "${self.sld}.${self.tld}";
+      };
 
       systemInfo = {
         # keep-sorted start block=yes
@@ -181,7 +187,7 @@
             inherit systemInfo;
             inherit username;
             inherit builder;
-            inherit mainDomain;
+            inherit rootDomain;
           }
           // entry
           // inputs;

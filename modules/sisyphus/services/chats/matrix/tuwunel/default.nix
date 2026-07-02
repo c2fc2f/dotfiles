@@ -1,14 +1,14 @@
 {
   lib,
   config,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
   name = "matrix-tuwunel";
   cfg = config.services.${name};
 
-  fullDomain = "matrix.${mainDomain}";
+  fullDomain = "matrix.${rootDomain}";
   inherit (config.custom.services.authelia) mainInstance domain;
 in
 {
@@ -20,7 +20,7 @@ in
         address = [ "127.0.0.67" ];
         port = [ 6167 ];
 
-        server_name = mainDomain;
+        server_name = toString rootDomain;
 
         allow_encryption = true;
         allow_federation = true;
@@ -124,11 +124,11 @@ in
           backend = name;
         }
         {
-          url = "${mainDomain}/.well-known/matrix/client";
+          url = "${rootDomain}/.well-known/matrix/client";
           backend = name;
         }
         {
-          url = "${mainDomain}/.well-known/matrix/server";
+          url = "${rootDomain}/.well-known/matrix/server";
           backend = name;
         }
       ];

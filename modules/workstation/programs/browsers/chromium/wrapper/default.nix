@@ -3,7 +3,7 @@
   pkgs,
   lib,
   config,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
@@ -33,7 +33,7 @@ let
     }
     {
       name = "SAGAI";
-      url = "https://chat.${mainDomain}";
+      url = "https://chat.${rootDomain}";
     }
   ];
 

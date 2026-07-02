@@ -2,7 +2,7 @@
   lib,
   username,
   systemInfo,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
@@ -22,7 +22,7 @@ in
       map (name: {
         name = "Host ${name}";
         value = {
-          hostname = "${name}.${mainDomain}";
+          hostname = "${name}.${rootDomain}";
           user = username;
         };
       }) serverHosts

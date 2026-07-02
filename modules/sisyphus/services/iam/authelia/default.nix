@@ -2,14 +2,10 @@
   config,
   lib,
   clib,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
-  splitDomain = lib.splitString "." mainDomain;
-  tld = builtins.elemAt splitDomain 1;
-  domain = builtins.elemAt splitDomain 0;
-
   cfg = config.custom.services.authelia;
 
   address = "127.0.0.90:9091";
@@ -20,7 +16,7 @@ in
   options.custom.services.${name} = {
     domain = lib.mkOption {
       type = lib.types.str;
-      default = "auth.${mainDomain}";
+      default = "auth.${rootDomain}";
       description = "The domain for the Authelia service.";
     };
 
@@ -83,7 +79,7 @@ in
               };
 
               address = "ldaps://localhost";
-              base_dn = "dc=${domain},dc=${tld}";
+              base_dn = "dc=${rootDomain.sld},dc=${rootDomain.tld}";
 
               tls = {
                 skip_verify = true;
@@ -109,18 +105,18 @@ in
                 )
               '';
 
-              user = "cn=readonly,dc=${domain},dc=${tld}";
+              user = "cn=readonly,dc=${rootDomain.sld},dc=${rootDomain.tld}";
             };
           };
 
           session = {
-            name = "${domain}-session";
+            name = "${rootDomain}-session";
 
             cookies = [
               {
-                domain = mainDomain;
+                domain = toString rootDomain;
                 authelia_url = "https://${cfg.domain}";
-                default_redirection_url = "https://${mainDomain}";
+                default_redirection_url = "https://${rootDomain}";
               }
             ];
 
@@ -134,14 +130,14 @@ in
             enable_passkey_login = true;
             experimental_enable_passkey_uv_two_factors = true;
 
-            display_name = lib.toUpper domain;
+            display_name = lib.toUpper (toString rootDomain);
           };
 
           access_control = {
             default_policy = "deny";
             rules = lib.mkAfter [
               {
-                domain = "*.${mainDomain}";
+                domain = "*.${rootDomain}";
                 policy = "two_factor";
               }
             ];
@@ -158,7 +154,7 @@ in
           notifier = {
             smtp = {
               address = "smtp://localhost:25";
-              sender = "SAG-Auth <auth@sagbot.com>";
+              sender = "SAG-Auth <auth@${rootDomain}>";
               subject = "[SAG-Auth] {title}";
 
               tls = {

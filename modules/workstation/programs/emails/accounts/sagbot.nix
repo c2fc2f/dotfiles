@@ -1,8 +1,13 @@
-{ clib, username, ... }:
+{
+  clib,
+  username,
+  rootDomain,
+  ...
+}:
 
 {
   home-manager.users.${username} = {
-    accounts.email.accounts.sagbot = {
+    accounts.email.accounts.${rootDomain.sld} = {
       enable = true;
 
       realName = clib.decodeBase64 "U0FHQk9U";

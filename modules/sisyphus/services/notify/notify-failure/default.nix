@@ -1,7 +1,7 @@
 {
   lib,
   pkgs,
-  mainDomain,
+  rootDomain,
   ...
 }:
 let
@@ -14,7 +14,7 @@ let
     ];
     text = ''
       SERVICE_NAME="''${1:-unknown-service}"
-      EMAIL_TO="contact@${mainDomain}"
+      EMAIL_TO="contact@${rootDomain}"
       EMAIL_FROM="nixos-automation@$(hostname)"
 
       msmtp --host=localhost \

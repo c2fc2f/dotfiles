@@ -1,17 +1,8 @@
-{
-  lib,
-  config,
-  mainDomain,
-  ...
-}:
+{ config, rootDomain, ... }:
 let
   name = "thelounge";
 
   cfg = config.services.${name};
-
-  splitDomain = lib.splitString "." mainDomain;
-  tld = builtins.elemAt splitDomain 1;
-  domain = builtins.elemAt splitDomain 0;
 in
 {
   services.${name} = {
@@ -24,13 +15,13 @@ in
 
       defaults = {
         name = "SAG-Chat";
-        host = "irc.${mainDomain}";
+        host = "irc.${rootDomain}";
       };
 
       ldap = {
         enable = true;
         url = "ldap://localhost";
-        baseDN = "ou=users,dc=${domain},dc=${tld}";
+        baseDN = "ou=users,dc=${rootDomain.sld},dc=${rootDomain.tld}";
         primaryKey = "cn";
       };
     };
