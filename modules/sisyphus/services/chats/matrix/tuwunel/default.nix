@@ -77,6 +77,7 @@ in
               "groups"
               "email"
               "profile"
+              "offline_access"
             ];
             redirect_uris = [
               "https://${fullDomain}/_matrix/client/unstable/login/sso/callback/${name}"
