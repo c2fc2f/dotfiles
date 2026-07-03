@@ -29,6 +29,24 @@ let
       - dovecot_config_version
       - dovecot_storage_version
     '' version;
+
+  ncNotifyScript = pkgs.writeShellApplication {
+    name = "nc-mail-notify";
+    runtimeInputs = [ config.services.nextcloud.occ ];
+    text = ''
+      TO="$1"
+      FROM="$2"
+      SUBJECT="$3"
+
+      CN="''${TO%@*}"
+
+      /run/wrappers/bin/sudo < /dev/null \
+        nextcloud-occ notification:generate \
+        "$CN" \
+        "New e-mail from $FROM" \
+        -l "$SUBJECT" > /dev/null || true
+    '';
+  };
 in
 {
   services.dovecot2 = {
@@ -40,6 +58,7 @@ in
       protocols = {
         imap = true;
         lmtp = true;
+        sieve = true;
       };
 
       ssl = "required";
@@ -57,6 +76,42 @@ in
 
       log_debug = "category=auth";
       auth_verbose = true;
+
+      "protocol lmtp" = {
+        mail_plugins = {
+          "sieve" = true;
+        };
+      };
+
+      sieve_plugins = {
+        sieve_extprograms = true;
+      };
+      sieve_global_extensions = {
+        "vnd.dovecot.execute" = true;
+      };
+      sieve_execute_bin_dir = "${ncNotifyScript}/bin";
+
+      "sieve_script before" = {
+        type = "before";
+
+        path = pkgs.writeTextDir "notify.sieve" ''
+          require [
+            "variables",
+            "envelope",
+            "vnd.dovecot.execute"
+          ];
+
+          if envelope :matches "to" "*" { set "to" "''${1}"; }
+          if header :matches "from" "*" { set "from" "''${1}"; }
+          if header :matches "subject" "*" { set "subject" "''${1}"; }
+
+          execute "nc-mail-notify" [
+            "''${to}",
+            "''${from}",
+            "''${subject}"
+          ];
+        '';
+      };
 
       auth_mechanisms = [
         "plain"
@@ -148,6 +203,8 @@ in
     };
   };
 
+  environment.systemPackages = [ pkgs.dovecot_pigeonhole ];
+
   users = {
     groups = {
       vmail = {
@@ -165,6 +222,18 @@ in
 
     users.vmail = user;
   };
+
+  security.sudo.extraRules = [
+    {
+      users = [ "vmail" ];
+      commands = [
+        {
+          command = lib.getExe config.services.nextcloud.occ;
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 
   security.acme.defaults.reloadServices = [ "dovecot" ];
 

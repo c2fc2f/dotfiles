@@ -133,6 +133,10 @@ let
       Additional configuration.
     '';
   };
+
+  authMap = makeAuthMap cfg.maps.url;
+  urlMap = makeMap cfg.maps.url;
+  minecraftMap = makeMap cfg.maps.minecraft;
 in
 {
   options.custom.services.haproxy = {
@@ -412,7 +416,7 @@ in
 
         ${lib.optionalString cfg.authz.enable (
           clib.indent 2 ''
-            acl requires_auth base,map_beg(${makeAuthMap cfg.maps.url}) -m found
+            acl requires_auth base,map_beg(${authMap}) -m found
 
             http-request del-header X-Forwarded-For if requires_auth
 
@@ -436,7 +440,7 @@ in
           ''
         )}
 
-          use_backend %[base,map_beg(${makeMap cfg.maps.url},${cfg.defaultBackend})]
+          use_backend %[base,map_beg(${urlMap},${cfg.defaultBackend})]
 
         frontend minecraft
           bind :::25565 v4v6
@@ -448,7 +452,7 @@ in
           tcp-request content accept if { var(txn.mc_proto) -m found }
           tcp-request content reject if WAIT_END
 
-          use_backend %[var(txn.mc_host),map_beg(${makeMap cfg.maps.minecraft},close_connection)]
+          use_backend %[var(txn.mc_host),map_beg(${minecraftMap},close_connection)]
 
         # =============== CUSTOM FRONTEND ================
         ${frontendsConfig}
@@ -467,6 +471,12 @@ in
         ${cfg.extraConfig}
       '';
     };
+
+    systemd.services.haproxy.restartTriggers = [
+      authMap
+      urlMap
+      minecraftMap
+    ];
 
     users.groups.acme.members = [ cfg.user ];
 
