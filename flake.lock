@@ -92,27 +92,6 @@
         "type": "github"
       }
     },
-    "flake-parts_2": {
-      "inputs": {
-        "nixpkgs-lib": [
-          "nvf",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778716662,
-        "narHash": "sha256-m1Yf0wZ8j1OHjTc2UwHwyQRSnNeSgLJOd7q5Y45hzi4=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "f7c1a2d347e4c52d5fb8d10cb4d94b5884e546fb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
     "focal": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -295,11 +274,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1783281841,
-        "narHash": "sha256-SIx1YTqLAZdeQ8Ueuo/Kxw49oLVY+0Dv0qiKfVKhZ+s=",
+        "lastModified": 1783282147,
+        "narHash": "sha256-O+twD3ZhhDmmqOqqx1QfSCjTPwRQQecpu6RVGgf9PI4=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "0535b2c2dd47a5120a13bd0420e4cd1a98c709c0",
+        "rev": "844830006172153be677992da082a04a214eaaf2",
         "type": "github"
       },
       "original": {
@@ -326,19 +305,17 @@
     "nvf": {
       "inputs": {
         "flake-compat": "flake-compat_2",
-        "flake-parts": "flake-parts_2",
         "mnw": "mnw",
         "nixpkgs": [
           "nixpkgs"
-        ],
-        "systems": "systems_5"
+        ]
       },
       "locked": {
-        "lastModified": 1783281419,
-        "narHash": "sha256-g3o88Pjc9zEg9VWklsOgIPyh/BOIsugXHLoS2mfJ2Xs=",
+        "lastModified": 1783282377,
+        "narHash": "sha256-kw1sJ6WONc6lin/L81sB90fEtR9kxj/HN6RO++92vSI=",
         "owner": "NotAShelf",
         "repo": "nvf",
-        "rev": "93aaf853ad561c179b24af53c886263f84c9fcbc",
+        "rev": "5bd50f1b71686715737537fd363281b0b0123085",
         "type": "github"
       },
       "original": {
@@ -362,7 +339,7 @@
         "nixpkgs": "nixpkgs",
         "nvf": "nvf",
         "sops-nix": "sops-nix",
-        "systems": "systems_6",
+        "systems": "systems_5",
         "treefmt-nix": "treefmt-nix"
       }
     },
@@ -464,21 +441,6 @@
       }
     },
     "systems_5": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
-    "systems_6": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
