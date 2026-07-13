@@ -9,27 +9,24 @@
         crates-nvim.enable = true;
       };
 
-      lsp = {
-        enable = true;
-        opts = ''
-          ['rust-analyzer'] = {
-            checkOnSave = true,
-            procMacro = {
-              enable = true,
-            },
-            check = {
-              command = "clippy",
-            },
-            inlayHints = {
-              lifetimeElisionHints = {
-                enable = "always",
-              },
-            },
-          }
-        '';
-      };
+      lsp.enable = true;
 
       treesitter.enable = true;
+    };
+
+    lsp.servers.rust-analyzer.init_options = {
+      checkOnSave = true;
+      procMacro = {
+        enable = true;
+      };
+      check = {
+        command = "clippy";
+      };
+      inlayHints = {
+        lifetimeElisionHints = {
+          enable = "always";
+        };
+      };
     };
   };
 }
