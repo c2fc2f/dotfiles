@@ -2,6 +2,6 @@
 
 {
   home-manager.users.${username} = {
-    home.packages = with pkgs; [ sherlock ];
+    home.packages = with pkgs; [ holehe ];
   };
 }
