@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   lib,
   rootDomain,
@@ -16,6 +17,7 @@ in
   services = {
     ${name} = {
       enable = true;
+      package = pkgs.nextcloud33;
 
       hostName = fullDomain;
       https = true;
