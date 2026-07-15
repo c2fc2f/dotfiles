@@ -14,6 +14,11 @@
       enable = true;
       autocd = true;
 
+      history = {
+        size = 10000;
+        save = 0;
+      };
+
       initContent = ''
         function y() {
           local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
