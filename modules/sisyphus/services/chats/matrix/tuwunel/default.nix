@@ -30,6 +30,8 @@ in
           client = "https://${fullDomain}";
           server = "${fullDomain}:443";
         };
+
+        appservice_dir = "/etc/${name}/appservices/";
       };
     };
 
@@ -37,6 +39,10 @@ in
       CONDUWUIT_CONFIG = config.sops.templates."${name}_oidc.toml".path;
     };
   };
+
+  systemd.tmpfiles.rules = [
+    "d ${cfg.settings.global.appservice_dir} 0755 root root - -"
+  ];
 
   sops.templates."${name}_oidc.toml" = {
     content = ''
