@@ -72,7 +72,11 @@
     }@inputs:
     let
       username = "c2fc2f";
-      builder = "sisyphus";
+      hostHeader = "sisyphus";
+      builders = [
+        "sisyphus"
+        "sisyphe"
+      ];
 
       rootDomain = {
         sld = "sagbot";
@@ -186,7 +190,8 @@
             inherit hostName;
             inherit systemInfo;
             inherit username;
-            inherit builder;
+            inherit hostHeader;
+            inherit builders;
             inherit rootDomain;
           }
           // entry

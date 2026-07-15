@@ -2,12 +2,12 @@
   lib,
   config,
   hostName,
-  builder,
+  hostHeader,
   ...
 }:
 let
   cfg = config.custom.vpn.servers.${hostName};
-  inherit (config.custom.vpn.users.${builder}) suffix;
+  inherit (config.custom.vpn.users.${hostHeader}) suffix;
 in
 {
   networking.nat = {

@@ -6,12 +6,13 @@
   username,
   hostName,
   systemInfo,
-  builder,
+  builders,
   rootDomain,
   ...
 }:
 with lib;
 let
+  mainBuilder = builtins.elemAt builders 0;
   serverHosts = filter (
     name: elem "server" systemInfo.${name}.groups && name != hostName
   ) (attrNames systemInfo);
@@ -52,7 +53,7 @@ in
         ];
 
         text = ''
-          BUILDER_ARG="${builder}"
+          BUILDER_ARG="${mainBuilder}"
           TARGET_HOST_ARG=""
 
           while [[ $# -gt 0 ]]; do
@@ -87,7 +88,7 @@ in
             * )
               echo "Usage: $0 [local|${concatStringsSep "|" serverHosts}] [--builder <hostname>|local|self]"
               echo ""
-              echo "Default Builder: ${builder}"
+              echo "Default Builder: ${mainBuilder}"
               exit 1
               ;;
           esac
