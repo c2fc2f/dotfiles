@@ -13,12 +13,15 @@ in
 {
   home-manager.users.${username} = {
     programs.ssh.settings = {
-      "Host github" = {
-        hostname = "github.com";
-        user = username;
+      "Host *" = {
         ControlMaster = "auto";
         ControlPath = "/run/nix-ssh/%u-%r@%h:%p";
         ControlPersist = "10m";
+      };
+
+      "Host github" = {
+        hostname = "github.com";
+        user = username;
       };
     }
     // (builtins.listToAttrs (
@@ -27,9 +30,6 @@ in
         value = {
           hostname = "${name}.${rootDomain}";
           user = username;
-          ControlMaster = "auto";
-          ControlPath = "/run/nix-ssh/%u-%r@%h:%p";
-          ControlPersist = "10m";
         };
       }) serverHosts
     ));
