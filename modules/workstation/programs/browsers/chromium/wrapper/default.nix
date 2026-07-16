@@ -43,7 +43,7 @@ let
       name = lib.toLower app.name;
       desktopName = app.name;
       exec =
-        "${lib.getExe pkgs.brave} --user-data-dir=${configHome}/chromium-${lib.toLower app.name} --app=${app.url} "
+        "${lib.getExe pkgs.unstable.brave} --user-data-dir=${configHome}/chromium-${lib.toLower app.name} --app=${app.url} "
         + (lib.concatStringsSep " " (
           [
             "--process-per-site"

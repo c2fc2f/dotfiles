@@ -1,9 +1,11 @@
-{ username, ... }:
+{ pkgs, username, ... }:
 
 {
   home-manager.users.${username} = {
     programs.chromium = {
       enable = true;
+      package = pkgs.unstable.chromium;
+
       commandLineArgs = [
         "--incognito"
 

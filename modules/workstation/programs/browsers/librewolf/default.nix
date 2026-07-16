@@ -4,6 +4,7 @@
   home-manager.users.${username} = {
     programs.librewolf = {
       enable = true;
+      package = pkgs.unstable.librewolf;
 
       policies = {
         DisableAccounts = true;

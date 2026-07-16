@@ -47,6 +47,9 @@
       # url = "git+file:///home/c2fc2f/git/nixpkgs/";
       url = "github:nixos/nixpkgs";
     };
+    nixpkgs-unstable = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
     nvf = {
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,6 +69,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       systems,
       treefmt-nix,
       ...
@@ -199,6 +203,16 @@
           modules = [
             ./hosts
             ./modules
+            {
+              nixpkgs.overlays = [
+                (final: _: {
+                  unstable = import nixpkgs-unstable {
+                    inherit (final) config;
+                    inherit (final.stdenv.hostPlatform) system;
+                  };
+                })
+              ];
+            }
           ];
         }
       ) systemInfo;
