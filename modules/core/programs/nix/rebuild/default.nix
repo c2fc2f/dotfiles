@@ -23,19 +23,22 @@ let
         local )
           nh os switch \
             --hostname ${name} \
-            --target-host ${username}@${name}.${rootDomain}
+            --target-host ${username}@${name}.${rootDomain} \
+            "$@"
         ;;
         self )
           nh os switch \
             --hostname ${name} \
             --build-host ${username}@${name}.${rootDomain} \
-            --target-host ${username}@${name}.${rootDomain}
+            --target-host ${username}@${name}.${rootDomain} \
+            "$@"
         ;;
         * )
           nh os switch \
             --hostname ${name} \
             --build-host ${username}@"$BUILDER_ARG".${rootDomain} \
-            --target-host ${username}@${name}.${rootDomain}
+            --target-host ${username}@${name}.${rootDomain} \
+            "$@"
         ;;
         esac
       ;;
@@ -67,6 +70,10 @@ in
                   exit 1
                 fi
                 ;;
+              --)
+                shift
+                break
+                ;;
               *)
                 TARGET_HOST_ARG="$1"
                 shift
@@ -79,9 +86,11 @@ in
           case "$TARGET_HOST_ARG" in
             local | "${hostName}" )
               if [[ "$BUILDER_ARG" = "local" || "$BUILDER_ARG" = "self" ]]; then
-                nh os switch
+                nh os switch "$@"
               else
-                nh os switch --build-host "${username}@$BUILDER_ARG.${rootDomain}"
+                nh os switch \
+                  --build-host "${username}@$BUILDER_ARG.${rootDomain}" \
+                  "$@"
               fi
               ;;
           ${clib.indent 2 (concatStringsSep "" (map genCase serverHosts))}
