@@ -16,12 +16,41 @@ let
       runtimeInputs = with pkgs; [
         kdePackages.kdialog
         libnotify
+        coreutils
+        gnugrep
+        procps
       ];
       text = ''
+        current_pid=$PPID
+        ssh_cmd=""
+
+        while [ "$current_pid" -gt 1 ] && [ -r "/proc/$current_pid/stat" ]; do
+          read -r _ comm _ ppid _ < "/proc/$current_pid/stat"
+
+          if [ "$comm" = "(ssh)" ]; then
+            ssh_cmd=$(tr '\0' ' ' < "/proc/$current_pid/cmdline")
+            break
+
+          if [ "$comm" = "(ssh-agent)" ]; then
+            newest_ssh=$(pgrep -n -x ssh -a || true)
+            if [ -n "$newest_ssh" ]; then
+              ssh_cmd="(Guessed target) $(echo "$newest_ssh" | cut -d' ' -f2-)"
+            fi
+            break
+          fi
+
+          current_pid=$ppid
+        done
+
+        prompt="$1"
+        if [ -n "$ssh_cmd" ]; then
+          prompt="$prompt\n\nTarget command: $ssh_cmd"
+        fi
+
         if echo "$1" | grep -iE 'pin|pass' > /dev/null; then
-          kdialog --password "$1" 2> /dev/null
+          kdialog --title "SSH Authentication" --password "$prompt" 2> /dev/null
         else
-          notify-send "SSH Authentication" "$1" --icon=dialog-information
+          notify-send "SSH Authentication" "$prompt" --icon=dialog-information
           exit 0
         fi
       '';
@@ -30,6 +59,11 @@ let
 in
 {
   home-manager.users.${username} = {
+    home.sessionVariables = {
+      SSH_ASKPASS = waylandAskpass;
+      SSH_ASKPASS_REQUIRE = "prefer";
+    };
+
     services.ssh-agent = {
       enable = true;
     };
