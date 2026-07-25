@@ -30,6 +30,7 @@ let
           if [ "$comm" = "(ssh)" ]; then
             ssh_cmd=$(tr '\0' ' ' < "/proc/$current_pid/cmdline")
             break
+          fi
 
           if [ "$comm" = "(ssh-agent)" ]; then
             newest_ssh=$(pgrep -n -x ssh -a || true)
