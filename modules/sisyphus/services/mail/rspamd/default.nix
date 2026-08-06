@@ -51,8 +51,8 @@ in
         "rbl_group.conf".source = ./config/rbl_group.conf;
 
         "actions.conf".text = ''
-          reject = null;
-          greylist = null;
+          reject = 999;
+          greylist = 998;
           add_header = 6;
         '';
 
