@@ -48,8 +48,14 @@ let
           prompt="$prompt\n\nTarget command: $ssh_cmd"
         fi
 
-        if echo "$1" | grep -iE 'pin|pass' > /dev/null; then
+        if printf '%s\n' "$1" | grep -iE 'pin|pass' > /dev/null; then
           kdialog --title "SSH Authentication" --password "$prompt" 2> /dev/null
+        elif printf '%s\n' "$1" | grep -iE 'yes/no' > /dev/null; then
+          if kdialog --title "SSH Security" --yesno "$prompt" 2> /dev/null; then
+            echo "yes"
+          else
+            echo "no"
+          fi
         else
           notify-send "SSH Authentication" "$prompt" --icon=dialog-information
           exit 0
