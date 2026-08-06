@@ -1,5 +1,4 @@
 {
-  pkgs,
   config,
   lib,
   rootDomain,
@@ -17,7 +16,6 @@ in
   services = {
     ${name} = {
       enable = true;
-      package = pkgs.nextcloud33;
 
       hostName = fullDomain;
       https = true;
@@ -102,8 +100,7 @@ in
         user_attributes = {
           is_nextcloud_admin = {
             expression = ''
-              ("${name}-admins" in groups) || 
-              ("admins" in groups)
+              ["admins", "${name}-admins"].exists(g, g in groups) ? "1" : "0"
             '';
           };
         };
