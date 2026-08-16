@@ -8,11 +8,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1786910908,
-        "narHash": "sha256-el0OY2Sd6nqRLc+oWkgIpqVlKxnfAPteH3GeoYsPnQY=",
+        "lastModified": 1786915016,
+        "narHash": "sha256-IBD7gZaSve3ZVm3rYVKh6oB2syZt7h3/SjP+7LIONAs=",
         "owner": "c2fc2f",
         "repo": "cliclicker",
-        "rev": "a02adb1ef1ad955e062e0a1359301fe02641f88e",
+        "rev": "ed4b221b1c1042fe4e2319f59fe19fe15a170575",
         "type": "github"
       },
       "original": {
@@ -274,11 +274,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1786914528,
-        "narHash": "sha256-wEZXJZA48SPZNbxDg0A8brFzRcJGVPHDw/vV7aII1wI=",
+        "lastModified": 1786914766,
+        "narHash": "sha256-lVkAupf/rty6oDWvsc9h3K+ulRdw9gcvvMnrYtzXD2w=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "53fa73099316e69d0b47e5e1557570e61c83f75f",
+        "rev": "eb655e7fdbf8343bd15678ec95fe5de0320579f3",
         "type": "github"
       },
       "original": {
