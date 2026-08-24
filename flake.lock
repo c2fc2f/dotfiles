@@ -340,6 +340,26 @@
         "type": "github"
       }
     },
+    "opendeck-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785764453,
+        "narHash": "sha256-q2Sjdts8zY+WvpjtnUbnakrgDHzi0DmlDjQMfyu3hWg=",
+        "owner": "Kitt3120",
+        "repo": "opendeck-nix",
+        "rev": "32160fa0ae01bf227a691c54a162809b14b8641b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Kitt3120",
+        "repo": "opendeck-nix",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "cliclicker": "cliclicker",
@@ -355,6 +375,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nvf": "nvf",
+        "opendeck-nix": "opendeck-nix",
         "sops-nix": "sops-nix",
         "systems": "systems_5",
         "treefmt-nix": "treefmt-nix"
