@@ -1,9 +1,10 @@
-{ username, ... }:
+{ pkgs, username, ... }:
 
 {
   home-manager.users.${username} = {
     programs.thunderbird = {
       enable = true;
+      package = pkgs.unstable.thunderbird;
 
       profiles.default = {
         isDefault = true;
