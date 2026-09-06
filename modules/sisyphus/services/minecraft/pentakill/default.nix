@@ -19,6 +19,8 @@ in
 
     package = pkgs.fabricServers.fabric-1_20_1;
 
+    jvmOpts = "-Xmx6G";
+
     symlinks = {
       "mods" = "${modpack}/mods";
     };
