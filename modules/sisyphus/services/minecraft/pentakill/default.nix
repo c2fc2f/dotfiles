@@ -46,6 +46,10 @@ in
     };
   };
 
+  networking.firewall.allowedTCPPorts = [
+    config.services.minecraft-servers.servers.${name}.serverProperties.server-port
+  ];
+
   custom.services.haproxy = {
     backends = [
       {
