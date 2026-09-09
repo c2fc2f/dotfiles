@@ -9,9 +9,14 @@
         config.sops.secrets."cloudflare/dns-api-token".path;
     };
     certs = {
-      atacc = {
+      atacc-edu = {
         domain = "atacc-edu.org";
         extraDomainNames = [ "*.atacc-edu.org" ];
+        dnsProvider = "cloudflare";
+      };
+      atacc = {
+        domain = "atacc.org";
+        extraDomainNames = [ "*.atacc.org" ];
         dnsProvider = "cloudflare";
       };
     };

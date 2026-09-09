@@ -31,6 +31,10 @@ in
           url = "atacc-edu.org";
           backend = name;
         }
+        {
+          url = "atacc.org";
+          backend = name;
+        }
       ];
     };
 
