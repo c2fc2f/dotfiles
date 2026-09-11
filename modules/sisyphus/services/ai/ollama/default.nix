@@ -16,11 +16,7 @@ in
     syncModels = true;
 
     loadModels = [
-      "qwen3.5:9b"
-      "gemma4:e4b"
-      "gemma4:12b"
-      "ministral-3:8b"
-      "granite4.1:8b"
+      "qwen3.8-flash-next:125b-a6b-q4_K_M"
 
       "embeddinggemma:latest"
     ];
