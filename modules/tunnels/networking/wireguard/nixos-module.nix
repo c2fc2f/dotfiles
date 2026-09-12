@@ -89,6 +89,12 @@ in
               example = 100;
             };
 
+            ListenPort = mkOption {
+              type = types.int;
+              description = "Specifies the UDP port on which the WireGuard interface listens for incoming connections.";
+              example = 51820;
+            };
+
             serverPublicKey = mkOption {
               type = types.str;
               description = "The Base64 encoded public key of the VPN server.";

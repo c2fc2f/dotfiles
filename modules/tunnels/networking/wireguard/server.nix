@@ -36,7 +36,7 @@ in
         };
 
         wireguardConfig = {
-          ListenPort = 51820;
+          inherit (cfg) ListenPort;
 
           PrivateKeyFile =
             config.sops.secrets."wireguard/serverPrivateKey".path;

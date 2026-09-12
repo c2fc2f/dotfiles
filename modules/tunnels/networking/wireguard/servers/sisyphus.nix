@@ -16,6 +16,8 @@
       force = 33;
     };
 
+    ListenPort = 51817;
+
     RouteTable = 1000;
 
     serverPublicKey = "cVVzjCOiJ+IDQhYEdgD6KfQk21XSvuWet48riugHCgs=";

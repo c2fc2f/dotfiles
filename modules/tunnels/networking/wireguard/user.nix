@@ -103,7 +103,7 @@ in
                 "0.0.0.0/0"
               ]
               ++ (lib.optional (value.address.private.ipv6 != null) "::/0");
-              Endpoint = "${name}.${rootDomain}:51820";
+              Endpoint = "${name}.${rootDomain}:${toString value.ListenPort}";
               inherit (value) RouteTable;
             }
           ];
