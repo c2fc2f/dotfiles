@@ -27,10 +27,6 @@ let
   ];
 in
 {
-  imports = lib.optional (builtins.elem "server"
-    systemInfo.${hostName}.groups
-  ) ./_server.nix;
-
   networking.hosts = builtins.listToAttrs (
     map (srv: {
       name = srv.localIp;
@@ -47,13 +43,19 @@ in
         after = [ "network.target" ];
 
         serviceConfig = {
-          ExecStart = ''
-            ${pkgs.shadowsocks-rust}/bin/sslocal \
-              --server-addr ${srv.remoteHost}:8388 \
-              --encrypt-method chacha20-ietf-poly1305 \
-              --local-addr ${srv.localIp}:1080 \
-              -6
-          '';
+          ExecStart =
+            let
+              inherit (config.services.shadowsocks) port;
+              inherit (srv) remoteHost localIp;
+            in
+            ''
+              ${pkgs.shadowsocks-rust}/bin/sslocal \
+                --server-addr ${remoteHost}:${toString port} \
+                --encrypt-method chacha20-ietf-poly1305 \
+                --local-addr ${localIp}:1080 \
+                --plugin ${lib.getExe pkgs.shadowsocks-v2ray-plugin} \
+                -6
+            '';
           Restart = "on-failure";
           RestartSec = "5s";
 
