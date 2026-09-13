@@ -25,4 +25,6 @@ in
       };
     }) (builtins.attrValues config.security.acme.certs)
   );
+
+  # , rspamadm dkim_keygen -b 2048 -s mail -d <dom> -k <dom>.key > <dom>.txt
 }
