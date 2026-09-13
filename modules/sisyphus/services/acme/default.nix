@@ -25,6 +25,12 @@
         dnsProvider = "cloudflare";
       };
 
+      "atacc.org" = {
+        domain = "atacc.org";
+        extraDomainNames = [ "*.atacc.org" ];
+        dnsProvider = "cloudflare";
+      };
+
       "culottes.org" = {
         domain = "culottes.org";
         extraDomainNames = [ "*.culottes.org" ];
