@@ -38,6 +38,8 @@ in
         certDir = config.security.acme.certs.${toString rootDomain}.directory;
       in
       {
+        enable = true;
+
         clientAuth = "OPTIONAL";
 
         privateKey = "${certDir}/key.pem";
@@ -49,14 +51,12 @@ in
         config.services.${name}.package
       }/share/neo4j/web
 
-      dbms.ssl.policy.bolt.enabled=true
-
       server.unmanaged_extension_classes=n10s.endpoint=/rdf
 
       dbms.security.procedures.unrestricted=apoc.*,fleetManagement.*
       dbms.security.procedures.allowlist=apoc.*,fleetManagement.*
 
-      server.jvm.additional=-verbose
+      # server.jvm.additional=-verbose
     '';
   };
 
