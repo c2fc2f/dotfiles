@@ -10,6 +10,8 @@
         "CLOUDFLARE_DNS_API_TOKEN_FILE" =
           config.sops.secrets."cloudflare/dns-api-token".path;
       };
+      dnsResolver = "1.1.1.1:53";
+      enableDebugLogs = true;
     };
 
     certs = {

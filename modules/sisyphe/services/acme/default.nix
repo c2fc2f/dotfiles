@@ -3,11 +3,17 @@
 {
   security.acme = {
     acceptTerms = true;
-    defaults.email = "acme@${rootDomain}";
-    defaults.credentialFiles = {
-      "CLOUDFLARE_DNS_API_TOKEN_FILE" =
-        config.sops.secrets."cloudflare/dns-api-token".path;
+
+    defaults = {
+      email = "acme@${rootDomain}";
+      credentialFiles = {
+        "CLOUDFLARE_DNS_API_TOKEN_FILE" =
+          config.sops.secrets."cloudflare/dns-api-token".path;
+      };
+      dnsResolver = "1.1.1.1:53";
+      enableDebugLogs = true;
     };
+
     certs = {
       atacc-edu = {
         domain = "atacc-edu.org";
