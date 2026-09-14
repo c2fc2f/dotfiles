@@ -3,6 +3,10 @@
 
   inputs = {
     # keep-sorted start block=yes
+    atacc-homepage = {
+      url = "github:Association-ATACC/homepage";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     cliclicker = {
       url = "github:c2fc2f/cliclicker";
       inputs.nixpkgs.follows = "nixpkgs";
