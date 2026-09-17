@@ -16,12 +16,20 @@
 
     lsp.servers.rust-analyzer.init_options = {
       checkOnSave = true;
+
+      cargo = {
+        features = "all";
+      };
+
       procMacro = {
         enable = true;
       };
+
       check = {
         command = "clippy";
+        features = "all";
       };
+
       inlayHints = {
         lifetimeElisionHints = {
           enable = "always";
