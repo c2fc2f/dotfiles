@@ -2,51 +2,52 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")"
-UPDATES_DIR="$SCRIPT_DIR/updates"
-MODULES_DIR="$(readlink -f "$SCRIPT_DIR/../modules")"
+SCRIPT_PATH=$(readlink -f "${BASH_SOURCE[0]}")
+SCRIPT_DIR=$(dirname -- "${SCRIPT_PATH}")
+UPDATES_DIR="${SCRIPT_DIR}/updates"
+MODULES_DIR="$(readlink -f "${SCRIPT_DIR}/../modules")"
 
 execute_script() {
   local script="$1"
-  
-  if [ ! -x "$script" ]; then
-    chmod +x "$script"
+
+  if [[ ! -x ${script} ]]; then
+    chmod +x "${script}"
   fi
-  
-  echo "➡️  Executing: $script"
-  "$script" 2>&1 | sed 's/^/  /'
+
+  echo "➡️  Executing: ${script}"
+  "${script}" 2>&1 | sed 's/^/  /'
 }
 
 total_executed=0
 
 echo "[🔁] Running update scripts"
 echo ""
-echo "📁 Processing scripts in $UPDATES_DIR"
+echo "📁 Processing scripts in ${UPDATES_DIR}"
 
-for script in "$UPDATES_DIR"/*.sh; do
-  [ -e "$script" ] || continue
-  
-  execute_script "$script"
+for script in "${UPDATES_DIR}"/*.sh; do
+  [[ -e ${script} ]] || continue
+
+  execute_script "${script}"
   ((total_executed++)) || true
 done
 
 echo ""
-echo "📁 Processing ci/run.sh scripts in $MODULES_DIR"
+echo "📁 Processing ci/run.sh scripts in ${MODULES_DIR}"
 
 while IFS= read -r -d '' script; do
-  execute_script "$script"
+  execute_script "${script}"
   ((total_executed++))
 done < <(
-  find "$MODULES_DIR" \
+  find "${MODULES_DIR}" \
     -type f \
     -path "*/ci/update.sh" \
-    -print0 2>/dev/null
+    -print0 2>/dev/null || true
 )
 
 echo ""
 echo "[✅] All scripts completed successfully."
-echo "📊 Summary: $total_executed executed"
+echo "📊 Summary: ${total_executed} executed"
 
 git add -A
-git commit -m "chore: auto-update scripts output" \
-  || true
+git commit -m "chore: auto-update scripts output" ||
+  true

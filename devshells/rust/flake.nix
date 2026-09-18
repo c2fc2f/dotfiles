@@ -12,7 +12,6 @@
 
   outputs =
     {
-      self,
       nixpkgs,
       flake-utils,
       fenix,
