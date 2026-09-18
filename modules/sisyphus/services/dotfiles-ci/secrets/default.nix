@@ -2,7 +2,7 @@
   custom.secrets.sisyphus.enable = true;
 
   sops.secrets = {
-    "auto-update/env" = {
+    "dotfiles-ci/env" = {
       sopsFile = ./env;
       format = "binary";
     };

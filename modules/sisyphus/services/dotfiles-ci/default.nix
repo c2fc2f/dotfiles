@@ -6,11 +6,13 @@
   username,
   ...
 }:
-
+let
+  name = "dotfiles-ci";
+in
 {
   systemd = {
-    services.auto-update = {
-      description = "Auto-Update Service";
+    services.${name} = {
+      description = "Dotfiles CI Orchestrator";
 
       unitConfig.OnFailure = "notify-failure@%n";
 
@@ -19,9 +21,19 @@
 
       serviceConfig = {
         Type = "oneshot";
+
+        DynamicUser = true;
+        SupplementaryGroups = [ "nixbld" ];
+
+        RuntimeDirectory = name;
+        WorkingDirectory = "/run/${name}";
+        PrivateTmp = true;
+
+        EnvironmentFile = config.sops.secrets."${name}/env".path;
+
         ExecStart = lib.getExe (
           pkgs.writeShellApplication {
-            name = "auto-update-task";
+            name = "${name}-orchestrator";
             runtimeInputs = with pkgs; [
               git
               gnupg
@@ -36,6 +48,7 @@
             text = ''
               HOME="$(pwd)"
               export HOME
+              export NIX_CONFIG="access-tokens = github.com=''${PERSONAL_TOKEN}"
 
               git clone "https://${username}:''${PERSONAL_TOKEN}@github.com/${username}/dotfiles.git" dotfiles
 
@@ -52,31 +65,22 @@
               git config user.signingkey "$KEY_ID"
               git config commit.gpgsign true
 
-              export NIX_CONFIG="access-tokens = github.com=''${PERSONAL_TOKEN}"
-              chmod +x ci/update.sh
+              chmod +x ci/*.sh
+
               ./ci/update.sh
 
               retry -t 3 -d 2 -- bash -c 'git pull --rebase origin main && git push origin main'
             '';
           }
         );
-
-        # Security & Isolation
-        DynamicUser = true;
-        RuntimeDirectory = "auto-update";
-        WorkingDirectory = "/run/auto-update";
-        PrivateTmp = true;
-        EnvironmentFile = config.sops.secrets."auto-update/env".path;
-
-        SupplementaryGroups = [ "nixbld" ];
       };
     };
 
-    timers.auto-update = {
+    timers.${name} = {
       wantedBy = [ "timers.target" ];
       timerConfig = {
         OnCalendar = "*:0/5";
-        Unit = "auto-update.service";
+        Unit = "${name}.service";
         Persistent = true;
       };
     };
