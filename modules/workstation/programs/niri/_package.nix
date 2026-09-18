@@ -179,6 +179,7 @@ nix-wrapper.wrappers.niri.wrap {
           { app-id = "thunderbird"; }
           { app-id = "org.telegram.desktop"; }
           { app-id = "com.ktechpit.whatsie"; }
+          { app-id = "teamspeak-client"; }
         ];
         open-on-workspace = "chat";
         open-maximized = true;
