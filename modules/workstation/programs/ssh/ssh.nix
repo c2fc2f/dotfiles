@@ -17,6 +17,8 @@ in
         ControlMaster = "auto";
         ControlPath = "/run/nix-ssh/%u-%r@%h:%p";
         ControlPersist = "10m";
+        ServerAliveInterval = 10;
+        ServerAliveCountMax = 3;
       };
 
       "Host github" = {

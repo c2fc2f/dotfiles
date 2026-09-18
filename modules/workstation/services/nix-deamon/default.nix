@@ -15,6 +15,8 @@
         -o ControlMaster=auto
         -o ControlPath=/run/nix-ssh/%%C
         -o ControlPersist=10m
+        -o ServerAliveInterval=10
+        -o ServerAliveCountMax=3
       '';
     };
   };
