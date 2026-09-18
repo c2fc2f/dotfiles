@@ -25,7 +25,7 @@
     programs.rofi = {
       enable = true;
 
-      extraConfig = {
+      settings = {
         modi = "drun,run,filebrowser";
         case-sensitive = false;
         cycle = true;
