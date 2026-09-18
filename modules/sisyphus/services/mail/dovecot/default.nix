@@ -22,7 +22,7 @@ let
 
   version =
     let
-      version = "2.4.4";
+      version = "2.4.5";
     in
     lib.warnIf (pkgs.dovecot.version != version) ''
       dovecot2 (v${pkgs.dovecot.version}) but targets v${version} review:
