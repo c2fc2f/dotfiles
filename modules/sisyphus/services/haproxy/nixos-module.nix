@@ -100,24 +100,39 @@ let
     )
   );
 
-  backendsConfig = lib.removeSuffix "\n" (
-    lib.strings.concatLines (
-      builtins.map (e: ''
-        backend ${e.name}
-          ${lib.optionalString (e.mode != null) "mode ${e.mode}"}
-          ${lib.optionalString (e.balance != null) "balance ${e.balance}"}
-        ${clib.indent 2 e.extraConfig}
+  backendsConfig = lib.concatStringsSep "\n\n" (
+    builtins.map (
+      e:
+      let
+        lines = [
+          "backend ${e.name}"
+        ]
+        ++ lib.optional (e.mode != null) "  mode ${e.mode}"
+        ++ lib.optional (e.balance != null) "  balance ${e.balance}"
+        ++ lib.optional (e.extraConfig != null && e.extraConfig != "") (
+          clib.indent 2 e.extraConfig
+        );
 
-        ${clib.indent 2 (serversConfig e.servers)}
-      '') cfg.backends
-    )
+        topSection = builtins.concatStringsSep "\n" lines;
+        serversSection = clib.indent 2 (serversConfig e.servers);
+      in
+      if serversSection != "" then
+        "${topSection}\n\n${serversSection}"
+      else
+        topSection
+    ) cfg.backends
   );
 
   serversConfig =
     servers:
     lib.strings.concatLines (
       builtins.map (
-        e: "server ${e.name} ${e.addr}${lib.optionalString e.check " check"}"
+        e:
+        "server ${e.name} ${e.addr}${
+          lib.optionalString (e.parameters != [ ]) (
+            " " + (builtins.concatStringsSep " " e.parameters)
+          )
+        }"
       ) servers
     );
 
@@ -237,25 +252,37 @@ in
             servers = lib.mkOption {
               type =
                 with lib.types;
-                listOf (submodule {
-                  options = {
-                    name = lib.mkOption {
-                      type = lib.types.str;
-                      description = "Name of the server";
-                    };
+                listOf (
+                  submodule (
+                    { config, ... }: {
+                      options = {
+                        name = lib.mkOption {
+                          type = lib.types.str;
+                          description = "Name of the server";
+                        };
 
-                    addr = lib.mkOption {
-                      type = lib.types.str;
-                      description = "Address of the server";
-                    };
+                        addr = lib.mkOption {
+                          type = lib.types.str;
+                          description = "Address of the server";
+                        };
 
-                    check = lib.mkOption {
-                      type = lib.types.bool;
-                      default = false;
-                      description = "Check if the serveur is up";
-                    };
-                  };
-                });
+                        parameters = lib.mkOption {
+                          type = lib.types.listOf lib.types.str;
+                          default = [ ];
+                          description = "Extra option to the server";
+                        };
+
+                        check = lib.mkOption {
+                          type = lib.types.bool;
+                          default = false;
+                          description = "Check if the serveur is up";
+                        };
+                      };
+
+                      config = lib.mkIf config.check { parameters = [ "check" ]; };
+                    }
+                  )
+                );
               default = [ ];
               description = ''
                 List of servers
