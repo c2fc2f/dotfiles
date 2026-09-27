@@ -399,6 +399,7 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nvf": "nvf",
         "opendeck-nix": "opendeck-nix",
+        "sc0710": "sc0710",
         "sops-nix": "sops-nix",
         "systems": "systems_6",
         "treefmt-nix": "treefmt-nix"
@@ -439,6 +440,26 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "sc0710": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790035439,
+        "narHash": "sha256-3n+0xABPkPen+rnJqXmo04TfAk8EVw3ddlFo5jOqriI=",
+        "owner": "Nakildias",
+        "repo": "sc0710",
+        "rev": "86edea0238aa9570e81c6501511c0038829a346e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Nakildias",
+        "repo": "sc0710",
         "type": "github"
       }
     },
