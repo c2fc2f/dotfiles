@@ -8,7 +8,10 @@
   users.defaultUserShell = pkgs.zsh;
 
   home-manager.users.${username} = {
-    home.packages = [ pkgs.yazi ];
+    home.packages = with pkgs; [
+      yazi
+      nix-output-monitor
+    ];
 
     programs.zsh = {
       enable = true;

@@ -115,6 +115,7 @@
           groups = [
             # keep-sorted start
             "development"
+            "essentials"
             "gaming"
             "tunnels"
             "workstation"
@@ -133,6 +134,7 @@
         sisyphe = {
           groups = [
             # keep-sorted start
+            "essentials"
             "server"
             # keep-sorted end
           ];
@@ -140,6 +142,7 @@
         sisyphus = {
           groups = [
             # keep-sorted start
+            "essentials"
             "server"
             "tunnels"
             # keep-sorted end
@@ -149,6 +152,7 @@
           groups = [
             # keep-sorted start
             "development"
+            "essentials"
             "laptop"
             "tunnels"
             "workstation"
