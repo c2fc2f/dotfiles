@@ -20,7 +20,7 @@ let
     (lib.imap1 (
       i: name: {
         inherit name;
-        localIp = "127.0.0.${toString (i + 1)}";
+        localIp = "127.10.80.${toString (i + 1)}";
         remoteHost = "${name}.${rootDomain}";
       }
     ))
