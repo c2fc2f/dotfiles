@@ -197,6 +197,22 @@
                 definedAliases = [ "@nw" ];
               };
 
+              "Nixpkgs PR" = {
+                urls = [
+                  {
+                    template = "https://github.com/NixOS/nixpkgs/pulls";
+                    params = [
+                      {
+                        name = "q";
+                        value = "{searchTerms}";
+                      }
+                    ];
+                  }
+                ];
+                icon = "${nixIcons}/nix-snowflake.svg";
+                definedAliases = [ "@npr" ];
+              };
+
               "My NixOS" = {
                 urls = [
                   {
