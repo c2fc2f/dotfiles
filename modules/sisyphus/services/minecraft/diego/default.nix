@@ -1,23 +1,31 @@
 {
   pkgs,
+  lib,
   config,
   rootDomain,
   ...
 }:
 let
-  name = "pentakill";
+  name = "diego";
 
   modpack = pkgs.fetchModrinthModpack {
     src = ./_modpack/1.0.0.mrpack;
-    packHash = "sha256-5PGMaiqOUk4V2H2B9ksmecH6jPTto6rzygMRvoLeWrw=";
-    side = "client";
+    packHash = "sha256-TaZfwZNTKoYtj3/Yc1ana2HoiN/nBOs+3hSzCUxEpOg=";
+    side = "both";
   };
+  mcVersion = modpack.manifest.dependencies.minecraft;
+  fabricVersion = modpack.manifest.dependencies.fabric-loader;
+  serverVersion =
+    lib.replaceStrings [ "." ] [ "_" ]
+      "fabric-${mcVersion}";
 in
 {
   services.minecraft-servers.servers.${name} = {
     enable = true;
 
-    package = pkgs.fabricServers.fabric-1_20_1;
+    package = pkgs.fabricServers.${serverVersion}.override {
+      loaderVersion = fabricVersion;
+    };
 
     jvmOpts = "-Xmx6G";
 
@@ -26,6 +34,10 @@ in
     };
     files = {
       "config" = "${modpack}/config";
+      "server-icon.png" = builtins.path {
+        name = "server-icon.png";
+        path = ./_modpack/server-icon.png;
+      };
     };
 
     serverProperties = {
@@ -34,7 +46,7 @@ in
 
       allow-flight = true;
 
-      difficulty = "easy";
+      difficulty = "hard";
       gamemode = "survival";
       pvp = true;
       online-mode = true;
@@ -42,13 +54,9 @@ in
       white-list = false;
       max-players = 6769420;
       enable-command-block = true;
-      motd = "PENTAKILL";
+      motd = "LA SURVIE TROP COOL VOILI VOILOUUUUUU";
     };
   };
-
-  networking.firewall.allowedTCPPorts = [
-    config.services.minecraft-servers.servers.${name}.serverProperties.server-port
-  ];
 
   custom.services.haproxy = {
     backends = [
