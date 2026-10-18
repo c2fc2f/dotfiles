@@ -3,14 +3,17 @@
   lib,
   config,
   rootDomain,
+  nix-minecraft,
   ...
 }:
 let
   name = "diego";
 
+  inherit (nix-minecraft.lib) collectFilesAt;
+
   modpack = pkgs.fetchModrinthModpack {
     src = ./_modpack/1.0.0.mrpack;
-    packHash = "sha256-TaZfwZNTKoYtj3/Yc1ana2HoiN/nBOs+3hSzCUxEpOg=";
+    packHash = "sha256-a6r21Pu1WqT3yzAFQGzWOd79QfnbWELBrEUijJWOxKg=";
     side = "both";
   };
   mcVersion = modpack.manifest.dependencies.minecraft;
@@ -27,10 +30,21 @@ in
       loaderVersion = fabricVersion;
     };
 
-    jvmOpts = "-Xmx6G";
+    jvmOpts = "-Xms12G -Xmx12G -XX:+UseG1GC -XX:G1PeriodicGCInterval=10000 -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200";
 
-    symlinks = {
-      "mods" = "${modpack}/mods";
+    symlinks = collectFilesAt modpack "mods" // {
+      "mods/Chunky-Fabric.jar" = pkgs.fetchurl rec {
+        pname = "Chunky-Fabric";
+        version = "1.4.23";
+        url = "https://cdn.modrinth.com/data/fALzjamp/versions/RVFHfo1D/${pname}-${version}.jar";
+        hash = "sha256-NBKxcCR93nNR4JRdhX5xO+32+uBaswCqdNBv+94MoH4=";
+      };
+      "mods/c2me-fabric-mc1.21.1.jar" = pkgs.fetchurl rec {
+        pname = "c2me-fabric-mc1.21.1";
+        version = "0.4.0-alpha.0.30";
+        url = "https://cdn.modrinth.com/data/VSNURh3q/versions/KxcgERSN/${pname}-${version}.jar";
+        hash = "sha256-8TX1gqlyScI9xlAZATXJt4UTMcsyHuE60mjYvYAtORE=";
+      };
     };
     files = {
       "config" = "${modpack}/config";
