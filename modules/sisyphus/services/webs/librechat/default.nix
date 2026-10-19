@@ -1,10 +1,15 @@
-{ config, rootDomain, ... }:
+{
+  config,
+  rootDomain,
+  username,
+  ...
+}:
 let
   name = "librechat";
 
   fullDomain = "chat.${rootDomain}";
 
-  inherit (config.custom.services.authelia) mainInstance domain;
+  inherit (config.services.kanidm.server.settings) domain origin;
 in
 {
   services.${name} = {
@@ -68,21 +73,23 @@ in
       ALLOW_SOCIAL_LOGIN = true;
       ALLOW_SOCIAL_REGISTRATION = true;
 
-      OPENID_ISSUER = "https://${domain}/.well-known/openid-configuration";
+      OPENID_ISSUER = "${origin}/oauth2/openid/${name}";
       OPENID_CLIENT_ID = name;
       OPENID_CALLBACK_URL = "/oauth/openid/callback";
-      OPENID_SCOPE = "openid profile email";
+      OPENID_SCOPE = "openid profile email groups";
 
       OPENID_USERNAME_CLAIM = "preferred_username";
       OPENID_NAME_CLAIM = "name";
       OPENID_EMAIL_CLAIM = "email";
 
-      OPENID_ADMIN_ROLE = "admins";
+      OPENID_ADMIN_ROLE = "ai-admins@${domain}";
+      OPENID_ADMIN_ROLE_PARAMETER_PATH = "groups";
+      OPENID_ADMIN_ROLE_TOKEN_KIND = "id";
 
       OPENID_USE_END_SESSION_ENDPOINT = true;
 
       OPENID_BUTTON_LABEL = "Log in SSO";
-      OPENID_IMAGE_URL = "https://www.authelia.com/images/branding/logo-cropped.png";
+      OPENID_IMAGE_URL = "https://raw.githubusercontent.com/kanidm/kanidm/refs/heads/master/book/theme/favicon.png";
     };
 
     credentials =
@@ -99,35 +106,36 @@ in
       };
   };
 
-  services.authelia.instances.${mainInstance}.settings.identity_providers =
-    {
-      oidc.clients = [
-        {
-          client_id = name;
-          client_name = name;
-          client_secret = "$argon2id$v=19$m=65536,t=3,p=4$Hd8nc1FwoNwAOVfyvogLkw$yf6etSPC9ZzRVwWdj6JBhKKWEc4HMCFr1bBS1LOpmek";
-          public = false;
-          require_pkce = false;
-          pkce_challenge_method = "";
-          consent_mode = "implicit";
-          redirect_uris = [ "https://${fullDomain}/oauth/openid/callback" ];
-          scopes = [
-            "openid"
-            "email"
-            "profile"
-            "offline_access"
-          ];
-          response_types = [ "code" ];
-          grant_types = [
-            "authorization_code"
-            "refresh_token"
-          ];
-          access_token_signed_response_alg = "none";
-          userinfo_signed_response_alg = "none";
-          token_endpoint_auth_method = "client_secret_post";
-        }
-      ];
+  services.kanidm.provision = {
+    enable = true;
+
+    groups = {
+      ai-users = {
+        members = [ "ai-admins" ];
+        overwriteMembers = false;
+      };
+      ai-admins = {
+        members = [ username ];
+        overwriteMembers = false;
+      };
     };
+
+    systems.oauth2.${name} = {
+      displayName = name;
+      originUrl = "https://${fullDomain}/";
+      originLanding = "https://${fullDomain}/oauth/openid/callback";
+      basicSecretFile = config.sops.secrets."librechat/client/secret".path;
+
+      scopeMaps = {
+        ai-users = [
+          "openid"
+          "profile"
+          "email"
+          "groups"
+        ];
+      };
+    };
+  };
 
   custom.services.haproxy = {
     backends = [

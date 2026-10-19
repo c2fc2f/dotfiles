@@ -8,7 +8,6 @@ let
   listenAddress = "127.0.0.113:11334";
 
   fullDomain = "rspamd.${rootDomain}";
-  inherit (config.custom.services.authelia) mainInstance;
 in
 {
   services = {
@@ -112,18 +111,6 @@ in
       port = 0;
       inherit (config.services.rspamd) user;
     };
-
-    authelia.instances.${mainInstance}.settings.access_control.rules = [
-      {
-        domain = fullDomain;
-        policy = "two_factor";
-        subject = [ "group:admins" ];
-      }
-      {
-        domain = fullDomain;
-        policy = "deny";
-      }
-    ];
   };
 
   sops.templates =
@@ -430,7 +417,10 @@ in
         {
           url = fullDomain;
           backend = "rspamd";
-          needAuth = true;
+          auth = {
+            enable = true;
+            group = "mail-admins";
+          };
         }
       ];
     };

@@ -1,6 +1,8 @@
 { rootDomain, config, ... }:
 let
   name = "jellyfin";
+
+  fullDomain = "media.${rootDomain}";
 in
 {
   services.${name} = {
@@ -36,7 +38,7 @@ in
     maps = {
       url = [
         {
-          url = "media.${rootDomain}";
+          url = fullDomain;
           backend = name;
         }
       ];

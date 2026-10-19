@@ -38,7 +38,21 @@ in
       "d ${cfg.directory} ${cfg.permissions} nobody ${cfg.group} - -"
       "d ${cfg.directory}/downloads ${cfg.permissions} nobody ${cfg.group} - -"
       "d ${cfg.directory}/content ${cfg.permissions} nobody ${cfg.group} - -"
-
     ];
+
+    services.kanidm.provision = {
+      enable = true;
+
+      groups = {
+        media-users = {
+          members = [ "media-admins" ];
+          overwriteMembers = false;
+        };
+        media-admins = {
+          members = [ username ];
+          overwriteMembers = false;
+        };
+      };
+    };
   };
 }

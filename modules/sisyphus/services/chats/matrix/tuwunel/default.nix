@@ -2,6 +2,7 @@
   lib,
   config,
   rootDomain,
+  username,
   ...
 }:
 let
@@ -9,7 +10,7 @@ let
   cfg = config.services.${name};
 
   fullDomain = "matrix.${rootDomain}";
-  inherit (config.custom.services.authelia) mainInstance domain;
+  inherit (config.services.kanidm.server.settings) origin;
 in
 {
   services.${name} = {
@@ -48,57 +49,49 @@ in
     content = ''
       [[global.identity_provider]]
       id = "${name}"
-      brand = "Authelia"
-      name = "Authelia"
+      brand = "SSO"
+      name = "SSO"
       client_id = "${name}"
       client_secret = "${config.sops.placeholder."${name}/client/secret"}"
-      issuer_url = "https://${domain}"
+      issuer_url = "${origin}/oauth2/openid/${name}"
       callback_url = "https://${fullDomain}/_matrix/client/unstable/login/sso/callback/${name}"
+
+      trusted = true
+      userid_claims = ["preferred_username"]
+      unique_id_fallbacks = false
     '';
 
     owner = cfg.user;
     inherit (cfg) group;
   };
 
-  services.authelia.instances.${mainInstance}.settings.identity_providers =
-    {
-      oidc = {
-        claims_policies.${name}.id_token = [
-          "email"
-          "name"
-          "groups"
-          "preferred_username"
-        ];
+  services.kanidm.provision = {
+    enable = true;
 
-        clients = [
-          {
-            client_id = name;
-            client_name = name;
-            client_secret = "$argon2id$v=19$m=65536,t=3,p=4$bPh8rRl7sySGWKo4ZJaX8Q$4N3MUn47BKPAPYCoS/3qK2AEFpEjk61cQx8rdmygK0k";
-            claims_policy = name;
-            public = false;
-            consent_mode = "implicit";
-            scopes = [
-              "openid"
-              "groups"
-              "email"
-              "profile"
-              "offline_access"
-            ];
-            redirect_uris = [
-              "https://${fullDomain}/_matrix/client/unstable/login/sso/callback/${name}"
-            ];
-            grant_types = [
-              "refresh_token"
-              "authorization_code"
-            ];
-            response_types = [ "code" ];
-            response_modes = [ "form_post" ];
-            token_endpoint_auth_method = "client_secret_post";
-          }
+    groups = {
+      matrix-users = {
+        members = [ username ];
+        overwriteMembers = false;
+      };
+    };
+
+    systems.oauth2.${name} = {
+      displayName = name;
+      originUrl = "https://${fullDomain}/";
+      originLanding = "https://${fullDomain}/_matrix/client/unstable/login/sso/callback/${name}";
+      basicSecretFile = config.sops.secrets."${name}/client/secret".path;
+
+      preferShortUsername = true;
+
+      scopeMaps = {
+        matrix-users = [
+          "openid"
+          "profile"
+          "email"
         ];
       };
     };
+  };
 
   custom.services.haproxy = {
     backends = [

@@ -28,8 +28,8 @@ let
     map:
     pkgs.writeText "haproxy-auth.map" (
       lib.strings.concatLines (
-        builtins.map (e: "${e.url} true") (
-          builtins.filter (e: e.needAuth) map
+        builtins.map (e: "${e.url} ${e.auth.group}") (
+          builtins.filter (e: e.auth.enable) map
         )
       )
     );
@@ -193,12 +193,12 @@ in
 
     defaults = { inherit maxconn extraConfig; };
 
-    authz = {
+    auth = {
       enable = lib.mkOption {
         type = lib.types.bool;
         default = false;
         description = ''
-          Whether to enable Authz authentication.
+          Whether to enable Auth authentication.
         '';
       };
 
@@ -216,6 +216,20 @@ in
         type = lib.types.str;
         default = "";
         description = "Extra arguments given to request to verify";
+      };
+
+      url = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        example = "https://oauth2.example.com";
+        description = ''
+          The base URL of the centralized authentication portal.
+
+          If configured, HAProxy will override the backend's default behavior and 
+          redirect unauthenticated users to this central domain to initiate the login flow.
+          If set to `null`, HAProxy will follow the relative redirect location returned 
+          by the auth backend (standard sidecar deployment).
+        '';
       };
     };
 
@@ -366,10 +380,23 @@ in
                 description = "Backend that will be used when the request URL matches.";
               };
 
-              needAuth = lib.mkOption {
-                type = lib.types.bool;
-                default = false;
-                description = "Require Authz authentication for this URL.";
+              auth = lib.mkOption {
+                description = "Authentication configuration for this URL.";
+                type = lib.types.submodule {
+                  options = {
+                    enable = lib.mkOption {
+                      type = lib.types.bool;
+                      default = false;
+                      description = "Require Auth authentication for this URL.";
+                    };
+
+                    group = lib.mkOption {
+                      type = lib.types.str;
+                      default = "*";
+                      description = "Specific group required. Defaults to '*' (any authenticated user).";
+                    };
+                  };
+                };
               };
             };
           });
@@ -387,8 +414,8 @@ in
     assertions = [
       {
         assertion =
-          cfg.authz.enable || !(builtins.any (u: u.needAuth) cfg.maps.url);
-        message = "Authentication must be enabled (cfg.authz.enable = true) if any URL requires it (needAuth = true).";
+          cfg.auth.enable || !(builtins.any (u: u.auth.enable) cfg.maps.url);
+        message = "Authentication must be enabled (cfg.auth.enable = true) if any URL requires it.";
       }
     ];
 
@@ -411,12 +438,14 @@ in
           ${lib.optionalString cfg.global.daemon "daemon"}
           ssl-default-bind-options ssl-min-ver TLSv1.2 
           ssl-default-bind-ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+          expose-experimental-directives
           tune.lua.bool-sample-conversion normal
           lua-load ${haproxy_minecraft}/haproxy_minecraft.lua
-        ${lib.optionalString cfg.authz.enable (
+        ${lib.optionalString cfg.auth.enable (
           clib.indent 2 ''
             lua-prepend-path ${haproxy_auth_request}/share/lua/?.lua
             lua-load ${haproxy_auth_request}/auth-request.lua
+            lua-load ${./assets/check_group.lua}
           ''
         )}
         ${clib.indent 2 cfg.global.extraConfig}
@@ -441,31 +470,49 @@ in
           http-request set-header X-Forwarded-Proto https if { ssl_fc }
           http-response set-header Strict-Transport-Security "max-age=16000000; includeSubDomains; preload;"
 
-        ${lib.optionalString cfg.authz.enable (
-          clib.indent 2 ''
-            acl requires_auth base,map_beg(${authMap}) -m found
+          ${lib.optionalString cfg.auth.enable (
+            clib.indent 2 ''
+              acl requires_auth base,map_beg(${authMap}) -m found
 
-            http-request del-header X-Forwarded-For if requires_auth
+              option forwardfor
 
-            acl hdr-xff_exists req.hdr(X-Forwarded-For) -m found
-            http-request set-header X-Forwarded-For %[src] if !hdr-xff_exists
-            option forwardfor
+              http-request set-var(req.scheme) str(https) if { ssl_fc }
+              http-request set-var(req.scheme) str(http) if !{ ssl_fc }
+              http-request set-var(req.questionmark) str(?) if { query -m found }
 
-            http-request set-var(req.scheme) str(https) if { ssl_fc }
-            http-request set-var(req.scheme) str(http) if !{ ssl_fc }
-            http-request set-var(req.questionmark) str(?) if { query -m found }
+              http-request set-header X-Forwarded-Method %[method]
+              http-request set-header X-Forwarded-Proto  %[var(req.scheme)]
+              http-request set-header X-Forwarded-Host   %[req.hdr(Host)]
+              http-request set-header X-Forwarded-URI    %[path]%[var(req.questionmark)]%[query]
+              http-request set-header X-Forwarded-For %[src]
 
-            http-request set-header X-Forwarded-Method %[method]
-            http-request set-header X-Forwarded-Proto  %[var(req.scheme)]
-            http-request set-header X-Forwarded-Host   %[req.hdr(Host)]
-            http-request set-header X-Forwarded-URI    %[path]%[var(req.questionmark)]%[query]
+              http-request del-header X-Auth-Request-User
+              http-request del-header X-Auth-Request-Email
+              http-request del-header X-Auth-Request-Groups
+              http-request normalize-uri path-merge-slashes
+              http-request normalize-uri path-strip-dotdot
+              http-request normalize-uri percent-decode-unreserved
+              http-request normalize-uri percent-to-uppercase
 
-            http-request lua.auth-intercept ${cfg.authz.backend} ${cfg.authz.path} ${cfg.authz.extraArgs} if requires_auth
+              http-request lua.auth-intercept ${cfg.auth.backend} ${cfg.auth.path} ${cfg.auth.extraArgs} if requires_auth
 
-            http-request deny if requires_auth !{ var(txn.auth_response_successful) -m bool } { var(txn.auth_response_code) -m int 403 }
-            http-request redirect location %[var(txn.auth_response_location)] if requires_auth !{ var(txn.auth_response_successful) -m bool }
-          ''
-        )}
+              http-request deny if requires_auth !{ var(txn.auth_response_successful) -m bool } { var(txn.auth_response_code) -m int 403 }
+              ${
+                if cfg.auth.url == null then
+                  "http-request redirect location %[var(txn.auth_response_location)] if requires_auth !{ var(txn.auth_response_successful) -m bool }"
+                else
+                  ''
+                    http-request set-var-fmt(req.rd) %[var(req.scheme)]://%[req.hdr(Host)]%[path]%[var(req.questionmark)]%[query]
+                    http-request redirect location ${cfg.auth.url}/oauth2/start?rd=%[var(req.rd),url_enc] if requires_auth !{ var(txn.auth_response_successful) -m bool }
+                  ''
+              }
+
+              http-request set-var(txn.required_group) base,map_beg(${authMap}) if requires_auth
+              http-request lua.check_group if requires_auth
+
+              http-request deny deny_status 403 if requires_auth !{ var(txn.group_authorized) -m bool }
+            ''
+          )}
 
           use_backend %[base,map_beg(${urlMap},${cfg.defaultBackend})]
 

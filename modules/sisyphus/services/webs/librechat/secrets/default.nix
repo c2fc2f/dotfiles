@@ -2,7 +2,12 @@
   custom.secrets.sisyphus.enable = true;
 
   sops.secrets = {
-    "librechat/client/secret".sopsFile = ./secrets.yaml;
+    "librechat/client/secret" = {
+      sopsFile = ./secrets.yaml;
+
+      owner = "kanidm";
+      group = "kanidm";
+    };
     "librechat/session/secret".sopsFile = ./secrets.yaml;
     "librechat/jwt/secret".sopsFile = ./secrets.yaml;
     "librechat/jwt/refresh/secret".sopsFile = ./secrets.yaml;

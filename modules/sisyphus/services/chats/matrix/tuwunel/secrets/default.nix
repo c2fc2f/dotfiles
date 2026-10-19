@@ -3,5 +3,8 @@
 
   sops.secrets."matrix-tuwunel/client/secret" = {
     sopsFile = ./secrets.yaml;
+
+    owner = "kanidm";
+    group = "kanidm";
   };
 }

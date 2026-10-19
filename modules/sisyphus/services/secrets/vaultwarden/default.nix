@@ -1,10 +1,15 @@
-{ config, rootDomain, ... }:
+{
+  config,
+  rootDomain,
+  username,
+  ...
+}:
 let
   name = "vaultwarden";
 
   fullDomain = "pass.${rootDomain}";
 
-  inherit (config.custom.services.authelia) mainInstance;
+  inherit (config.services.kanidm.server.settings) origin;
 in
 {
   services.${name} = {
@@ -25,8 +30,8 @@ in
 
       SSO_ENABLED = true;
       SSO_ONLY = false;
-      SSO_AUTHORITY = "https://${config.custom.services.authelia.domain}";
-      SSO_SCOPES = "profile email offline_access";
+      SSO_AUTHORITY = "${origin}/oauth2/openid/${name}";
+      SSO_SCOPES = "openid profile email";
       SSO_PKCE = true;
       SSO_CLIENT_ID = name;
     };
@@ -42,37 +47,32 @@ in
     '';
   };
 
-  services.authelia.instances.${mainInstance}.settings.identity_providers =
-    {
-      oidc.clients = [
-        {
-          client_id = name;
-          client_name = name;
-          client_secret = "$argon2id$v=19$m=65536,t=3,p=4$FcI2x2AR52vHaw1Mix629g$WJkZJpeIWQoh6h8LLk+F2KQ/5QWrF88SxbLI9S+EtQo";
-          public = false;
-          require_pkce = true;
-          pkce_challenge_method = "S256";
-          consent_mode = "implicit";
-          redirect_uris = [
-            "https://${fullDomain}/identity/connect/oidc-signin"
-          ];
-          scopes = [
-            "openid"
-            "offline_access"
-            "profile"
-            "email"
-          ];
-          response_types = [ "code" ];
-          grant_types = [
-            "authorization_code"
-            "refresh_token"
-          ];
-          access_token_signed_response_alg = "none";
-          userinfo_signed_response_alg = "none";
-          token_endpoint_auth_method = "client_secret_basic";
-        }
-      ];
+  services.kanidm.provision = {
+    enable = true;
+
+    groups = {
+      vault-users = {
+        members = [ username ];
+        overwriteMembers = false;
+      };
     };
+
+    systems.oauth2.${name} = {
+      displayName = name;
+      originUrl = "https://${fullDomain}/";
+      originLanding = "https://${fullDomain}/identity/connect/oidc-signin";
+      basicSecretFile =
+        config.sops.secrets."vaultwarden/client/secret".path;
+
+      scopeMaps = {
+        vault-users = [
+          "openid"
+          "profile"
+          "email"
+        ];
+      };
+    };
+  };
 
   custom.services.haproxy = {
     backends = [
