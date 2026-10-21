@@ -148,7 +148,18 @@ in
 
     systems.oauth2.${name} = {
       displayName = name;
-      originUrl = "https://${fullDomain}/oidc-callback.html";
+      originUrl = [
+        "https://${fullDomain}/"
+        "https://${fullDomain}/oidc-callback.html"
+        "https://${fullDomain}/oidc-silent-redirect.html"
+
+        "oc://android.opencloud.eu"
+
+        "oc://ios.opencloud.eu"
+
+        "http://127.0.0.1"
+        "http://localhost"
+      ];
       originLanding = "https://${fullDomain}/";
 
       public = true;
