@@ -13,7 +13,7 @@ let
 
   modpack = pkgs.fetchModrinthModpack {
     src = ./_modpack/1.0.0.mrpack;
-    packHash = "sha256-a6r21Pu1WqT3yzAFQGzWOd79QfnbWELBrEUijJWOxKg=";
+    packHash = "sha256-wTSZWzDsIHF56DtGMIzMeoa32E9XygfnN9dzt+hGO6Y=";
     side = "both";
   };
   mcVersion = modpack.manifest.dependencies.minecraft;
