@@ -15,12 +15,5 @@
       # Disable automatic USB device suspension
       "usbcore.autosuspend=-1"
     ];
-
-    initrd = {
-      # Disable verbose output for the initramfs
-      verbose = false;
-
-      systemd.enable = true;
-    };
   };
 }
