@@ -24,8 +24,6 @@
       kernelModules = [ ];
 
       luks = {
-        fido2Support = false;
-
         devices = {
           "luks-d3272da5-cf20-401d-9d15-c5b1ac7fae09" = {
             device = "/dev/disk/by-uuid/d3272da5-cf20-401d-9d15-c5b1ac7fae09";

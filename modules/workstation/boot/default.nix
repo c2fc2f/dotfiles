@@ -2,8 +2,6 @@
 
 {
   boot.initrd.systemd = {
-    enable = true;
-
     extraBin.setleds = "${pkgs.kbd}/bin/setleds";
 
     # Run commands before devices are initialized
