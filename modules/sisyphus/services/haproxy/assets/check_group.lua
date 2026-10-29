@@ -21,9 +21,9 @@ core.register_action("check_group", { "http-req" }, function(txn)
 
   local authorized = false
   for g in string.gmatch(user_groups, "([^,]+)") do
-    g = trim(g)
-    local short_name = g:match("^([^@]+)@") or g
-    if g == req_group or short_name == req_group then
+    local trimmed_g = trim(g)
+    local short_name = trimmed_g:match("^([^@]+)@") or trimmed_g
+    if trimmed_g == req_group or short_name == req_group then
       authorized = true
       break
     end
