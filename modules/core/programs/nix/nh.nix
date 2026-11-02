@@ -20,4 +20,8 @@
 
     flake = "/home/${username}/git/dotfiles";
   };
+
+  home-manager.users.${username} = {
+    home.packages = [ pkgs.dix ];
+  };
 }
