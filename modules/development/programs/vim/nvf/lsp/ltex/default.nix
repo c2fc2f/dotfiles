@@ -12,7 +12,7 @@
       servers = {
         ltex = {
           enable = true;
-          cmd = [ "${lib.getExe pkgs.ltex-ls}" ];
+          cmd = [ "${lib.getExe pkgs.ltex-ls-plus}" ];
           filetypes = [
             "tex"
             "md"
