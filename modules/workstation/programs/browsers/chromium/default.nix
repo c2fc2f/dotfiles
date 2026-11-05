@@ -4,7 +4,7 @@
   home-manager.users.${username} = {
     programs.chromium = {
       enable = true;
-      package = pkgs.unstable.chromium;
+      package = pkgs.unstable.ungoogled-chromium;
 
       commandLineArgs = [
         "--incognito"

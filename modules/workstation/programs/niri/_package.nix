@@ -166,7 +166,7 @@ nix-wrapper.wrappers.niri.wrap {
       }
       {
         matches = [
-          { app-id = "brave-www.youtube.com__-Default"; }
+          { app-id = "chrome-www.youtube.com__-Default"; }
           { app-id = "spotify"; }
         ];
         open-on-workspace = "entertainment";
@@ -186,9 +186,9 @@ nix-wrapper.wrappers.niri.wrap {
       }
       {
         matches = [
-          { app-id = "brave-claude.ai__-Default"; }
-          { app-id = "brave-chat.${rootDomain}__-Default"; }
-          { app-id = "brave-gemini.google.com__-Default"; }
+          { app-id = "chrome-claude.ai__-Default"; }
+          { app-id = "chrome-chat.${rootDomain}__-Default"; }
+          { app-id = "chrome-gemini.google.com__-Default"; }
         ];
         open-on-workspace = "magic";
         open-maximized = true;
