@@ -123,11 +123,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1794110080,
-        "narHash": "sha256-3zi3Tx+I5tnP5lgVZSW3J/OsFNp6axGNa6/Bq0q7ZlE=",
+        "lastModified": 1794211360,
+        "narHash": "sha256-713lFWhJvfl7nhWeJAY5ZFDxEheAq651aAwHv4TT6Cc=",
         "owner": "iynaix",
         "repo": "focal",
-        "rev": "eea687c87b10d5d868703906c0928ca9e628b3e7",
+        "rev": "776fc9fdcb8c77a8ba9da6ee3d2b8fd8815cefa4",
         "type": "github"
       },
       "original": {
@@ -296,11 +296,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1794212335,
-        "narHash": "sha256-9g6zgqGiTLq8dg5zK4zykMbHXoz2mPPJRSRTlxz4e0k=",
+        "lastModified": 1794212566,
+        "narHash": "sha256-3mb2CH8NG4XuatID8DoFUtgrtrUrgiQs2QotDWC19P0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ad47672155d730c66a6f2b497851280778f7d017",
+        "rev": "439b8b027427b21088c696dac3b2677a9b8006c3",
         "type": "github"
       },
       "original": {
