@@ -54,18 +54,18 @@ in
       extraConfig = {
         couchdb = {
           single_node = true;
-          max_document_size = 50000000;
+          max_document_size = 50 * 1024 * 1024;
         };
 
         httpd = {
           enable_cors = true;
-          WWW-Authenticate = "Basic realm=\"couchdb\"";
+          WWW-Authenticate = "Basic realm=\"${name}\"";
         };
 
         chttpd = {
           enable_cors = true;
           require_valid_user_except_for_up = true;
-          max_http_request_size = 4294967296;
+          max_http_request_size = 4 * 1024 * 1024 * 1024;
         };
 
         chttpd_auth = {
@@ -102,7 +102,7 @@ in
       let
         couchdbUrl = "http://${cfg.bindAddress}:${toString cfg.port}";
 
-        usersJsonFile = pkgs.writeText "couchdb-users.json" (
+        usersJsonFile = pkgs.writeText "${name}-users.json" (
           builtins.toJSON customCfg.users
         );
       in
