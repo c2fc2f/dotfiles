@@ -4,7 +4,10 @@
   focal,
   lib,
   pkgs,
+  config,
+  username,
   rootDomain,
+  ...
 }:
 let
   inherit (pkgs.stdenv.hostPlatform) system;
@@ -134,9 +137,11 @@ nix-wrapper.wrappers.niri.wrap {
       ];
 
       "Mod+d".spawn-sh =
-        "${pkgs.procps}/bin/pkill -x rofi || rofi -show drun";
+        "${lib.getExe' pkgs.procps "pkill"} -x rofi || rofi -show drun";
 
-      "Mod+L".spawn = lib.getExe pkgs.hyprlock;
+      "Mod+L".spawn-sh =
+        lib.getExe
+          config.home-manager.users.${username}.programs.swaylock.package;
     };
 
     workspaces = {

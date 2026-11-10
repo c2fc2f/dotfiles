@@ -2,25 +2,15 @@
   pkgs,
   lib,
   config,
-  nix-wrapper,
-  focal,
-  niri,
-  rootDomain,
   ...
-}:
+}@args:
+
 {
   programs.niri = {
     enable = true;
     # HORRIBLE SHIT I NEED TO USE FLAKE-PART !!!!!!!!!!!!!!!!!!!!!!!!!!!
     # TODO
-    package = import ./_package.nix {
-      inherit pkgs;
-      inherit lib;
-      inherit nix-wrapper;
-      inherit focal;
-      inherit niri;
-      inherit rootDomain;
-    };
+    package = import ./_package.nix args;
   };
 
   systemd.user.services.niri = {
