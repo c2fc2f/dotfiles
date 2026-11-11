@@ -1,23 +1,10 @@
-{
-  pkgs,
-  lib,
-  nix-wrapper,
-  focal,
-  niri,
-  rootDomain,
-  ...
-}:
+{ lib, pkgs, ... }@args:
 let
   # HORRIBLE SHIT I NEED TO USE FLAKE-PART !!!!!!!!!!!!!!!!!!!!!!!!!!!
   # TODO
-  package = import ../../../workstation/programs/niri/_package.nix {
-    inherit pkgs;
-    inherit lib;
-    inherit nix-wrapper;
-    inherit focal;
-    inherit niri;
-    inherit rootDomain;
-  };
+  package = import ../../../workstation/programs/niri/_package.nix (
+    args // { inherit pkgs; }
+  );
 in
 {
   programs.niri.package = lib.mkForce (
