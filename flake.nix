@@ -58,12 +58,8 @@
       url = "github:NotAShelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    opendeck-nix = {
-      url = "github:Kitt3120/opendeck-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     sc0710 = {
-      url = "github:Nakildias/sc0710";
+      url = "github:c2fc2f/sc0710/use-modules_install";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {

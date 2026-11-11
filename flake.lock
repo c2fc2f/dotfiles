@@ -362,26 +362,6 @@
         "type": "github"
       }
     },
-    "opendeck-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1785764453,
-        "narHash": "sha256-q2Sjdts8zY+WvpjtnUbnakrgDHzi0DmlDjQMfyu3hWg=",
-        "owner": "Kitt3120",
-        "repo": "opendeck-nix",
-        "rev": "32160fa0ae01bf227a691c54a162809b14b8641b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Kitt3120",
-        "repo": "opendeck-nix",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "atacc-homepage": "atacc-homepage",
@@ -398,7 +378,6 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nvf": "nvf",
-        "opendeck-nix": "opendeck-nix",
         "sc0710": "sc0710",
         "sops-nix": "sops-nix",
         "systems": "systems_6",
@@ -450,15 +429,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1793147682,
-        "narHash": "sha256-GQ2A9ooogK+FfyHRx2us0xPBBcEPT7fJ+OdiG2R+O74=",
-        "owner": "Nakildias",
+        "lastModified": 1794413704,
+        "narHash": "sha256-yXbhAPjvG3BM9X6dOO/9GnUyf7zLHMYtYptaWXULqNE=",
+        "owner": "c2fc2f",
         "repo": "sc0710",
-        "rev": "2283cef45f00efb1ca50d4038068813b437aad06",
+        "rev": "a65202d375df6b827b010d12097016f7155907ab",
         "type": "github"
       },
       "original": {
-        "owner": "Nakildias",
+        "owner": "c2fc2f",
+        "ref": "use-modules_install",
         "repo": "sc0710",
         "type": "github"
       }
