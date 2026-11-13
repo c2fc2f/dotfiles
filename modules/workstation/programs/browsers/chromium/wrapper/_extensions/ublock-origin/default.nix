@@ -10,7 +10,7 @@ stdenv.mkDerivation rec {
 
   src = fetchzip {
     url = "https://github.com/gorhill/uBlock/releases/download/${version}/uBlock0_${version}.chromium.zip";
-    hash = "sha256-vCTI3pzpjSbB1pzMskBIfYRcBTRdGuyM0EZDWZnJQoE=";
+    hash = "sha256-ccnjALMYuYWluk8ZVPivPmNZIhdJpl31814bmAQ+H7Q=";
   };
 
   dontBuild = true;
