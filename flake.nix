@@ -59,7 +59,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sc0710 = {
-      url = "github:c2fc2f/sc0710/use-modules_install";
+      url = "github:Nakildias/sc0710";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
