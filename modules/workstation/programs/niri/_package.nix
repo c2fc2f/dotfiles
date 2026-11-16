@@ -4,8 +4,6 @@
   focal,
   lib,
   pkgs,
-  config,
-  username,
   rootDomain,
   ...
 }:
@@ -139,9 +137,10 @@ nix-wrapper.wrappers.niri.wrap {
       "Mod+d".spawn-sh =
         "${lib.getExe' pkgs.procps "pkill"} -x rofi || rofi -show drun";
 
-      "Mod+L".spawn-sh =
-        lib.getExe
-          config.home-manager.users.${username}.programs.swaylock.package;
+      "Mod+L".spawn = [
+        (lib.getExe' pkgs.systemd "loginctl")
+        "lock-session"
+      ];
     };
 
     workspaces = {
