@@ -78,7 +78,6 @@
       self,
       nixpkgs,
       nixpkgs-unstable,
-      systems,
       treefmt-nix,
       ...
     }@inputs:
@@ -158,14 +157,16 @@
         # keep-sorted end
       };
 
+      systems = nixpkgs.lib.systems.flakeExposed;
+
       eachSystem =
         f:
-        nixpkgs.lib.genAttrs (import systems) (
-          system: f nixpkgs.legacyPackages.${system}
+        nixpkgs.lib.genAttrs systems (
+          system: f system nixpkgs.legacyPackages.${system}
         );
 
       treefmtEval = eachSystem (
-        pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix
+        _: pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix
       );
 
       clib =
@@ -189,14 +190,13 @@
     in
     {
       formatter = eachSystem (
-        pkgs:
-        treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.wrapper
+        system: _: treefmtEval.${system}.config.build.wrapper
       );
-      checks = eachSystem (pkgs: {
-        formatting =
-          treefmtEval.${pkgs.stdenv.hostPlatform.system}.config.build.check
-            self;
-      });
+      checks = eachSystem (
+        system: _: {
+          formatting = treefmtEval.${system}.config.build.check self;
+        }
+      );
 
       nixosConfigurations = nixpkgs.lib.mapAttrs (
         hostName: entry:

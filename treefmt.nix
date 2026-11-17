@@ -1,3 +1,5 @@
+{ pkgs, ... }:
+
 {
   projectRootFile = "flake.nix";
 
@@ -8,7 +10,7 @@
     rustfmt.enable = true;
 
     shellcheck = {
-      enable = true;
+      enable = pkgs.ghc.bootstrapAvailable;
 
       external-sources = true;
       extra-checks = [ "all" ];
@@ -25,7 +27,7 @@
 
     deadnix.enable = true;
     nixfmt = {
-      enable = true;
+      enable = pkgs.ghc.bootstrapAvailable;
 
       width = 70;
       strict = true;
