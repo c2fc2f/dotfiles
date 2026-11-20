@@ -8,13 +8,12 @@ editingMode = false
 #.
 #Settings for the Placement Assist
 [placementAssist]
-	#.
-	#What indicator should be used when showing where the assisted placement ends up relative to your crosshair
-	#Choose 'NONE' to disable the Indicator altogether
-	#Allowed Values: TEXTURE, TRIANGLE, NONE
-	indicatorType = "TEXTURE"
-	#.
-	#Change the size of the Indicator by this multiplier
-	#Range: 0.0 ~ 3.4028234663852886E38
-	indicatorScale = 1.0
-
+#.
+#What indicator should be used when showing where the assisted placement ends up relative to your crosshair
+#Choose 'NONE' to disable the Indicator altogether
+#Allowed Values: TEXTURE, TRIANGLE, NONE
+indicatorType = "TEXTURE"
+#.
+#Change the size of the Indicator by this multiplier
+#Range: 0.0 ~ 3.4028234663852886E38
+indicatorScale = 1.0

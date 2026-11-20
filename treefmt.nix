@@ -7,6 +7,7 @@
 
   programs = {
     keep-sorted.enable = true;
+
     rustfmt.enable = true;
 
     shellcheck = {
@@ -23,6 +24,15 @@
       indent_size = 2;
     };
 
+    mdformat = {
+      enable = true;
+
+      plugins = ps: [ ps.mdformat-gfm ];
+
+      settings = {
+        wrap = 78;
+      };
+    };
     mdsh.enable = true;
 
     deadnix.enable = true;
@@ -33,6 +43,18 @@
       strict = true;
     };
 
+    taplo = {
+      enable = true;
+
+      settings = {
+        formatting = {
+          compact_arrays = false;
+          array_auto_collapse = false;
+          array_auto_expand = true;
+          array_trailing_comma = true;
+        };
+      };
+    };
     yamlfmt = {
       enable = true;
 
