@@ -17,6 +17,7 @@ in
 
     loadModels = [
       "qwen3.8-flash-next:125b-a6b-q4_K_M"
+      "aiconjured/Qwen3.8-27B-FableColdFusion-735882-HereticUncensored-NEOCODERMAX-MTP-NVFP4-Q8-Q3"
 
       "embeddinggemma:latest"
     ];
