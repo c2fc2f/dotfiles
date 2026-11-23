@@ -6,11 +6,11 @@
 
 stdenv.mkDerivation rec {
   pname = "ublock-origin-chromium";
-  version = "1.77.1b1";
+  version = "1.77.1b2";
 
   src = fetchzip {
     url = "https://github.com/gorhill/uBlock/releases/download/${version}/uBlock0_${version}.chromium.zip";
-    hash = "sha256-H6cJpfsnNF/JFqYVAd5hKwT9BbiHbiakn8woQQCyDjY=";
+    hash = "sha256-cf+cAMGTCjYYOgrHVE57tT7HeH0+xueARjl7kxGLcRg=";
   };
 
   dontBuild = true;
